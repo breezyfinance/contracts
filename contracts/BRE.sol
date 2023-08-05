@@ -8,6 +8,14 @@ import "@openzeppelin/contracts/token/ERC20/extensions/ERC20Burnable.sol";
 import "@openzeppelin/contracts/utils/Context.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 
+/*
+ * For more details, visit the following links:
+ * Website: https://breezy.finance
+ * Twitter: https://twitter.com/BreezyFinance
+ * Telegram: https://t.me/BreezyFinanceChannel
+ * GitHub: https://github.com/breezyfinance
+ */
+
 contract BRE is ERC20Burnable, Ownable {
     using SafeMath for uint256;
 
