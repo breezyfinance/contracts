@@ -65,7 +65,7 @@ module.exports = {
   ],
   api_keys: {
     arbiscan: 'QN9HMKDU185J8AA8NBZAP1UHVFIV4XACMX',
-    etherscan: 'MGMWPCAB6KNVECVBQIWWGQW382G8S382DV'
+    etherscan: 'MGMWPCAB6KNVECVBQIWWGQW382G8S382DV',
   },
 
   networks: {
@@ -75,6 +75,14 @@ module.exports = {
     // tab if you use this network and you must also set the `host`, `port` and `network_id`
     // options below to some value.
     //
+    base: {
+      verify: {
+        apiUrl: 'https://api.basescan.org/api',
+        apiKey: 'I373D9SJYGETITDZNMWWDHSF4PYTT6C56Y',
+        explorerUrl: 'https://basescan.org/address',
+      },
+      network_id: "8453",
+    },
      develop: {
       host: "127.0.0.1",     // Localhost (default: none)
       port: 8545,            // Standard Ethereum port (default: none)
