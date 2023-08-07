@@ -77,6 +77,7 @@ contract BRE is ERC20Burnable, Ownable {
     }
 
     function setMaxWalletPercent(uint8 percent) public onlyOwner {
+        require(percent >= 5, "BRE: Cannot set maxWalletToken below 5%");
         maxWalletToken = MAX_SUPPLY.mul(percent).div(100);
     }
 }
