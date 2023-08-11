@@ -23,6 +23,8 @@ contract BRE is ERC20Burnable, Ownable {
 
     uint256 public totalBurned = 0;
 
+    bool public transfersEnabled = false; // State variable to control transfers support init liquidity
+
     // Wallet holding limit mechanism
     uint256 public maxWalletToken;
     mapping(address => bool) public _isExcludedFromMaxWallet;
@@ -51,6 +53,7 @@ contract BRE is ERC20Burnable, Ownable {
     }
 
     function transfer(address recipient, uint256 amount) public override returns (bool) {
+        require(transfersEnabled || msg.sender == owner(), "BRE: Transfers are disabled, only owner can transfer.");
         require(
             _isExcludedFromMaxWallet[recipient] || balanceOf(recipient).add(amount) <= maxWalletToken,
             "BRE: Exceeds maximum wallet token amount."
@@ -80,4 +83,13 @@ contract BRE is ERC20Burnable, Ownable {
         require(percent >= 5, "BRE: Cannot set maxWalletToken below 5%");
         maxWalletToken = MAX_SUPPLY.mul(percent).div(100);
     }
+
+    function enableTransfers() public onlyOwner {
+        transfersEnabled = true;
+    }
+
+    function disableTransfers() public onlyOwner {
+        transfersEnabled = false;
+    }
+
 }
