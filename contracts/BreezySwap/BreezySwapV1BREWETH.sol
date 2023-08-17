@@ -2,7 +2,7 @@
 pragma solidity >=0.6.12;
 
 import "@openzeppelin/contracts/utils/math/SafeMath.sol";
-import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
+import "@openzeppelin/contracts/token/ERC20/extensions/IERC20Metadata.sol";
 import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 import "@openzeppelin/contracts/token/ERC20/extensions/ERC20Burnable.sol";
 import "@openzeppelin/contracts/utils/Context.sol";
@@ -17,8 +17,12 @@ contract BreezySwapV1BREWETH is ERC20Burnable, Ownable, Pausable, ReentrancyGuar
     
     using SafeMath for uint256;
 
-    IERC20 public base; // Stable coin base token (WETH)
-    IERC20 public token; // Token to trade in this pair
+    IERC20Metadata public base; // Stable coin base token (WETH)
+    IERC20Metadata public token; // Token to trade in this pair
+
+    // Declare state variables for decimals
+    uint8 public baseDecimals;
+    uint8 public tokenDecimals;
 
     // Fee Machine Contract.
     address public feeMachineContract; 
@@ -26,8 +30,6 @@ contract BreezySwapV1BREWETH is ERC20Burnable, Ownable, Pausable, ReentrancyGuar
     IBreezyWhitelist public whitelistContract; 
 
     uint256 public TRADE_FEE = 2; //0.2% 2/1000
-
-    uint256 public PLATFORM_FEE = 0; //2.5% 25/1000
 
     address public platformFundAddress;
 
@@ -52,8 +54,8 @@ contract BreezySwapV1BREWETH is ERC20Burnable, Ownable, Pausable, ReentrancyGuar
     event onRemoveLP(address sender, uint256 amountLP, uint256 baseOutputAmout, uint256 tokenOutputAmount, uint256 poolBaseBalance, uint256 poolTokenBalance);
 
     constructor(
-        IERC20 _base,
-        IERC20 _token,
+        IERC20Metadata _base,
+        IERC20Metadata _token,
         address _feeMachineContract,
         IBreezyWhitelist _whitelistContract,
         string memory name, 
@@ -64,6 +66,8 @@ contract BreezySwapV1BREWETH is ERC20Burnable, Ownable, Pausable, ReentrancyGuar
         whitelistContract = _whitelistContract;
         feeMachineContract = _feeMachineContract;
         platformFundAddress = _msgSender();
+        baseDecimals = base.decimals();
+        tokenDecimals = token.decimals();
     }
     
     function setWhitelistContract(address _whitelistContract) public onlyOwner {
@@ -80,10 +84,6 @@ contract BreezySwapV1BREWETH is ERC20Burnable, Ownable, Pausable, ReentrancyGuar
 
     function setTradeFee(uint256 _tradeFee) public onlyOwner {
         TRADE_FEE = _tradeFee;
-    }
-
-    function setPlatformFee(uint256 _platformFee) public onlyOwner {
-        PLATFORM_FEE = _platformFee;
     }
 
     function setPlatformFundAdress(address newAddress) public onlyOwner {
@@ -103,11 +103,20 @@ contract BreezySwapV1BREWETH is ERC20Burnable, Ownable, Pausable, ReentrancyGuar
         uint256 tokenReserve = 0;
         (baseReserve, tokenReserve) = getTotalReserve();
 
+        // Scale baseInputAmount to 18 decimals
+        baseInputAmount = baseInputAmount.mul(10**uint256(18 - baseDecimals));
+
+        // Scale baseReserve to 18 decimals
+        baseReserve = baseReserve.mul(10**uint256(18 - baseDecimals));
+
+        // Scale tokenReserve to 18 decimals
+        tokenReserve = tokenReserve.mul(10**uint256(18 - tokenDecimals));
+
         uint256 tradeFee = baseInputAmount.mul(TRADE_FEE).div(1000);
         uint256 baseInputAmountAfterFee = baseInputAmount.sub(tradeFee); // cut the TRADE_FEE from base input
 
         uint256 tokenOutputAmount = getTokenOutputAmountFromBaseInput(baseInputAmountAfterFee, baseReserve, tokenReserve);
-        return tokenOutputAmount;
+        return tokenOutputAmount.div(10**uint256(18 - tokenDecimals));
     }
 
     function getBaseOutput(uint256 tokenInputAmount) public view returns (uint256) {
@@ -115,17 +124,30 @@ contract BreezySwapV1BREWETH is ERC20Burnable, Ownable, Pausable, ReentrancyGuar
         uint256 tokenReserve = 0;
         (baseReserve, tokenReserve) = getTotalReserve();
 
+        // Scale tokenInputAmount to 18 decimals
+        tokenInputAmount = tokenInputAmount.mul(10**uint256(18 - tokenDecimals));
+
+        // Scale baseReserve to 18 decimals
+        baseReserve = baseReserve.mul(10**uint256(18 - baseDecimals));
+
+        // Scale tokenReserve to 18 decimals
+        tokenReserve = tokenReserve.mul(10**uint256(18 - tokenDecimals));
+
         uint256 tradeFee = tokenInputAmount.mul(TRADE_FEE).div(1000);
         uint256 tokenInputAmountAfterFee = tokenInputAmount.sub(tradeFee); // cut the TRADE_FEE from token input
 
         uint256 baseOutputAmount = getBaseOutputAmountFromTokenInput(tokenInputAmountAfterFee, baseReserve, tokenReserve);
-        return baseOutputAmount;
+        return baseOutputAmount.div(10**uint256(18 - baseDecimals));
     }
 
     function getDataFromBaseInputToAddLp(uint256 baseInputAmount) public view returns (uint256, uint256) {
         uint256 totalSupply = totalSupply();
         uint256 mintLP = 0;
         uint256 tokenInputAmount = 0;
+
+        // Scale baseInputAmount to 18 decimals
+        baseInputAmount = baseInputAmount.mul(10**uint256(18 - baseDecimals));
+
         if(totalSupply == 0) {
             mintLP = baseInputAmount;
             tokenInputAmount = baseInputAmount;
@@ -137,21 +159,30 @@ contract BreezySwapV1BREWETH is ERC20Burnable, Ownable, Pausable, ReentrancyGuar
             uint256 baseReserve = 0;
             uint256 tokenReserve = 0;
             (baseReserve, tokenReserve) = getTotalReserve();
-            tokenInputAmount = tokenReserve.mul(baseReserve.add(baseInputAmount)).div(baseReserve).sub(tokenReserve);
 
-            uint256 platformFeeOnBase = baseInputAmount.mul(PLATFORM_FEE).div(1000);
+            // Scale baseReserve to 18 decimals
+            baseReserve = baseReserve.mul(10**uint256(18 - baseDecimals));
+
+            // Scale tokenReserve to 18 decimals
+            tokenReserve = tokenReserve.mul(10**uint256(18 - tokenDecimals));
+
+            tokenInputAmount = tokenReserve.mul(baseReserve.add(baseInputAmount)).div(baseReserve).sub(tokenReserve);
 
             // mintLP/totalLP =  baseInputAmount/baseReserve
             // mintLP = totalLP*baseInputAmount/baseReserve
-            mintLP = totalSupply.mul(baseInputAmount.sub(platformFeeOnBase)).div(baseReserve);
+            mintLP = totalSupply.mul(baseInputAmount).div(baseReserve);
         }
-        return (mintLP, tokenInputAmount);
+        return (mintLP, tokenInputAmount.div(10**uint256(18 - tokenDecimals)));
     }
 
     function getDataFromTokenInputToAddLp(uint256 tokenInputAmount) public view returns (uint256, uint256) {
         uint256 totalSupply = totalSupply();
         uint256 mintLP;
         uint256 baseInputAmount;
+
+        // Scale tokenInputAmount to 18 decimals
+        tokenInputAmount = tokenInputAmount.mul(10**uint256(18 - tokenDecimals));
+
         if(totalSupply == 0) {
             mintLP = tokenInputAmount;
             baseInputAmount = tokenInputAmount;
@@ -164,15 +195,19 @@ contract BreezySwapV1BREWETH is ERC20Burnable, Ownable, Pausable, ReentrancyGuar
             uint256 tokenReserve = 0;
             (baseReserve, tokenReserve) = getTotalReserve();
 
-            baseInputAmount = baseReserve.mul(tokenReserve.add(tokenInputAmount)).div(tokenReserve).sub(baseReserve);
+            // Scale baseReserve to 18 decimals
+            baseReserve = baseReserve.mul(10**uint256(18 - baseDecimals));
 
-            uint256 platformFeeOnBase = baseInputAmount.mul(PLATFORM_FEE).div(1000);
+            // Scale tokenReserve to 18 decimals
+            tokenReserve = tokenReserve.mul(10**uint256(18 - tokenDecimals));
+
+            baseInputAmount = baseReserve.mul(tokenReserve.add(tokenInputAmount)).div(tokenReserve).sub(baseReserve);
 
             // mintLP/totalLP =  baseInputAmount/baseReserve
             // mintLP = totalLP*baseInputAmount/baseReserve
-            mintLP = totalSupply.mul(baseInputAmount.sub(platformFeeOnBase)).div(baseReserve);
+            mintLP = totalSupply.mul(baseInputAmount).div(baseReserve);
         }
-        return (mintLP, baseInputAmount);
+        return (mintLP, baseInputAmount.div(10**uint256(18 - baseDecimals)));
     }
 
     function getDataToRemoveLP(uint256 amountLP) public view returns (uint256, uint256){
@@ -185,19 +220,19 @@ contract BreezySwapV1BREWETH is ERC20Burnable, Ownable, Pausable, ReentrancyGuar
         uint256 baseReserve = 0;
         uint256 tokenReserve = 0;
         (baseReserve, tokenReserve) = getTotalReserve();
+
+        // Scale baseReserve to 18 decimals
+        baseReserve = baseReserve.mul(10**uint256(18 - baseDecimals));
+
+        // Scale tokenReserve to 18 decimals
+        tokenReserve = tokenReserve.mul(10**uint256(18 - tokenDecimals));
         
         // amountLP/totalSupply = baseOutputAmount/baseReserve
         // => baseOutputAmount = amountLP*baseReserve/totalSupply
         uint256 baseOutputAmount = amountLP.mul(baseReserve).div(totalSupply);
         uint256 tokenOutputAmount = amountLP.mul(tokenReserve).div(totalSupply);
         
-        uint256 platformFeeOnBase = baseOutputAmount.mul(PLATFORM_FEE).div(1000);
-        uint256 platformFeeOnToken = tokenOutputAmount.mul(PLATFORM_FEE).div(1000);
-        
-        baseOutputAmount = baseOutputAmount.sub(platformFeeOnBase);
-        tokenOutputAmount = tokenOutputAmount.sub(platformFeeOnToken);
-        
-        return (baseOutputAmount, tokenOutputAmount);
+        return (baseOutputAmount.div(10**uint256(18 - baseDecimals)), tokenOutputAmount.div(10**uint256(18 - tokenDecimals)));
     }
     
     // token*base=(token-tokenOutputAmount)*(base+baseInputAmount)
@@ -248,11 +283,28 @@ contract BreezySwapV1BREWETH is ERC20Burnable, Ownable, Pausable, ReentrancyGuar
         require(deadline >= block.timestamp, 'INVALID_DEADLINE');
         require(baseInputAmount > 0, 'INVALID_BASE_INPUT');
         require(minTokenOutput > 0, 'INVALID_MIN_TOKEN_OUTPUT');
-        require(baseInputAmount <= base.balanceOf(msg.sender), 'BASE_INPUT_HIGHER_USER_BALANCE');
+        
+        uint256 userBaseBalance = base.balanceOf(msg.sender);
+        if(baseInputAmount > userBaseBalance) {
+            baseInputAmount = userBaseBalance;
+        }
+
+        // Scale baseInputAmount to 18 decimals
+        baseInputAmount = baseInputAmount.mul(10**uint256(18 - baseDecimals));
+
+        // Scale minTokenOutput to 18 decimals
+        minTokenOutput = minTokenOutput.mul(10**uint256(18 - tokenDecimals));
         
         uint256 baseReserve = 0;
         uint256 tokenReserve = 0;
         (baseReserve, tokenReserve) = getTotalReserve();
+
+        // Scale baseReserve to 18 decimals
+        baseReserve = baseReserve.mul(10**uint256(18 - baseDecimals));
+
+        // Scale tokenReserve to 18 decimals
+        tokenReserve = tokenReserve.mul(10**uint256(18 - tokenDecimals));
+
         require(minTokenOutput < tokenReserve, "MIN_TOKEN_HIGHER_POOL_TOKEN_BALANCE");
 
         uint256 tradeFee = baseInputAmount.mul(TRADE_FEE).div(1000);
@@ -262,27 +314,48 @@ contract BreezySwapV1BREWETH is ERC20Burnable, Ownable, Pausable, ReentrancyGuar
 
         require(tokenOutputAmount >= minTokenOutput, 'CAN_NOT_MAKE_TRADE');
         require(tokenOutputAmount < tokenReserve, 'TOKEN_OUTPUT_HIGHER_POOL_TOKEN_BALANCE');
-        require(tokenOutputAmount < token.balanceOf(address(this)), 'TOKEN_OUTPUT_HIGHER_CURRENT_TRADE_BALANCE'); // output is higher than the trade contract balance
+        require(tokenOutputAmount.div(10**uint256(18 - tokenDecimals)) < token.balanceOf(address(this)), 'TOKEN_OUTPUT_HIGHER_CURRENT_TRADE_BALANCE');
         
         //make trade
-        base.transferFrom(msg.sender, address(this), baseInputAmount);
-        token.transfer(msg.sender, tokenOutputAmount);
+        base.transferFrom(msg.sender, address(this), baseInputAmount.div(10**uint256(18 - baseDecimals)));
+        token.transfer(msg.sender, tokenOutputAmount.div(10**uint256(18 - tokenDecimals)));
 
         //transfer fee
-        base.transfer(feeMachineContract, tradeFee);
+        base.transfer(feeMachineContract, tradeFee.div(10**uint256(18 - baseDecimals)));
 
-        emit onSwapBaseToTokenWithBaseInput(msg.sender, minTokenOutput, baseInputAmount, tokenOutputAmount, baseReserve, tokenReserve);
+        emit onSwapBaseToTokenWithBaseInput(
+            msg.sender,
+            minTokenOutput.div(10**uint256(18 - tokenDecimals)),
+            baseInputAmount.div(10**uint256(18 - baseDecimals)),
+            tokenOutputAmount.div(10**uint256(18 - tokenDecimals)),
+            baseReserve.div(10**uint256(18 - baseDecimals)),
+            tokenReserve.div(10**uint256(18 - tokenDecimals))
+        );
+
     }
 
     function swapBaseToTokenWithTokenOutput(uint256 maxBaseInput, uint256 tokenOutputAmount, uint256 deadline) public onlyWhitelist whenNotPaused nonReentrant{
         require(deadline >= block.timestamp, 'INVALID_DEADLINE');
         require(maxBaseInput > 0, 'INVALID_MAX_BASE_INPUT');
         require(tokenOutputAmount > 0, 'INVALID_TOKEN_OUTPUT');
-        require(tokenOutputAmount < token.balanceOf(address(this)), 'TOKEN_OUTPUT_HIGHER_CURRENT_TRADE_BALANCE'); // output is higher than the trade contract balance
+        require(tokenOutputAmount < token.balanceOf(address(this)), 'TOKEN_OUTPUT_HIGHER_CURRENT_TRADE_BALANCE');
+
+        // Scale maxBaseInput to 18 decimals
+        maxBaseInput = maxBaseInput.mul(10**uint256(18 - baseDecimals));
+
+        // Scale tokenOutputAmount to 18 decimals
+        tokenOutputAmount = tokenOutputAmount.mul(10**uint256(18 - tokenDecimals));
         
         uint256 baseReserve = 0;
         uint256 tokenReserve = 0;
         (baseReserve, tokenReserve) = getTotalReserve();
+
+        // Scale baseReserve to 18 decimals
+        baseReserve = baseReserve.mul(10**uint256(18 - baseDecimals));
+
+        // Scale tokenReserve to 18 decimals
+        tokenReserve = tokenReserve.mul(10**uint256(18 - tokenDecimals));
+
         require(tokenOutputAmount < tokenReserve, "TOKEN_OUTPUT_HIGHER_POOL_TOKEN_BALANCE");
 
         uint256 baseInputAmount = getBaseInputAmountFromTokenOutput(tokenOutputAmount, baseReserve, tokenReserve);
@@ -292,27 +365,51 @@ contract BreezySwapV1BREWETH is ERC20Burnable, Ownable, Pausable, ReentrancyGuar
 
         require(baseInputAmount <= maxBaseInput, 'CAN_NOT_MAKE_TRADE');
         require(baseInputAmount > 0, 'INVALID_BASE_INPUT');
-        require(baseInputAmount <= base.balanceOf(msg.sender), 'BASE_INPUT_HIGHER_USER_BALANCE');
+        require(baseInputAmount <= base.balanceOf(msg.sender).mul(10**uint256(18 - baseDecimals)), 'BASE_INPUT_HIGHER_USER_BALANCE');
         
-        //make trade
-        base.transferFrom(msg.sender, address(this), baseInputAmount);
-        token.transfer(msg.sender, tokenOutputAmount);
+        // Make trade
+        base.transferFrom(msg.sender, address(this), baseInputAmount.div(10**uint256(18 - baseDecimals)));
+        token.transfer(msg.sender, tokenOutputAmount.div(10**uint256(18 - tokenDecimals)));
 
-        //transfer fee
-        base.transfer(feeMachineContract, tradeFee);
+        // Transfer fee
+        base.transfer(feeMachineContract, tradeFee.div(10**uint256(18 - baseDecimals)));
 
-        emit onSwapBaseToTokenWithTokenOutput(msg.sender, maxBaseInput, baseInputAmount, tokenOutputAmount, baseReserve, tokenReserve);
+        emit onSwapBaseToTokenWithTokenOutput(
+            msg.sender,
+            maxBaseInput,
+            baseInputAmount.div(10**uint256(18 - baseDecimals)),
+            tokenOutputAmount.div(10**uint256(18 - tokenDecimals)),
+            baseReserve.div(10**uint256(18 - baseDecimals)),
+            tokenReserve.div(10**uint256(18 - tokenDecimals))
+        );
     }
 
     function swapTokenToBaseWithTokenInput(uint256 tokenInputAmount, uint256 minBaseOutput, uint256 deadline) public onlyWhitelist whenNotPaused nonReentrant {
         require(deadline >= block.timestamp, 'INVALID_DEADLINE');
         require(minBaseOutput > 0, 'INVALID_MIN_BASE_OUTPUT');
         require(tokenInputAmount > 0, 'INVALID_TOKEN_INPUT');
-        require(tokenInputAmount <= token.balanceOf(msg.sender), 'TOKEN_INPUT_HIGHER_USER_BALANCE');
+
+        uint256 userTokenBalance = token.balanceOf(msg.sender);
+        if(tokenInputAmount > userTokenBalance) {
+            tokenInputAmount = userTokenBalance;
+        }
+
+        // Scale tokenInputAmount to 18 decimals
+        tokenInputAmount = tokenInputAmount.mul(10**uint256(18 - tokenDecimals));
+
+        // Scale minBaseOutput to 18 decimals
+        minBaseOutput = minBaseOutput.mul(10**uint256(18 - baseDecimals));
 
         uint256 baseReserve = 0;
         uint256 tokenReserve = 0;
         (baseReserve, tokenReserve) = getTotalReserve();
+
+        // Scale baseReserve to 18 decimals
+        baseReserve = baseReserve.mul(10**uint256(18 - baseDecimals));
+
+        // Scale tokenReserve to 18 decimals
+        tokenReserve = tokenReserve.mul(10**uint256(18 - tokenDecimals));
+
         require(minBaseOutput < baseReserve, 'MIN_BASE_OUTPUT_HIGHER_POOL_BASE_BALANCE');
 
         uint256 tradeFee = tokenInputAmount.mul(TRADE_FEE).div(1000);
@@ -322,27 +419,47 @@ contract BreezySwapV1BREWETH is ERC20Burnable, Ownable, Pausable, ReentrancyGuar
 
         require(baseOutputAmount >= minBaseOutput, 'CAN_NOT_MAKE_TRADE');
         require(baseOutputAmount < baseReserve, 'BASE_OUTPUT_HIGHER_POOL_BASE_BALANCE');
-        require(baseOutputAmount < base.balanceOf(address(this)), 'BASE_OUTPUT_HIGHER_CURRENT_TRADE_BALANCE'); // output is higher than the trade contract balance
+        require(baseOutputAmount < base.balanceOf(address(this)).mul(10**uint256(18 - baseDecimals)), 'BASE_OUTPUT_HIGHER_CURRENT_TRADE_BALANCE');
 
-        //make trade
-        token.transferFrom(msg.sender, address(this), tokenInputAmount);
-        base.transfer(msg.sender, baseOutputAmount);
+        // Make trade
+        token.transferFrom(msg.sender, address(this), tokenInputAmount.div(10**uint256(18 - tokenDecimals)));
+        base.transfer(msg.sender, baseOutputAmount.div(10**uint256(18 - baseDecimals)));
 
-        //transfer fee
-        token.transfer(feeMachineContract, tradeFee);
+        // Transfer fee
+        token.transfer(feeMachineContract, tradeFee.div(10**uint256(18 - tokenDecimals)));
 
-        emit onSwapTokenToBaseWithTokenInput(msg.sender, minBaseOutput, tokenInputAmount, baseOutputAmount, baseReserve, tokenReserve);
+        emit onSwapTokenToBaseWithTokenInput(
+            msg.sender,
+            minBaseOutput.div(10**uint256(18 - baseDecimals)),
+            tokenInputAmount.div(10**uint256(18 - tokenDecimals)),
+            baseOutputAmount.div(10**uint256(18 - baseDecimals)),
+            baseReserve.div(10**uint256(18 - baseDecimals)),
+            tokenReserve.div(10**uint256(18 - tokenDecimals))
+        );
     }
 
     function swapTokenToBaseWithBaseOutput(uint256 maxTokenInput, uint256 baseOutputAmount, uint256 deadline) public onlyWhitelist whenNotPaused nonReentrant {
         require(deadline >= block.timestamp, 'INVALID_DEADLINE');
         require(maxTokenInput > 0, 'INVALID_MAX_TOKEN_INPUT');
         require(baseOutputAmount > 0, 'INVALID_BASE_OUTPUT');
-        require(baseOutputAmount < base.balanceOf(address(this)), 'BASE_OUTPUT_HIGHER_CURRENT_TRADE_BALANCE'); // output is higher than the trade contract balance
+        require(baseOutputAmount < base.balanceOf(address(this)), 'BASE_OUTPUT_HIGHER_CURRENT_TRADE_BALANCE');
+        
+        // Scale maxTokenInput to 18 decimals
+        maxTokenInput = maxTokenInput.mul(10**uint256(18 - tokenDecimals));
+
+        // Scale baseOutputAmount to 18 decimals
+        baseOutputAmount = baseOutputAmount.mul(10**uint256(18 - baseDecimals));
 
         uint256 baseReserve = 0;
         uint256 tokenReserve = 0;
         (baseReserve, tokenReserve) = getTotalReserve();
+
+        // Scale baseReserve to 18 decimals
+        baseReserve = baseReserve.mul(10**uint256(18 - baseDecimals));
+
+        // Scale tokenReserve to 18 decimals
+        tokenReserve = tokenReserve.mul(10**uint256(18 - tokenDecimals));
+
         require(baseOutputAmount < baseReserve, 'BASE_OUTPUT_HIGHER_POOL_BASE_BALANCE');
 
         uint256 tokenInputAmount = getTokenInputAmountFromBaseOutput(baseOutputAmount, baseReserve, tokenReserve);
@@ -352,16 +469,23 @@ contract BreezySwapV1BREWETH is ERC20Burnable, Ownable, Pausable, ReentrancyGuar
 
         require(tokenInputAmount <= maxTokenInput, 'CAN_NOT_MAKE_TRADE');
         require(tokenInputAmount > 0, 'INVALID_TOKEN_INPUT');
-        require(tokenInputAmount <= token.balanceOf(msg.sender), 'TOKEN_INPUT_HIGHER_USER_BALANCE');
+        require(tokenInputAmount <= token.balanceOf(msg.sender).mul(10**uint256(18 - tokenDecimals)), 'TOKEN_INPUT_HIGHER_USER_BALANCE');
 
-        //make trade
-        token.transferFrom(msg.sender, address(this), tokenInputAmount);
-        base.transfer(msg.sender, baseOutputAmount);
+        // Make trade
+        token.transferFrom(msg.sender, address(this), tokenInputAmount.div(10**uint256(18 - tokenDecimals)));
+        base.transfer(msg.sender, baseOutputAmount.div(10**uint256(18 - baseDecimals)));
 
-        //transfer fee
-        token.transfer(feeMachineContract, tradeFee);
+        // Transfer fee
+        token.transfer(feeMachineContract, tradeFee.div(10**uint256(18 - tokenDecimals)));
 
-        emit onSwapTokenToBaseWithBaseOutput(msg.sender, maxTokenInput, tokenInputAmount, baseOutputAmount, baseReserve, tokenReserve);
+        emit onSwapTokenToBaseWithBaseOutput(
+            msg.sender,
+            maxTokenInput.div(10**uint256(18 - tokenDecimals)),
+            tokenInputAmount.div(10**uint256(18 - tokenDecimals)),
+            baseOutputAmount.div(10**uint256(18 - baseDecimals)),
+            baseReserve.div(10**uint256(18 - baseDecimals)),
+            tokenReserve.div(10**uint256(18 - tokenDecimals))
+        );
     }
 
     function addLP(uint256 minLP, uint256 baseInputAmount, uint256 maxTokenInputAmount, uint256 deadline) public onlyWhitelist nonReentrant returns (uint256) {
@@ -369,15 +493,27 @@ contract BreezySwapV1BREWETH is ERC20Burnable, Ownable, Pausable, ReentrancyGuar
         require(minLP > 0, 'INVALID_MIN_LP');
         require(baseInputAmount > 0, 'INVALID_BASE_INPUT');
         require(maxTokenInputAmount > 0, 'INVALID_MAX_TOKEN_INPUT');
+
+        uint256 userBaseBalance = base.balanceOf(msg.sender);
+        if(baseInputAmount > userBaseBalance) {
+            baseInputAmount = userBaseBalance;
+        }
+
+        // Scale baseInputAmount to 18 decimals
+        baseInputAmount = baseInputAmount.mul(10**uint256(18 - baseDecimals));
+
+        // Scale maxTokenInputAmount to 18 decimals
+        maxTokenInputAmount = maxTokenInputAmount.mul(10**uint256(18 - tokenDecimals));
         
         uint256 totalSupply = totalSupply();
         if(totalSupply == 0) {
-            base.transferFrom(msg.sender, address(this), baseInputAmount);
-            token.transferFrom(msg.sender, address(this), maxTokenInputAmount);
+            // Scale back to respective decimals for transfer
+            base.transferFrom(msg.sender, address(this), baseInputAmount.div(10**uint256(18 - baseDecimals)));
+            token.transferFrom(msg.sender, address(this), maxTokenInputAmount.div(10**uint256(18 - tokenDecimals)));
             
             uint256 initLP = baseInputAmount;
             _mint(msg.sender, initLP);
-            emit onAddLP(msg.sender, initLP, baseInputAmount, maxTokenInputAmount, base.balanceOf(address(this)), token.balanceOf(address(this)));
+            emit onAddLP(msg.sender, initLP, baseInputAmount.div(10**uint256(18 - baseDecimals)), maxTokenInputAmount.div(10**uint256(18 - tokenDecimals)), base.balanceOf(address(this)), token.balanceOf(address(this)));
             return initLP;
         }
         else { 
@@ -387,28 +523,28 @@ contract BreezySwapV1BREWETH is ERC20Burnable, Ownable, Pausable, ReentrancyGuar
             uint256 baseReserve = 0;
             uint256 tokenReserve = 0;
             (baseReserve, tokenReserve) = getTotalReserve();
-            uint256 tokenInputAmount = tokenReserve.mul(baseReserve.add(baseInputAmount)).div(baseReserve).sub(tokenReserve);
 
-            uint256 platformFeeOnBase = baseInputAmount.mul(PLATFORM_FEE).div(1000);
-            uint256 platformFeeOnToken = tokenInputAmount.mul(PLATFORM_FEE).div(1000);
+            // Scale baseReserve to 18 decimals
+            baseReserve = baseReserve.mul(10**uint256(18 - baseDecimals));
+
+            // Scale tokenReserve to 18 decimals
+            tokenReserve = tokenReserve.mul(10**uint256(18 - tokenDecimals));
+
+            uint256 tokenInputAmount = tokenReserve.mul(baseReserve.add(baseInputAmount)).div(baseReserve).sub(tokenReserve);
 
             // mintLP/totalLP =  baseInputAmount/baseReserve
             // mintLP = totalLP*baseInputAmount/baseReserve
-            uint256 mintLP = totalSupply.mul(baseInputAmount.sub(platformFeeOnBase)).div(baseReserve);
+            uint256 mintLP = totalSupply.mul(baseInputAmount).div(baseReserve);
             
             require(tokenInputAmount > 0, 'INVALID_TOKEN_INPUT');
-            require(tokenInputAmount <= maxTokenInputAmount, 'INVALID_TOKEN_INPUT');
+            require(tokenInputAmount.div(10**uint256(18 - tokenDecimals)) <= maxTokenInputAmount.div(10**uint256(18 - tokenDecimals)), 'INVALID_TOKEN_INPUT');
             require(mintLP >= minLP, "INVALID_MINT_LP");
 
-            base.transferFrom(msg.sender, address(this), baseInputAmount);
-            token.transferFrom(msg.sender, address(this), tokenInputAmount);
-
-            
-            base.transfer(platformFundAddress, platformFeeOnBase);
-            token.transfer(platformFundAddress, platformFeeOnToken);
+            base.transferFrom(msg.sender, address(this), baseInputAmount.div(10**uint256(18 - baseDecimals)));
+            token.transferFrom(msg.sender, address(this), tokenInputAmount.div(10**uint256(18 - tokenDecimals)));
 
             _mint(msg.sender, mintLP);
-            emit onAddLP(msg.sender, mintLP, baseInputAmount, tokenInputAmount, base.balanceOf(address(this)), token.balanceOf(address(this)));
+            emit onAddLP(msg.sender, mintLP, baseInputAmount.div(10**uint256(18 - baseDecimals)), tokenInputAmount.div(10**uint256(18 - tokenDecimals)), base.balanceOf(address(this)), token.balanceOf(address(this)));
             return mintLP;
         }
     }
@@ -418,6 +554,12 @@ contract BreezySwapV1BREWETH is ERC20Burnable, Ownable, Pausable, ReentrancyGuar
         require(amountLP > 0, 'INVALID_AMOUNT_LP');
         require(minBaseOutput > 0, 'INVALID_MIN_BASE_OUTPUT');
         require(minTokenOutput > 0, 'INVALID_MIN_TOKEN_OUTPUT');
+
+        // Scale minBaseOutput to 18 decimals
+        minBaseOutput = minBaseOutput.mul(10**uint256(18 - baseDecimals));
+
+        // Scale maxTokenInputAmount to 18 decimals
+        minTokenOutput = minTokenOutput.mul(10**uint256(18 - tokenDecimals));
         
         uint256 totalSupply = totalSupply();
         
@@ -431,17 +573,17 @@ contract BreezySwapV1BREWETH is ERC20Burnable, Ownable, Pausable, ReentrancyGuar
         uint256 baseReserve = 0;
         uint256 tokenReserve = 0;
         (baseReserve, tokenReserve) = getTotalReserve();
+
+        // Scale baseReserve to 18 decimals
+        baseReserve = baseReserve.mul(10**uint256(18 - baseDecimals));
+
+        // Scale tokenReserve to 18 decimals
+        tokenReserve = tokenReserve.mul(10**uint256(18 - tokenDecimals));
         
         // amountLP/totalSupply = baseOutputAmount/baseReserve
         // => baseOutputAmount = amountLP*baseReserve/totalSupply
         uint256 baseOutputAmount = amountLP.mul(baseReserve).div(totalSupply);
         uint256 tokenOutputAmount = amountLP.mul(tokenReserve).div(totalSupply);
-
-        uint256 platformFeeOnBase = baseOutputAmount.mul(PLATFORM_FEE).div(1000);
-        uint256 platformFeeOnToken = tokenOutputAmount.mul(PLATFORM_FEE).div(1000);
-        
-        baseOutputAmount = baseOutputAmount.sub(platformFeeOnBase);
-        tokenOutputAmount = tokenOutputAmount.sub(platformFeeOnToken);
 
         require(baseOutputAmount >= minBaseOutput, "INVALID_BASE_OUTPUT");
         require(tokenOutputAmount >= minTokenOutput, "INVALID_TOKEN_OUTPUT");
@@ -449,14 +591,13 @@ contract BreezySwapV1BREWETH is ERC20Burnable, Ownable, Pausable, ReentrancyGuar
         require(tokenOutputAmount <= tokenReserve, "TOKEN_OUTPUT_HIGHER_TOKEN_BALANCE");
 
         _burn(msg.sender, amountLP);
-        base.transfer(msg.sender, baseOutputAmount);
-        token.transfer(msg.sender, tokenOutputAmount);
+        // Scale back to respective decimals for transfer
+        base.transfer(msg.sender, baseOutputAmount.div(10**uint256(18 - baseDecimals)));
+        token.transfer(msg.sender, tokenOutputAmount.div(10**uint256(18 - tokenDecimals)));
 
-        base.transfer(platformFundAddress, platformFeeOnBase);
-        token.transfer(platformFundAddress, platformFeeOnToken);
+        emit onRemoveLP(msg.sender, amountLP, baseOutputAmount.div(10**uint256(18 - baseDecimals)), tokenOutputAmount.div(10**uint256(18 - tokenDecimals)), base.balanceOf(address(this)), token.balanceOf(address(this)));
 
-        emit onRemoveLP(msg.sender, amountLP, baseOutputAmount, tokenOutputAmount, base.balanceOf(address(this)), token.balanceOf(address(this)));
-        return (baseOutputAmount, tokenOutputAmount);
+        return (baseOutputAmount.div(10**uint256(18 - baseDecimals)), tokenOutputAmount.div(10**uint256(18 - tokenDecimals)));
     }
 
     function getTotalReserve() public view returns (uint256, uint256) { 
