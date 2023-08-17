@@ -63,7 +63,8 @@
         }
       ],
       "stateMutability": "view",
-      "type": "function"
+      "type": "function",
+      "constant": true
     },
     {
       "inputs": [],
@@ -76,7 +77,8 @@
         }
       ],
       "stateMutability": "view",
-      "type": "function"
+      "type": "function",
+      "constant": true
     },
     {
       "inputs": [],
@@ -102,7 +104,8 @@
         }
       ],
       "stateMutability": "view",
-      "type": "function"
+      "type": "function",
+      "constant": true
     },
     {
       "inputs": [
@@ -148,7 +151,8 @@
         }
       ],
       "stateMutability": "view",
-      "type": "function"
+      "type": "function",
+      "constant": true
     },
     {
       "inputs": [
@@ -3620,14 +3624,67 @@
   },
   "networks": {
     "11155111": {
-      "events": {},
+      "events": {
+        "0x8be0079c531659141344cd1fd0a4f28419497f9722a3daafe3b4186f6b6457e0": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": true,
+              "internalType": "address",
+              "name": "previousOwner",
+              "type": "address"
+            },
+            {
+              "indexed": true,
+              "internalType": "address",
+              "name": "newOwner",
+              "type": "address"
+            }
+          ],
+          "name": "OwnershipTransferred",
+          "type": "event"
+        },
+        "0xa54714518c5d275fdcd3d2a461e4858e4e8cb04fb93cd0bca9d6d34115f26440": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": true,
+              "internalType": "address",
+              "name": "account",
+              "type": "address"
+            },
+            {
+              "indexed": false,
+              "internalType": "bool",
+              "name": "isWhitelisted",
+              "type": "bool"
+            }
+          ],
+          "name": "Whitelisted",
+          "type": "event"
+        },
+        "0x169e9fe1fd9aec84428126ecfb12c5886943819de2c028aa81015cef503fcdbd": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": true,
+              "internalType": "address",
+              "name": "account",
+              "type": "address"
+            }
+          ],
+          "name": "onRequestAccess",
+          "type": "event"
+        }
+      },
       "links": {},
-      "address": "0xb1bD1210711CC2cfB864dD3828d66EFf843c7015",
-      "transactionHash": "0x03bf6ab63c905490b96d9792e1640cc525de7132bf327c8a18f6def855c4a39d"
+      "address": "0xD2B7df0f1C6a1901343e53DA91eB54A5470Ca7F7",
+      "transactionHash": "0x1d287b370ffb1375e298c2304df6649a23a5d68556828886540e6872c69c312d"
     }
   },
   "schemaVersion": "3.4.13",
-  "updatedAt": "2023-08-17T14:52:43.816Z",
+  "updatedAt": "2023-08-17T18:46:26.283Z",
+  "networkType": "ethereum",
   "devdoc": {
     "kind": "dev",
     "methods": {
