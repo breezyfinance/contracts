@@ -11,5 +11,5 @@ module.exports = function(deployer) {
 //    deployer.deploy(BreezyGateKeeper, 86400, ["0x973fc364a5fB9E340084a3D901F2E09c3Cc6328D"], ["0x973fc364a5fB9E340084a3D901F2E09c3Cc6328D"], "0x973fc364a5fB9E340084a3D901F2E09c3Cc6328D");
 //    deployer.deploy(BreezyAirdropAndDevFund);
 //    deployer.deploy(BreezyFarmingFund);
-    deployer.deploy(BreezyNFTLPLock);
+//    deployer.deploy(BreezyNFTLPLock);
 };

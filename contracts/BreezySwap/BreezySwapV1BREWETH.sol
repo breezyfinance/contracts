@@ -31,8 +31,6 @@ contract BreezySwapV1BREWETH is ERC20Burnable, Ownable, Pausable, ReentrancyGuar
 
     uint256 public TRADE_FEE = 2; //0.2% 2/1000
 
-    address public platformFundAddress;
-
     modifier onlyWhitelist()
     {
         if (msg.sender != tx.origin) {
@@ -65,7 +63,6 @@ contract BreezySwapV1BREWETH is ERC20Burnable, Ownable, Pausable, ReentrancyGuar
         token = _token;
         whitelistContract = _whitelistContract;
         feeMachineContract = _feeMachineContract;
-        platformFundAddress = _msgSender();
         baseDecimals = base.decimals();
         tokenDecimals = token.decimals();
     }
@@ -84,10 +81,6 @@ contract BreezySwapV1BREWETH is ERC20Burnable, Ownable, Pausable, ReentrancyGuar
 
     function setTradeFee(uint256 _tradeFee) public onlyOwner {
         TRADE_FEE = _tradeFee;
-    }
-
-    function setPlatformFundAdress(address newAddress) public onlyOwner {
-        platformFundAddress = newAddress;
     }
 
     function getK() public view returns(uint256) {

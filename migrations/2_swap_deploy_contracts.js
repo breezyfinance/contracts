@@ -2,14 +2,15 @@ const CustomERC20Mintable = artifacts.require("CustomERC20Mintable");
 const BreezyWhitelist = artifacts.require("BreezyWhitelist");
 const BreezySwapV1BREWETH = artifacts.require("BreezySwapV1BREWETH");
 
-const baseDecimals = 8;
-const tradeDecimals = 6;
+const baseDecimals = 18;
+const tradeDecimals = 18;
 
 module.exports = async function (deployer) {
-    await deployer.deploy(CustomERC20Mintable, "Wrapped Ether", "WETH", baseDecimals);
-    const tokenA = await CustomERC20Mintable.deployed();
+//    await deployer.deploy(CustomERC20Mintable, "Wrapped Ether", "WETH", baseDecimals);
+//    const tokenA = await CustomERC20Mintable.deployed();
+    const tokenA = await CustomERC20Mintable.at("0x8114b91c6ae47d1679b7a32caeca473cbab9c14a");
 
-    await deployer.deploy(CustomERC20Mintable, "USD Base Coin", "USDbC", tradeDecimals);
+    await deployer.deploy(CustomERC20Mintable, "Dai Stablecoin", "DAI", tradeDecimals);
     const tokenB = await CustomERC20Mintable.deployed();
 
     await deployer.deploy(BreezyWhitelist);
