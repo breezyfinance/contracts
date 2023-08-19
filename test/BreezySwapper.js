@@ -7,8 +7,8 @@ contract("BreezySwapper", accounts => {
 
     let swapper, baseToken, tradeToken1, tradeToken2, pair1, pair2, whitelistContract;
     const baseDecimals = 18;
-    const trade1Decimals = 6;
-    const trade2Decimals = 8;
+    const trade1Decimals = 18;
+    const trade2Decimals = 18;
 
     beforeEach(async () => {
         // Deploy mock ERC20 tokens for both pairs
@@ -84,8 +84,13 @@ contract("BreezySwapper", accounts => {
     }
     
     it("should successfully swap tokens between two pairs", async () => {
-
-        const token1InputAmount = web3.utils.toBN('100').mul(web3.utils.toBN(10 ** trade1Decimals)); // Scale to tradeDecimals1
+        // Generate a random floating-point value between 1 and 1000000, with one decimal point
+        const randomInput = (Math.random() * 999999 + 1).toFixed(trade1Decimals);
+        // Convert the random floating-point value to the appropriate decimals
+        const token1InputAmount = web3.utils.toBN(web3.utils.toWei(randomInput, 'ether')).div(web3.utils.toBN(10 ** (18 - trade1Decimals)));
+        
+        console.log("Random input amount (in trade1 decimals):", token1InputAmount.toString());
+        
         const minToken2Output = await swapper.getTokenOutput(token1InputAmount, pair1.address, pair2.address);
         const deadline = (await web3.eth.getBlock('latest')).timestamp + 600;
 
@@ -103,6 +108,22 @@ contract("BreezySwapper", accounts => {
 
         // Validate the results, e.g., the final tradeToken2 balance should be greater than or equal to the minimum acceptable output
         assert(finalTradeToken2Balance.sub(initialTradeToken2Balance).gte(minToken2Output), "Token2 output from swap is less than the minimum acceptable output");
+    });
+    it("should successfully call approveWithPair by owner", async function () {
+        try {
+            await swapper.approveWithPair(baseToken.address, pair1.address, { from: accounts[0] });
+        } catch (error) {
+            assert.fail("Function call by owner should not have failed");
+        }
+    });
+
+    it("should revert when calling approveWithPair by non-owner", async function () {
+        try {
+          await swapper.approveWithPair(baseToken.address, pair1.address, { from: accounts[1] });
+          assert.fail("Expected revert not received");
+        } catch (error) {
+          assert.include(error.message, "revert", "The error message should contain 'revert'");
+        }
     });
     
 });
