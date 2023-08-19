@@ -6,10 +6,10 @@ const baseDecimals = 8;
 const tradeDecimals = 6;
 
 module.exports = async function (deployer) {
-    await deployer.deploy(CustomERC20Mintable, "BaseToken", "BASE", baseDecimals);
+    await deployer.deploy(CustomERC20Mintable, "Wrapped Ether", "WETH", baseDecimals);
     const tokenA = await CustomERC20Mintable.deployed();
 
-    await deployer.deploy(CustomERC20Mintable, "TradeToken", "TRADE", tradeDecimals);
+    await deployer.deploy(CustomERC20Mintable, "USD Base Coin", "USDbC", tradeDecimals);
     const tokenB = await CustomERC20Mintable.deployed();
 
     await deployer.deploy(BreezyWhitelist);
