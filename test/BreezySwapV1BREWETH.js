@@ -25,9 +25,8 @@ contract("BreezySwapV1BREWETH", (accounts) => {
         await baseToken.mint(accounts[0], initialBaseLiquidity);
         await tradeToken.mint(accounts[0], initialTradeLiquidity);
 
-        // ... rest of the setup code
         // Deploy the BreezyWhitelist contract
-        whitelistContract = await BreezyWhitelist.new();
+        const whitelistContract = await BreezyWhitelist.new();
 
         // Define other parameters
         const feeMachineContract = accounts[2]; // Address or instance of the fee machine contract

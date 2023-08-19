@@ -31,14 +31,14 @@ contract BreezyWhitelist is Ownable{
 
     function addAddress(address _address) public onlyOwner {
         require(whitelistedMap[_address] != true, "WHITELISTED");
-        whitelistedMap[_address] = true; //open access to Turing protocol
+        whitelistedMap[_address] = true; //open access to protocol
         requestAccessList[_address] = false; //remove from request list
         emit Whitelisted(_address, true);
     }
 
     function removeAddress(address _address) public onlyOwner {
         require(whitelistedMap[_address] != false, "NOT_WHITELISTED");
-        whitelistedMap[_address] = false; //disable access to Garbi Protocol
+        whitelistedMap[_address] = false; //disable access to Protocol
         requestAccessList[_address] = false; //remove from request list
         emit Whitelisted(_address, false);
     }
