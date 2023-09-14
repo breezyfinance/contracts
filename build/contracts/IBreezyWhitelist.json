@@ -35,15 +35,15 @@
     "absolutePath": "project:/contracts/BreezySwap/interfaces/IBreezyWhitelist.sol",
     "exportedSymbols": {
       "IBreezyWhitelist": [
-        9104
+        9112
       ]
     },
-    "id": 9105,
+    "id": 9113,
     "license": "MIT",
     "nodeType": "SourceUnit",
     "nodes": [
       {
-        "id": 9096,
+        "id": 9104,
         "literals": [
           "solidity",
           ">=",
@@ -60,9 +60,9 @@
         "contractDependencies": [],
         "contractKind": "interface",
         "fullyImplemented": false,
-        "id": 9104,
+        "id": 9112,
         "linearizedBaseContracts": [
-          9104
+          9112
         ],
         "name": "IBreezyWhitelist",
         "nameLocation": "72:16:31",
@@ -70,7 +70,7 @@
         "nodes": [
           {
             "functionSelector": "d936547e",
-            "id": 9103,
+            "id": 9111,
             "implemented": false,
             "kind": "function",
             "modifiers": [],
@@ -78,17 +78,17 @@
             "nameLocation": "102:11:31",
             "nodeType": "FunctionDefinition",
             "parameters": {
-              "id": 9099,
+              "id": 9107,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 9098,
+                  "id": 9106,
                   "mutability": "mutable",
                   "name": "_address",
                   "nameLocation": "122:8:31",
                   "nodeType": "VariableDeclaration",
-                  "scope": 9103,
+                  "scope": 9111,
                   "src": "114:16:31",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -97,7 +97,7 @@
                     "typeString": "address"
                   },
                   "typeName": {
-                    "id": 9097,
+                    "id": 9105,
                     "name": "address",
                     "nodeType": "ElementaryTypeName",
                     "src": "114:7:31",
@@ -113,17 +113,17 @@
               "src": "113:18:31"
             },
             "returnParameters": {
-              "id": 9102,
+              "id": 9110,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 9101,
+                  "id": 9109,
                   "mutability": "mutable",
                   "name": "",
                   "nameLocation": "-1:-1:-1",
                   "nodeType": "VariableDeclaration",
-                  "scope": 9103,
+                  "scope": 9111,
                   "src": "155:4:31",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -132,7 +132,7 @@
                     "typeString": "bool"
                   },
                   "typeName": {
-                    "id": 9100,
+                    "id": 9108,
                     "name": "bool",
                     "nodeType": "ElementaryTypeName",
                     "src": "155:4:31",
@@ -146,14 +146,14 @@
               ],
               "src": "154:6:31"
             },
-            "scope": 9104,
+            "scope": 9112,
             "src": "93:68:31",
             "stateMutability": "view",
             "virtual": false,
             "visibility": "external"
           }
         ],
-        "scope": 9105,
+        "scope": 9113,
         "src": "62:102:31",
         "usedErrors": []
       }
@@ -166,7 +166,7 @@
   },
   "networks": {},
   "schemaVersion": "3.4.11",
-  "updatedAt": "2023-09-12T08:32:53.367Z",
+  "updatedAt": "2023-09-13T09:45:56.823Z",
   "devdoc": {
     "kind": "dev",
     "methods": {},

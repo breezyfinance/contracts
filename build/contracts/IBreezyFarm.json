@@ -597,18 +597,18 @@
     "absolutePath": "project:/contracts/interfaces/IBreezyFarm.sol",
     "exportedSymbols": {
       "IBreezyFarm": [
-        9280
+        9288
       ],
       "IERC20": [
         2326
       ]
     },
-    "id": 9281,
+    "id": 9289,
     "license": "MIT",
     "nodeType": "SourceUnit",
     "nodes": [
       {
-        "id": 9269,
+        "id": 9277,
         "literals": [
           "solidity",
           ">=",
@@ -621,10 +621,10 @@
       {
         "absolutePath": "@openzeppelin/contracts/token/ERC20/IERC20.sol",
         "file": "@openzeppelin/contracts/token/ERC20/IERC20.sol",
-        "id": 9270,
+        "id": 9278,
         "nameLocation": "-1:-1:-1",
         "nodeType": "ImportDirective",
-        "scope": 9281,
+        "scope": 9289,
         "sourceUnit": 2327,
         "src": "62:56:34",
         "symbolAliases": [],
@@ -637,9 +637,9 @@
         "contractDependencies": [],
         "contractKind": "contract",
         "fullyImplemented": true,
-        "id": 9280,
+        "id": 9288,
         "linearizedBaseContracts": [
-          9280
+          9288
         ],
         "name": "IBreezyFarm",
         "nameLocation": "131:11:34",
@@ -648,12 +648,12 @@
           {
             "constant": false,
             "functionSelector": "026c4207",
-            "id": 9272,
+            "id": 9280,
             "mutability": "mutable",
             "name": "totalShare",
             "nameLocation": "166:10:34",
             "nodeType": "VariableDeclaration",
-            "scope": 9280,
+            "scope": 9288,
             "src": "151:25:34",
             "stateVariable": true,
             "storageLocation": "default",
@@ -662,7 +662,7 @@
               "typeString": "uint256"
             },
             "typeName": {
-              "id": 9271,
+              "id": 9279,
               "name": "uint256",
               "nodeType": "ElementaryTypeName",
               "src": "151:7:34",
@@ -676,12 +676,12 @@
           {
             "constant": false,
             "functionSelector": "1f1fcd51",
-            "id": 9275,
+            "id": 9283,
             "mutability": "mutable",
             "name": "want",
             "nameLocation": "198:4:34",
             "nodeType": "VariableDeclaration",
-            "scope": 9280,
+            "scope": 9288,
             "src": "184:18:34",
             "stateVariable": true,
             "storageLocation": "default",
@@ -690,10 +690,10 @@
               "typeString": "contract IERC20"
             },
             "typeName": {
-              "id": 9274,
+              "id": 9282,
               "nodeType": "UserDefinedTypeName",
               "pathNode": {
-                "id": 9273,
+                "id": 9281,
                 "name": "IERC20",
                 "nameLocations": [
                   "184:6:34"
@@ -714,12 +714,12 @@
           {
             "constant": false,
             "functionSelector": "21e5e2c4",
-            "id": 9279,
+            "id": 9287,
             "mutability": "mutable",
             "name": "shareOf",
             "nameLocation": "245:7:34",
             "nodeType": "VariableDeclaration",
-            "scope": 9280,
+            "scope": 9288,
             "src": "210:42:34",
             "stateVariable": true,
             "storageLocation": "default",
@@ -728,9 +728,9 @@
               "typeString": "mapping(address => uint256)"
             },
             "typeName": {
-              "id": 9278,
+              "id": 9286,
               "keyType": {
-                "id": 9276,
+                "id": 9284,
                 "name": "address",
                 "nodeType": "ElementaryTypeName",
                 "src": "218:7:34",
@@ -746,7 +746,7 @@
                 "typeString": "mapping(address => uint256)"
               },
               "valueType": {
-                "id": 9277,
+                "id": 9285,
                 "name": "uint256",
                 "nodeType": "ElementaryTypeName",
                 "src": "229:7:34",
@@ -759,7 +759,7 @@
             "visibility": "public"
           }
         ],
-        "scope": 9281,
+        "scope": 9289,
         "src": "122:135:34",
         "usedErrors": []
       }
@@ -772,7 +772,7 @@
   },
   "networks": {},
   "schemaVersion": "3.4.11",
-  "updatedAt": "2023-09-12T08:32:53.379Z",
+  "updatedAt": "2023-09-13T09:45:56.837Z",
   "devdoc": {
     "kind": "dev",
     "methods": {},
