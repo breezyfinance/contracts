@@ -18,6 +18,6 @@
         "web3": "^4.1.0"
     },
     "devDependencies": {
-        "truffle-plugin-verify": "^0.6.1"
+        "truffle-plugin-verify": "0.6.1"
     }
 }
