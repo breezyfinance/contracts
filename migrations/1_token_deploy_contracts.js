@@ -4,6 +4,7 @@ const BreezyGateKeeper = artifacts.require("BreezyGateKeeper");
 const BreezyAirdropAndDevFund = artifacts.require("BreezyAirdropAndDevFund");
 const BreezyFarmingFund = artifacts.require("BreezyFarmingFund");
 const BreezyNFTLPLock = artifacts.require("BreezyNFTLPLock");
+const XBOT = artifacts.require("XBOT");
 
 module.exports = function(deployer) {
 //    deployer.deploy(BRE, "21000000000000000000000000", "21000000000000000000000000").then(function() {
@@ -12,4 +13,5 @@ module.exports = function(deployer) {
 //    deployer.deploy(BreezyAirdropAndDevFund);
 //    deployer.deploy(BreezyFarmingFund);
 //    deployer.deploy(BreezyNFTLPLock);
+    deployer.deploy(XBOT);
 };
