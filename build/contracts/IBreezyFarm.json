@@ -47,9 +47,9 @@
       "type": "function"
     }
   ],
-  "metadata": "{\"compiler\":{\"version\":\"0.8.17+commit.8df45f5f\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"inputs\":[{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"}],\"name\":\"shareOf\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"totalShare\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"want\",\"outputs\":[{\"internalType\":\"contract IERC20\",\"name\":\"\",\"type\":\"address\"}],\"stateMutability\":\"view\",\"type\":\"function\"}],\"devdoc\":{\"kind\":\"dev\",\"methods\":{},\"version\":1},\"userdoc\":{\"kind\":\"user\",\"methods\":{},\"version\":1}},\"settings\":{\"compilationTarget\":{\"project:/contracts/interfaces/IBreezyFarm.sol\":\"IBreezyFarm\"},\"evmVersion\":\"london\",\"libraries\":{},\"metadata\":{\"bytecodeHash\":\"ipfs\"},\"optimizer\":{\"enabled\":true,\"runs\":200},\"remappings\":[]},\"sources\":{\"@openzeppelin/contracts/token/ERC20/IERC20.sol\":{\"keccak256\":\"0x287b55befed2961a7eabd7d7b1b2839cbca8a5b80ef8dcbb25ed3d4c2002c305\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://bd39944e8fc06be6dbe2dd1d8449b5336e23c6a7ba3e8e9ae5ae0f37f35283f5\",\"dweb:/ipfs/QmPV3FGYjVwvKSgAXKUN3r9T9GwniZz83CxBpM7vyj2G53\"]},\"project:/contracts/interfaces/IBreezyFarm.sol\":{\"keccak256\":\"0x90ba9c8f2ee8293a5e5528ea4e0e16ef5daaab00a4a8e54a11cf48884b3bf830\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://3f40d4d7f8360a76ce0558a31d25f383c5821b4783be2c3d98bbe258930be735\",\"dweb:/ipfs/QmchsayXKCoTLWWeLYF2xGuaE5SMMzUjDsLCXFCASVYHmQ\"]}},\"version\":1}",
-  "bytecode": "0x608060405234801561001057600080fd5b50610106806100206000396000f3fe6080604052348015600f57600080fd5b5060043610603c5760003560e01c8063026c42071460415780631f1fcd5114605c57806321e5e2c4146085575b600080fd5b604960005481565b6040519081526020015b60405180910390f35b600154606e906001600160a01b031681565b6040516001600160a01b0390911681526020016053565b6049609036600460a2565b60026020526000908152604090205481565b60006020828403121560b357600080fd5b81356001600160a01b038116811460c957600080fd5b939250505056fea264697066735822122034539890923c5e2bf58cd1e6ade5f6e3ffb9e8d5334a0117b76d5baa91303b0e64736f6c63430008110033",
-  "deployedBytecode": "0x6080604052348015600f57600080fd5b5060043610603c5760003560e01c8063026c42071460415780631f1fcd5114605c57806321e5e2c4146085575b600080fd5b604960005481565b6040519081526020015b60405180910390f35b600154606e906001600160a01b031681565b6040516001600160a01b0390911681526020016053565b6049609036600460a2565b60026020526000908152604090205481565b60006020828403121560b357600080fd5b81356001600160a01b038116811460c957600080fd5b939250505056fea264697066735822122034539890923c5e2bf58cd1e6ade5f6e3ffb9e8d5334a0117b76d5baa91303b0e64736f6c63430008110033",
+  "metadata": "{\"compiler\":{\"version\":\"0.8.17+commit.8df45f5f\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"inputs\":[{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"}],\"name\":\"shareOf\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"totalShare\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"want\",\"outputs\":[{\"internalType\":\"contract IERC20\",\"name\":\"\",\"type\":\"address\"}],\"stateMutability\":\"view\",\"type\":\"function\"}],\"devdoc\":{\"kind\":\"dev\",\"methods\":{},\"version\":1},\"userdoc\":{\"kind\":\"user\",\"methods\":{},\"version\":1}},\"settings\":{\"compilationTarget\":{\"project:/contracts/interfaces/IBreezyFarm.sol\":\"IBreezyFarm\"},\"evmVersion\":\"london\",\"libraries\":{},\"metadata\":{\"bytecodeHash\":\"ipfs\"},\"optimizer\":{\"enabled\":true,\"runs\":200},\"remappings\":[]},\"sources\":{\"@openzeppelin/contracts/token/ERC20/IERC20.sol\":{\"keccak256\":\"0x287b55befed2961a7eabd7d7b1b2839cbca8a5b80ef8dcbb25ed3d4c2002c305\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://bd39944e8fc06be6dbe2dd1d8449b5336e23c6a7ba3e8e9ae5ae0f37f35283f5\",\"dweb:/ipfs/QmPV3FGYjVwvKSgAXKUN3r9T9GwniZz83CxBpM7vyj2G53\"]},\"project:/contracts/interfaces/IBreezyFarm.sol\":{\"keccak256\":\"0x2356d6494bc0338e9c20f951b3f0bb53ec4ad80474c77aedb946a2c48e95dd4d\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://1c0fb31d6dc7927d949b74ca920a52f9c66eff11e49df9ef4dfc2623bbd730ad\",\"dweb:/ipfs/QmeHENbyJ2XqpiLWa2k8uHM3DEhWFCjmRYgv9L1MvqtiS9\"]}},\"version\":1}",
+  "bytecode": "0x608060405234801561001057600080fd5b50610106806100206000396000f3fe6080604052348015600f57600080fd5b5060043610603c5760003560e01c8063026c42071460415780631f1fcd5114605c57806321e5e2c4146085575b600080fd5b604960005481565b6040519081526020015b60405180910390f35b600154606e906001600160a01b031681565b6040516001600160a01b0390911681526020016053565b6049609036600460a2565b60026020526000908152604090205481565b60006020828403121560b357600080fd5b81356001600160a01b038116811460c957600080fd5b939250505056fea2646970667358221220d6011e29558b8cdea9c45f2fe5d7341131f21d4e2b3d32617a4df7658305a58764736f6c63430008110033",
+  "deployedBytecode": "0x6080604052348015600f57600080fd5b5060043610603c5760003560e01c8063026c42071460415780631f1fcd5114605c57806321e5e2c4146085575b600080fd5b604960005481565b6040519081526020015b60405180910390f35b600154606e906001600160a01b031681565b6040516001600160a01b0390911681526020016053565b6049609036600460a2565b60026020526000908152604090205481565b60006020828403121560b357600080fd5b81356001600160a01b038116811460c957600080fd5b939250505056fea2646970667358221220d6011e29558b8cdea9c45f2fe5d7341131f21d4e2b3d32617a4df7658305a58764736f6c63430008110033",
   "immutableReferences": {},
   "generatedSources": [],
   "deployedGeneratedSources": [
@@ -589,10 +589,10 @@
       "name": "#utility.yul"
     }
   ],
-  "sourceMap": "122:135:34:-:0;;;;;;;;;;;;;;;;;;;",
-  "deployedSourceMap": "122:135:34:-:0;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;151:25;;;;;;;;;160::39;;;148:2;133:18;151:25:34;;;;;;;;184:18;;;;;-1:-1:-1;;;;;184:18:34;;;;;;-1:-1:-1;;;;;375:32:39;;;357:51;;345:2;330:18;184::34;196:218:39;210:42:34;;;;;;:::i;:::-;;;;;;;;;;;;;;419:286:39;478:6;531:2;519:9;510:7;506:23;502:32;499:52;;;547:1;544;537:12;499:52;573:23;;-1:-1:-1;;;;;625:31:39;;615:42;;605:70;;671:1;668;661:12;605:70;694:5;419:286;-1:-1:-1;;;419:286:39:o",
-  "source": "// SPDX-License-Identifier: MIT\r\npragma solidity >=0.6.12;\r\n\r\nimport \"@openzeppelin/contracts/token/ERC20/IERC20.sol\";\r\n\r\ncontract IBreezyFarm {\r\n\r\n   uint256 public totalShare;\r\n\r\n   IERC20 public want;\r\n\r\n   mapping(address => uint256) public shareOf; \r\n}",
-  "sourcePath": "C:\\Users\\David\\Documents\\NetBeansProjects\\breezy-contracts\\contracts\\interfaces\\IBreezyFarm.sol",
+  "sourceMap": "117:128:34:-:0;;;;;;;;;;;;;;;;;;;",
+  "deployedSourceMap": "117:128:34:-:0;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;144:25;;;;;;;;;160::39;;;148:2;133:18;144:25:34;;;;;;;;175:18;;;;;-1:-1:-1;;;;;175:18:34;;;;;;-1:-1:-1;;;;;375:32:39;;;357:51;;345:2;330:18;175::34;196:218:39;199:42:34;;;;;;:::i;:::-;;;;;;;;;;;;;;419:286:39;478:6;531:2;519:9;510:7;506:23;502:32;499:52;;;547:1;544;537:12;499:52;573:23;;-1:-1:-1;;;;;625:31:39;;615:42;;605:70;;671:1;668;661:12;605:70;694:5;419:286;-1:-1:-1;;;419:286:39:o",
+  "source": "// SPDX-License-Identifier: MIT\npragma solidity >=0.6.12;\n\nimport \"@openzeppelin/contracts/token/ERC20/IERC20.sol\";\n\ncontract IBreezyFarm {\n\n   uint256 public totalShare;\n\n   IERC20 public want;\n\n   mapping(address => uint256) public shareOf; \n}",
+  "sourcePath": "/Applications/projects/breezy-contracts/contracts/interfaces/IBreezyFarm.sol",
   "ast": {
     "absolutePath": "project:/contracts/interfaces/IBreezyFarm.sol",
     "exportedSymbols": {
@@ -616,7 +616,7 @@
           ".12"
         ],
         "nodeType": "PragmaDirective",
-        "src": "33:25:34"
+        "src": "32:25:34"
       },
       {
         "absolutePath": "@openzeppelin/contracts/token/ERC20/IERC20.sol",
@@ -626,7 +626,7 @@
         "nodeType": "ImportDirective",
         "scope": 9281,
         "sourceUnit": 2327,
-        "src": "62:56:34",
+        "src": "59:56:34",
         "symbolAliases": [],
         "unitAlias": ""
       },
@@ -642,7 +642,7 @@
           9280
         ],
         "name": "IBreezyFarm",
-        "nameLocation": "131:11:34",
+        "nameLocation": "126:11:34",
         "nodeType": "ContractDefinition",
         "nodes": [
           {
@@ -651,10 +651,10 @@
             "id": 9272,
             "mutability": "mutable",
             "name": "totalShare",
-            "nameLocation": "166:10:34",
+            "nameLocation": "159:10:34",
             "nodeType": "VariableDeclaration",
             "scope": 9280,
-            "src": "151:25:34",
+            "src": "144:25:34",
             "stateVariable": true,
             "storageLocation": "default",
             "typeDescriptions": {
@@ -665,7 +665,7 @@
               "id": 9271,
               "name": "uint256",
               "nodeType": "ElementaryTypeName",
-              "src": "151:7:34",
+              "src": "144:7:34",
               "typeDescriptions": {
                 "typeIdentifier": "t_uint256",
                 "typeString": "uint256"
@@ -679,10 +679,10 @@
             "id": 9275,
             "mutability": "mutable",
             "name": "want",
-            "nameLocation": "198:4:34",
+            "nameLocation": "189:4:34",
             "nodeType": "VariableDeclaration",
             "scope": 9280,
-            "src": "184:18:34",
+            "src": "175:18:34",
             "stateVariable": true,
             "storageLocation": "default",
             "typeDescriptions": {
@@ -696,14 +696,14 @@
                 "id": 9273,
                 "name": "IERC20",
                 "nameLocations": [
-                  "184:6:34"
+                  "175:6:34"
                 ],
                 "nodeType": "IdentifierPath",
                 "referencedDeclaration": 2326,
-                "src": "184:6:34"
+                "src": "175:6:34"
               },
               "referencedDeclaration": 2326,
-              "src": "184:6:34",
+              "src": "175:6:34",
               "typeDescriptions": {
                 "typeIdentifier": "t_contract$_IERC20_$2326",
                 "typeString": "contract IERC20"
@@ -717,10 +717,10 @@
             "id": 9279,
             "mutability": "mutable",
             "name": "shareOf",
-            "nameLocation": "245:7:34",
+            "nameLocation": "234:7:34",
             "nodeType": "VariableDeclaration",
             "scope": 9280,
-            "src": "210:42:34",
+            "src": "199:42:34",
             "stateVariable": true,
             "storageLocation": "default",
             "typeDescriptions": {
@@ -733,14 +733,14 @@
                 "id": 9276,
                 "name": "address",
                 "nodeType": "ElementaryTypeName",
-                "src": "218:7:34",
+                "src": "207:7:34",
                 "typeDescriptions": {
                   "typeIdentifier": "t_address",
                   "typeString": "address"
                 }
               },
               "nodeType": "Mapping",
-              "src": "210:27:34",
+              "src": "199:27:34",
               "typeDescriptions": {
                 "typeIdentifier": "t_mapping$_t_address_$_t_uint256_$",
                 "typeString": "mapping(address => uint256)"
@@ -749,7 +749,7 @@
                 "id": 9277,
                 "name": "uint256",
                 "nodeType": "ElementaryTypeName",
-                "src": "229:7:34",
+                "src": "218:7:34",
                 "typeDescriptions": {
                   "typeIdentifier": "t_uint256",
                   "typeString": "uint256"
@@ -760,19 +760,19 @@
           }
         ],
         "scope": 9281,
-        "src": "122:135:34",
+        "src": "117:128:34",
         "usedErrors": []
       }
     ],
-    "src": "33:224:34"
+    "src": "32:213:34"
   },
   "compiler": {
     "name": "solc",
     "version": "0.8.17+commit.8df45f5f.Emscripten.clang"
   },
   "networks": {},
-  "schemaVersion": "3.4.11",
-  "updatedAt": "2023-09-12T08:32:53.379Z",
+  "schemaVersion": "3.4.13",
+  "updatedAt": "2023-09-14T04:36:21.288Z",
   "devdoc": {
     "kind": "dev",
     "methods": {},
