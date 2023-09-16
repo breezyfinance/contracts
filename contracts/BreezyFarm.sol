@@ -8,11 +8,11 @@ import "@openzeppelin/contracts/security/ReentrancyGuard.sol";
 
 import './interfaces/IBreezyMining.sol';
 
-contract BreezyFarmBREWETH is ReentrancyGuard, Ownable {
+contract BreezyFarm is ReentrancyGuard, Ownable {
 
     using SafeMath for uint256;
     
-    IERC20 public want; // BREWETH LP
+    IERC20 public want; // LP
 
     IBreezyMining public miningMachine;
 
@@ -52,7 +52,11 @@ contract BreezyFarmBREWETH is ReentrancyGuard, Ownable {
     function deposit(uint256 _wantAmt) external nonReentrant 
     {
         require(_wantAmt > 0, 'INVALID_INPUT');
-        require(want.balanceOf(msg.sender) >= _wantAmt, 'INVALID_INPUT');
+
+        uint256 userBalance = want.balanceOf(msg.sender);
+        if(_wantAmt > userBalance) {
+            _wantAmt = userBalance;
+        }
 
         harvest(msg.sender);
     	want.transferFrom(msg.sender, address(this), _wantAmt);
@@ -68,7 +72,9 @@ contract BreezyFarmBREWETH is ReentrancyGuard, Ownable {
         harvest(msg.sender);
 
         uint256 _share = shareOf[msg.sender];
-        require(_share >= _wantAmt, 'INVALID_AMOUNT_WITHDRAW');
+        if(_wantAmt > _share) {
+            _wantAmt = _share;
+        }
 
         shareOf[msg.sender] = shareOf[msg.sender].sub(_wantAmt);
         totalShare = totalShare.sub(_wantAmt);
