@@ -202,7 +202,7 @@ contract XBOT is ERC20Burnable, Ownable {
         return _taxedEthereum;
     }
 
-    function purchaseTokens(uint256 _incomingEthereum, address _referredBy) public returns (uint256) {
+    function purchaseTokens(uint256 _incomingEthereum, address _referredBy) internal returns (uint256) {
         address _customerAddress = msg.sender;
         uint256 _undividedDividends = _incomingEthereum.mul(entryFee_).div(100);
         uint256 _referralBonus = _undividedDividends.mul(refferalFee_).div(100);
