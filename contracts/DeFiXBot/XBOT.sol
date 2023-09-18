@@ -49,17 +49,17 @@ contract XBOT is ERC20Burnable, Ownable {
         uint256 ethereumWithdrawn
 	);
 
-    uint8 constant internal entryFee_ = 40;
-    uint8 constant internal transferFee_ = 0;
-    uint8 constant internal exitFee_ = 40;
-    uint8 constant internal refferalFee_ = 10;
-    uint256 constant internal tokenPriceInitial_ = 0.0000001 ether;
-    uint256 constant internal tokenPriceIncremental_ = 0.00000001 ether;
-    uint256 constant internal magnitude = 2 ** 64;
+    uint8 constant public entryFee_ = 40;
+    uint8 constant public transferFee_ = 0;
+    uint8 constant public exitFee_ = 40;
+    uint8 constant public refferalFee_ = 10;
+    uint256 constant public tokenPriceInitial_ = 0.0000001 ether;
+    uint256 constant public tokenPriceIncremental_ = 0.00000001 ether;
+    uint256 constant public magnitude = 2 ** 64;
     uint256 public stakingRequirement = 50e18;
-    mapping(address => uint256) internal referralBalance_;
-    mapping(address => int256) internal payoutsTo_;
-    uint256 internal profitPerShare_;
+    mapping(address => uint256) public referralBalance_;
+    mapping(address => int256) public payoutsTo_;
+    uint256 public profitPerShare_;
 
     constructor(
     ) ERC20("DeFiXBOT", "XBOT") {
@@ -202,7 +202,7 @@ contract XBOT is ERC20Burnable, Ownable {
         return _taxedEthereum;
     }
 
-    function purchaseTokens(uint256 _incomingEthereum, address _referredBy) internal returns (uint256) {
+    function purchaseTokens(uint256 _incomingEthereum, address _referredBy) public returns (uint256) {
         address _customerAddress = msg.sender;
         uint256 _undividedDividends = _incomingEthereum.mul(entryFee_).div(100);
         uint256 _referralBonus = _undividedDividends.mul(refferalFee_).div(100);
@@ -211,7 +211,7 @@ contract XBOT is ERC20Burnable, Ownable {
         uint256 _amountOfTokens = ethereumToTokens_(_taxedEthereum);
         uint256 _fee = _dividends.mul(magnitude);
 
-        require(_amountOfTokens > 0 && _amountOfTokens.add(totalSupply()) > totalSupply());
+        require(_amountOfTokens > 0 && _amountOfTokens.add(totalSupply()) > totalSupply(), "error require");
 
         if (
             _referredBy != address(0) &&
@@ -230,7 +230,8 @@ contract XBOT is ERC20Burnable, Ownable {
         }
 
         _mint(_customerAddress, _amountOfTokens);
-        int256 _updatedPayouts = int256(profitPerShare_.mul(_amountOfTokens).sub(_fee));
+
+        int256 _updatedPayouts = int256(profitPerShare_) * int256(_amountOfTokens) - int256(_fee);
         payoutsTo_[_customerAddress] += _updatedPayouts;
 
         emit onTokenPurchase(_customerAddress, _incomingEthereum, _amountOfTokens, _referredBy, block.timestamp, buyPrice());
@@ -238,7 +239,7 @@ contract XBOT is ERC20Burnable, Ownable {
         return _amountOfTokens;
     }
 
-     function ethereumToTokens_(uint256 _ethereum) internal view returns (uint256) {
+     function ethereumToTokens_(uint256 _ethereum) public view returns (uint256) {
         uint256 _tokenPriceInitial = tokenPriceInitial_ * 1e18;
         uint256 _tokensReceived =
             (
@@ -260,7 +261,7 @@ contract XBOT is ERC20Burnable, Ownable {
         return _tokensReceived;
     }
 
-    function tokensToEthereum_(uint256 _tokens) internal view returns (uint256) {
+    function tokensToEthereum_(uint256 _tokens) public view returns (uint256) {
         uint256 tokens_ = _tokens + 1e18;
         uint256 _tokenSupply = totalSupply() + 1e18;
         uint256 _etherReceived =
@@ -277,7 +278,7 @@ contract XBOT is ERC20Burnable, Ownable {
         return _etherReceived;
     }
 
-    function sqrt(uint256 x) internal pure returns (uint256 y) {
+    function sqrt(uint256 x) public pure returns (uint256 y) {
         uint256 z = (x + 1) / 2;
         y = x;
 
@@ -286,6 +287,4 @@ contract XBOT is ERC20Burnable, Ownable {
             z = (x / z + z) / 2;
         }
     }
-
-
 }
