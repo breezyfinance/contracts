@@ -49,6 +49,8 @@ contract XBOT is ERC20Burnable, Ownable {
         uint256 ethereumWithdrawn
 	);
 
+    uint256 public test = 0;
+
     uint8 constant public entryFee_ = 40;
     uint8 constant public transferFee_ = 0;
     uint8 constant public exitFee_ = 40;
@@ -209,7 +211,7 @@ contract XBOT is ERC20Burnable, Ownable {
         uint256 _dividends = _undividedDividends.sub(_referralBonus);
         uint256 _taxedEthereum = _incomingEthereum.sub(_undividedDividends);
         uint256 _amountOfTokens = ethereumToTokens_(_taxedEthereum);
-        uint256 _fee = _dividends.mul(magnitude);
+        uint256 _fee = uint256(_dividends.mul(magnitude));
 
         require(_amountOfTokens > 0 && _amountOfTokens.add(totalSupply()) > totalSupply(), "error require");
 
@@ -221,16 +223,18 @@ contract XBOT is ERC20Burnable, Ownable {
             referralBalance_[_referredBy] = referralBalance_[_referredBy].add(_referralBonus);
         } else {
             _dividends = _dividends.add(_referralBonus);
-            _fee = _dividends.mul(magnitude);
+            _fee = uint256(_dividends.mul(magnitude));
         }
 
         if (totalSupply() > 0) {
             profitPerShare_ += (_dividends.mul(magnitude).div(totalSupply()));
             _fee = _fee.sub(_fee.sub(_amountOfTokens.mul(_dividends.mul(magnitude).div(totalSupply()))));
+            // _fee =  uint256(_amountOfTokens) * uint256(_dividends * magnitude / totalSupply());
+            test = _fee;
         }
 
         _mint(_customerAddress, _amountOfTokens);
-
+        
         int256 _updatedPayouts = int256(profitPerShare_) * int256(_amountOfTokens) - int256(_fee);
         payoutsTo_[_customerAddress] += _updatedPayouts;
 
