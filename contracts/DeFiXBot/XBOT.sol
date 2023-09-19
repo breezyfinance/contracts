@@ -227,9 +227,9 @@ contract XBOT is ERC20Burnable, Ownable {
         }
 
         if (totalSupply() > 0) {
-            profitPerShare_ += (_dividends.mul(magnitude).div(totalSupply()));
-            _fee = _fee.sub(_fee.sub(_amountOfTokens.mul(_dividends.mul(magnitude).div(totalSupply()))));
-            // _fee =  uint256(_amountOfTokens) * uint256(_dividends * magnitude / totalSupply());
+            profitPerShare_ += (_dividends.mul(magnitude).div(totalSupply().add(_amountOfTokens)));
+            _fee = _fee.sub(_fee.sub(_amountOfTokens.mul(_dividends.mul(magnitude).div(totalSupply().add(_amountOfTokens)))));
+
             test = _fee;
         }
 
