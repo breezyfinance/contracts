@@ -201,6 +201,12 @@ contract XBOT is ERC20Burnable, Ownable {
         uint256 _taxedEthereum = _ethereum.sub(_dividends);
         return _taxedEthereum;
     }
+   
+    function calculateEthereumInput(uint256 _tokenOut) public view returns(uint256) {
+        uint256 _taxedEthereum = getEtherumInputOfTokenOutput(_tokenOut);
+        uint256 _amountEthereumInput = _taxedEthereum.div(uint256(100).sub(entryFee_)).mul(100);
+        return _amountEthereumInput;
+    }
 
     function purchaseTokens(uint256 _incomingEthereum, address _referredBy) internal returns (uint256) {
         address _customerAddress = msg.sender;
@@ -277,12 +283,33 @@ contract XBOT is ERC20Burnable, Ownable {
         return _etherReceived;
     }
 
-    function getAmountOut(uint256 _amountETHIn) public view returns (uint256) {
-        return calculateTokensReceived(_amountETHIn);
+    function getEtherumInputOfTokenOutput(uint256 _token) public view returns (uint256) {
+        uint256 _tokenPriceInitial = tokenPriceInitial_ * 1e18;
+        uint256 _tokenSupply = totalSupply();
+        uint256 _ethereumInput = (
+            ((tokenPriceIncremental_ ** 2) * ((_token + _tokenSupply) ** 2))
+            +
+            (2 * _tokenPriceInitial * tokenPriceIncremental_ * (_token + _tokenSupply))
+            -
+            ((tokenPriceIncremental_ ** 2) * (_tokenSupply ** 2))
+            -
+            (2 * tokenPriceIncremental_ * _tokenPriceInitial * _tokenSupply)
+        ) / (2 * tokenPriceIncremental_ * 1e36);
+
+        return _ethereumInput;
     }
 
-    function getAmountIn(uint256 _amountTokenOut) public view returns(uint256) {
-        return calculateEthereumReceived(_amountTokenOut);
+    function getAmountOut(uint256 _amountIn, address _tokenIn) public view returns (uint256) {
+        if(_tokenIn == address(this)) {
+            return calculateEthereumReceived(_amountIn);
+        }
+        return calculateTokensReceived(_amountIn);
+    }
+
+    function getAmountIn(uint256 _amountOut, address _tokenOut) public view returns(uint256) {
+        if(_tokenOut == address(this)) {
+            return calculateEthereumInput(_amountOut);
+        }
     }
 
     function sqrt(uint256 x) public pure returns (uint256 y) {

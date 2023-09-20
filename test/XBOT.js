@@ -51,43 +51,58 @@ contract("XBOT", accounts => {
     //     assert.equal(totalAmountOut.toString(), _balanceOf.toString(), "error");
     // });
 
-    it("shout allow users check amount eth out of Exit tokens", async () => {
+    // it("shout allow users check amount eth out of Exit tokens", async () => {
+    //     const xbotInstance = await XBOT.new();
+    //     let beforBalanceEthOf0 = await web3.eth.getBalance(accounts[0]);
+    //     console.log("🚀 balance Eth befor buy:", beforBalanceEthOf0.toString() / 1e18)
+
+    //     let etherAmount = web3.utils.toWei("10", "ether");
+    //     console.log("🚀 etherAmount buy:", etherAmount / 1e18);
+
+    //     let _amountOut = await xbotInstance.calculateTokensReceived(etherAmount);
+    //     console.log("🚀 get amount token received:", _amountOut.toString() / 1e18);
+
+    //     await xbotInstance.buy(accounts[0], { from: accounts[0], value: etherAmount});
+
+    //     let beforBalanceEthOf = await web3.eth.getBalance(accounts[0]);
+    //     console.log("🚀 balance Eth after buy:", beforBalanceEthOf.toString() / 1e18)
+
+    //     let dividendsOf = await xbotInstance.dividendsOf(accounts[0]);
+    //     console.log("🚀 dividendsOf:", dividendsOf.toString() / 1e18)
+
+    //     let beforBalanceTokenOf = await xbotInstance.balanceOf(accounts[0]);
+    //     console.log("🚀 Balance token after buy:", beforBalanceTokenOf.toString() / 1e18)
+
+    //     let totalSupply = await xbotInstance.totalSupply();
+    //     console.log("🚀 totalSupply:", totalSupply.toString() / 1e18)
+
+    //     let amountIn = await xbotInstance.calculateEthereumReceived(beforBalanceTokenOf.toString());
+    //     console.log("🚀 get Amount eth received:", amountIn.toString() / 1e18);
+
+    //     await xbotInstance.exit({from: accounts[0]});
+
+    //     let afterBalanceTokenOf = await xbotInstance.balanceOf(accounts[0]);
+    //     console.log("🚀 Balance Token after exit:", afterBalanceTokenOf.toString() / 1e18);
+
+    //     let afterBalanceEthOf = await web3.eth.getBalance(accounts[0]);
+    //     console.log("🚀 Balance Eth after exit:", afterBalanceEthOf.toString() / 1e18)
+
+    // });
+
+    it("shout allow users check eth input of Buy tokens", async () => {
         const xbotInstance = await XBOT.new();
-        let beforBalanceEthOf0 = await web3.eth.getBalance(accounts[0]);
-        console.log("🚀 balance Eth befor buy:", beforBalanceEthOf0.toString() / 1e18)
+        let account = accounts[0];
+        let amountOut = "42416.408049704136";
+        let amountToken= web3.utils.toWei(amountOut, "ether");
+        let amountIn = await xbotInstance.calculateEthereumInput(amountToken);
+        console.log("🚀 get Amount eth input:", amountIn.toString() / 1e18);
+        await xbotInstance.buy(accounts[0], {from: account, value: amountIn});
 
-        let etherAmount = web3.utils.toWei("10", "ether");
-        console.log("🚀 etherAmount buy:", etherAmount / 1e18);
+        let balanceOf = await xbotInstance.balanceOf(account);
+        console.log("🚀 bananceOf:", balanceOf.toString() / 1e18)
 
-        let _amountOut = await xbotInstance.getAmountOut(etherAmount);
-        console.log("🚀 get amount token received:", _amountOut.toString() / 1e18);
-
-        await xbotInstance.buy(accounts[0], { from: accounts[0], value: etherAmount});
-
-        let beforBalanceEthOf = await web3.eth.getBalance(accounts[0]);
-        console.log("🚀 balance Eth after buy:", beforBalanceEthOf.toString() / 1e18)
-
-        let dividendsOf = await xbotInstance.dividendsOf(accounts[0]);
-        console.log("🚀 dividendsOf:", dividendsOf.toString() / 1e18)
-
-        let beforBalanceTokenOf = await xbotInstance.balanceOf(accounts[0]);
-        console.log("🚀 Balance token after buy:", beforBalanceTokenOf.toString() / 1e18)
-
-        let totalSupply = await xbotInstance.totalSupply();
-        console.log("🚀 totalSupply:", totalSupply.toString() / 1e18)
-
-        let amountIn = await xbotInstance.getAmountIn(beforBalanceTokenOf.toString());
-        console.log("🚀 get Amount eth received:", amountIn.toString() / 1e18);
-
-        await xbotInstance.exit({from: accounts[0]});
-
-        let afterBalanceTokenOf = await xbotInstance.balanceOf(accounts[0]);
-        console.log("🚀 Balance Token after exit:", afterBalanceTokenOf.toString() / 1e18);
-
-        let afterBalanceEthOf = await web3.eth.getBalance(accounts[0]);
-        console.log("🚀 Balance Eth after exit:", afterBalanceEthOf.toString() / 1e18)
-
-    });
+        assert.equal(balanceOf.toString() / 1e18, amountOut.toString(), "error");
+    })
 
     
 })
