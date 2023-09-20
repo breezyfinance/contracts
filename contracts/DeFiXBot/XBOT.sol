@@ -49,12 +49,10 @@ contract XBOT is ERC20Burnable, Ownable {
         uint256 ethereumWithdrawn
 	);
 
-    uint256 public test = 0;
-
-    uint8 constant public entryFee_ = 40;
+    uint8 constant public entryFee_ = 10;
     uint8 constant public transferFee_ = 0;
-    uint8 constant public exitFee_ = 40;
-    uint8 constant public refferalFee_ = 10;
+    uint8 constant public exitFee_ = 4;
+    uint8 constant public refferalFee_ = 33;
     uint256 constant public tokenPriceInitial_ = 0.0000001 ether;
     uint256 constant public tokenPriceIncremental_ = 0.00000001 ether;
     uint256 constant public magnitude = 2 ** 64;
@@ -229,8 +227,6 @@ contract XBOT is ERC20Burnable, Ownable {
         if (totalSupply() > 0) {
             profitPerShare_ += (_dividends.mul(magnitude).div(totalSupply().add(_amountOfTokens)));
             _fee = _fee.sub(_fee.sub(_amountOfTokens.mul(_dividends.mul(magnitude).div(totalSupply().add(_amountOfTokens)))));
-
-            test = _fee;
         }
 
         _mint(_customerAddress, _amountOfTokens);
@@ -243,7 +239,7 @@ contract XBOT is ERC20Burnable, Ownable {
         return _amountOfTokens;
     }
 
-     function ethereumToTokens_(uint256 _ethereum) public view returns (uint256) {
+     function ethereumToTokens_(uint256 _ethereum) internal view returns (uint256) {
         uint256 _tokenPriceInitial = tokenPriceInitial_ * 1e18;
         uint256 _tokensReceived =
             (
@@ -265,21 +261,28 @@ contract XBOT is ERC20Burnable, Ownable {
         return _tokensReceived;
     }
 
-    function tokensToEthereum_(uint256 _tokens) public view returns (uint256) {
+    function tokensToEthereum_(uint256 _tokens) internal view returns (uint256) {
         uint256 tokens_ = _tokens + 1e18;
         uint256 _tokenSupply = totalSupply() + 1e18;
         uint256 _etherReceived =
             (
+                (
                     (
                         (
-                            (
-                                tokenPriceInitial_ + (tokenPriceIncremental_ * (_tokenSupply / 1e18))
-                            ) - tokenPriceIncremental_
-                        ) * (tokens_ - 1e18)
-                    ).sub(tokenPriceIncremental_ * ((tokens_ ** 2 - tokens_) / 1e18)) / 2
-                / 1e18);
-
+                            tokenPriceInitial_ + (tokenPriceIncremental_ * (_tokenSupply.div(1e18)))
+                        ) - tokenPriceIncremental_
+                    ) * (tokens_.sub(1e18))
+                ).sub(tokenPriceIncremental_ * ((tokens_ ** 2 - tokens_) / 1e18) / 2).div(1e18)
+            );
         return _etherReceived;
+    }
+
+    function getAmountOut(uint256 _amountETHIn) public view returns (uint256) {
+        return calculateTokensReceived(_amountETHIn);
+    }
+
+    function getAmountIn(uint256 _amountTokenOut) public view returns(uint256) {
+        return calculateEthereumReceived(_amountTokenOut);
     }
 
     function sqrt(uint256 x) public pure returns (uint256 y) {
