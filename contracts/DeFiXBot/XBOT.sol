@@ -186,23 +186,28 @@ contract XBOT is ERC20Burnable, Ownable {
         }
     }
 
-    function calculateTokensReceived(uint256 _ethereumToSpend) public view returns (uint256) {
+    function calculateTokenOut(uint256 _ethereumToSpend) public view returns (uint256) {
         uint256 _dividends = _ethereumToSpend.mul(entryFee_).div(100);
         uint256 _taxedEthereum = _ethereumToSpend.sub(_dividends);
         uint256 _amountOfTokens = ethereumToTokens_(_taxedEthereum);
-
         return _amountOfTokens;
     }
 
-    function calculateEthereumReceived(uint256 _tokensToSell) public view returns (uint256) {
+    function calculateEthereumOut(uint256 _tokensToSell) public view returns (uint256) {
         require(_tokensToSell <= totalSupply());
         uint256 _ethereum = tokensToEthereum_(_tokensToSell);
         uint256 _dividends = _ethereum.mul(exitFee_).div(100);
         uint256 _taxedEthereum = _ethereum.sub(_dividends);
         return _taxedEthereum;
     }
+
+    function calculateTokenIn(uint256 _ethereumIn) public view returns (uint256) {
+        _ethereumIn = (_ethereumIn.mul(100)).div(uint256(100).sub(exitFee_));
+        uint256 _amountTokenInput = getTokenInputOfEthereumOutput(_ethereumIn);
+        return _amountTokenInput;
+    }
    
-    function calculateEthereumInput(uint256 _tokenOut) public view returns(uint256) {
+    function calculateEthereumIn(uint256 _tokenOut) public view returns(uint256) {
         uint256 _taxedEthereum = getEtherumInputOfTokenOutput(_tokenOut);
         uint256 _amountEthereumInput = _taxedEthereum.div(uint256(100).sub(entryFee_)).mul(100);
         return _amountEthereumInput;
@@ -267,7 +272,7 @@ contract XBOT is ERC20Burnable, Ownable {
         return _tokensReceived;
     }
 
-    function tokensToEthereum_(uint256 _tokens) internal view returns (uint256) {
+    function tokensToEthereum_(uint256 _tokens) public view returns (uint256) {
         uint256 tokens_ = _tokens + 1e18;
         uint256 _tokenSupply = totalSupply() + 1e18;
         uint256 _etherReceived =
@@ -298,18 +303,51 @@ contract XBOT is ERC20Burnable, Ownable {
 
         return _ethereumInput;
     }
+    
+    function getTokenInputOfEthereumOutput(uint256 _ethereum) public view returns (uint256) {
+        uint256 _tokenSupply = totalSupply() + 1e18;
+        uint256 detal = 
+        (
+            (tokenPriceIncremental_ / (2 * 1e18)) 
+            + 
+            tokenPriceInitial_ 
+            + 
+            ((tokenPriceIncremental_ * _tokenSupply) / 1e18) 
+            - 
+            tokenPriceIncremental_
+        ) ** 2 
+        - 
+        (2 * tokenPriceIncremental_ * _ethereum);
+
+        uint256 _tokenInput = 
+        (
+            (
+                (tokenPriceIncremental_ / (2 * 1e18)) 
+                + 
+                tokenPriceInitial_ 
+                + 
+                ((tokenPriceIncremental_ * _tokenSupply) / 1e18) 
+                - 
+                tokenPriceIncremental_ 
+                - 
+                sqrt(detal)
+            ) * 1e18
+        ) / (tokenPriceIncremental_);
+        return _tokenInput;
+    }
 
     function getAmountOut(uint256 _amountIn, address _tokenIn) public view returns (uint256) {
         if(_tokenIn == address(this)) {
-            return calculateEthereumReceived(_amountIn);
+            return calculateEthereumOut(_amountIn);
         }
-        return calculateTokensReceived(_amountIn);
+        return calculateTokenOut(_amountIn);
     }
 
     function getAmountIn(uint256 _amountOut, address _tokenOut) public view returns(uint256) {
         if(_tokenOut == address(this)) {
-            return calculateEthereumInput(_amountOut);
+            return calculateEthereumIn(_amountOut);
         }
+        return calculateTokenIn(_amountOut);
     }
 
     function sqrt(uint256 x) public pure returns (uint256 y) {

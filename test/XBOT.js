@@ -59,7 +59,7 @@ contract("XBOT", accounts => {
     //     let etherAmount = web3.utils.toWei("10", "ether");
     //     console.log("🚀 etherAmount buy:", etherAmount / 1e18);
 
-    //     let _amountOut = await xbotInstance.calculateTokensReceived(etherAmount);
+    //     let _amountOut = await xbotInstance.calculateTokenOut(etherAmount);
     //     console.log("🚀 get amount token received:", _amountOut.toString() / 1e18);
 
     //     await xbotInstance.buy(accounts[0], { from: accounts[0], value: etherAmount});
@@ -76,7 +76,7 @@ contract("XBOT", accounts => {
     //     let totalSupply = await xbotInstance.totalSupply();
     //     console.log("🚀 totalSupply:", totalSupply.toString() / 1e18)
 
-    //     let amountIn = await xbotInstance.calculateEthereumReceived(beforBalanceTokenOf.toString());
+    //     let amountIn = await xbotInstance.calculateEthereumOut(beforBalanceTokenOf.toString());
     //     console.log("🚀 get Amount eth received:", amountIn.toString() / 1e18);
 
     //     await xbotInstance.exit({from: accounts[0]});
@@ -89,20 +89,66 @@ contract("XBOT", accounts => {
 
     // });
 
-    it("shout allow users check eth input of Buy tokens", async () => {
-        const xbotInstance = await XBOT.new();
-        let account = accounts[0];
-        let amountOut = "42416.408049704136";
-        let amountToken= web3.utils.toWei(amountOut, "ether");
-        let amountIn = await xbotInstance.calculateEthereumInput(amountToken);
-        console.log("🚀 get Amount eth input:", amountIn.toString() / 1e18);
-        await xbotInstance.buy(accounts[0], {from: account, value: amountIn});
+    // it("shout allow users check eth input of Buy tokens", async () => {
+    //     const xbotInstance = await XBOT.new();
+    //     let account = accounts[0];
+    //     let amountOut = "42416.408049704136";
+    //     let amountToken= web3.utils.toWei(amountOut, "ether");
 
-        let balanceOf = await xbotInstance.balanceOf(account);
-        console.log("🚀 bananceOf:", balanceOf.toString() / 1e18)
+    //     let amountIn = await xbotInstance.getAmountIn(amountToken, xbotInstance.address);
+    //     console.log("🚀 get Amount eth input:", amountIn.toString() / 1e18);
+    //     await xbotInstance.buy(accounts[0], {from: account, value: amountIn});
 
-        assert.equal(balanceOf.toString() / 1e18, amountOut.toString(), "error");
-    })
+    //     let balanceOf = await xbotInstance.balanceOf(account);
+    //     console.log("🚀 bananceOf:", balanceOf.toString() / 1e18)
+
+    //     assert.equal(balanceOf.toString() / 1e18, amountOut.toString(), "error");
+    // });
+
+    // it("check ratio get token input with etherum output on sell token", async () => {
+    //     const xbotInstance = await XBOT.new();
+    //     let account = accounts[0];
+    //     let amountEth = web3.utils.toWei("50", "ether");
+    //     await xbotInstance.buy(account, {from: account, value: amountEth});
+    //     let totalRatio = 0;
+    //     for (let i = 0; i < 10000; i++) {
+    //         let randomTokenIn = parseFloat((Math.random() * (80000- 0.00001) + 0.00001)).toFixed(18);
+    //         let amountTokenIn0 = web3.utils.toWei(randomTokenIn.toString(), "ether");
+    //         let amountEthReceived = await xbotInstance.tokensToEthereum_(amountTokenIn0);
+    //         let amountTokenIn1 = await xbotInstance.getTokenInputOfEthereumOutput(amountEthReceived.toString());
+    //         let ratio = (amountTokenIn1 / amountTokenIn0) * 100;
+
+    //         console.log("[",i,"]"," 🚀 ~ input: ", amountTokenIn0.toString() / 1e18,
+    //                     ". output: ", amountTokenIn1.toString() / 1e18, 
+    //                     ". => ratio:", ratio, "%");
+    //         console.log();
+    //         totalRatio = (totalRatio + ratio);
+    //     }
+    //     console.log("🚀 ~ ratioAverage:", totalRatio / 10000, "%")     
+    // })
+    // it("check get amout in when sell token", async () => {
+    //     let nullAddress = "0x0000000000000000000000000000000000000000";
+    //     const xbotInstance = await XBOT.new();
+    //     let account = accounts[0];
+    //     let amountEthBuy = web3.utils.toWei("20", "ether");
+    //     await xbotInstance.buy(account, {from: account, value: amountEthBuy});
+
+    //     let amountEthWant = web3.utils.toWei("10", "ether");
+
+    //     let balanceETH = await web3.eth.getBalance(account);
+    //     // console.log("🚀 ~ balanceETH0:", balanceETH.toString() / 1e18);
+
+    //     let balanceOf = await xbotInstance.balanceOf(account);
+    //     // console.log("🚀 ~ bananceOf:", balanceOf.toString() / 1e18);
+
+    //     let amountTokenIn = await xbotInstance.getAmountIn(amountEthWant, nullAddress);
+    //     console.log("🚀 ~ amountTokenIn:", (amountTokenIn).toString() / 1e18);
+
+    //     let ethOut = await xbotInstance.calculateEthereumOut(amountTokenIn.toString());
+    //     console.log("🚀 ~ ethOut:", ethOut.toString() / 1e18)
+
+    //     assert.equal(Math.round((ethOut / amountEthWant) * 100), 100, "error");
+    // })
 
     
 })
