@@ -65,16 +65,16 @@ contract XBOT is ERC20Burnable, Ownable {
     ) ERC20("DeFiXBOT", "XBOT") {
     }
 
-    function buy(address _referredBy) public payable{
-        purchaseTokens(msg.value, _referredBy);
+    function buy(address _referredBy, uint256 minTokenOut) public payable{
+        purchaseTokens(msg.value, _referredBy, minTokenOut);
     }
 
     receive() external payable  { 
-        purchaseTokens(msg.value, owner());
+        purchaseTokens(msg.value, owner(), 1);
     }
 
     fallback() external payable{
-        purchaseTokens(msg.value, owner());
+        purchaseTokens(msg.value, owner(), 1);
     }
 
     function reinvest() onlyStronghands public {
@@ -83,14 +83,14 @@ contract XBOT is ERC20Burnable, Ownable {
         payoutsTo_[_customerAddress] +=  int256(_dividends.mul(magnitude));
         _dividends = _dividends.add(referralBalance_[_customerAddress]);
         referralBalance_[_customerAddress] = 0;
-        uint256 _tokens = purchaseTokens(_dividends, address(0));
+        uint256 _tokens = purchaseTokens(_dividends, address(0), 1);
         emit onReinvestment(_customerAddress, _dividends, _tokens);
     }
 
     function exit() public {
         address _customerAddress = msg.sender;
         uint256 _tokens = balanceOf(_customerAddress);
-        if (_tokens > 0) sell(_tokens);
+        if (_tokens > 0) sell(_tokens, 1);
         withdraw();
     }
 
@@ -104,12 +104,13 @@ contract XBOT is ERC20Burnable, Ownable {
         emit onWithdraw(_customerAddress, _dividends);
     }
 
-    function sell(uint256 _amountOfTokens) onlyBagholders public {
+    function sell(uint256 _amountOfTokens, uint256 minETHOut) onlyBagholders public {
         address _customerAddress = msg.sender;
         require(_amountOfTokens <= balanceOf(_customerAddress));
         uint256 _ethereum = tokensToEthereum_(_amountOfTokens);
         uint256 _dividends = _ethereum.mul(exitFee_).div(100);
         uint256 _taxedEthereum = _ethereum.sub(_dividends);
+        require(minETHOut <= _taxedEthereum, "minETHOut less taxedEthereum");
 
         super._burn(_customerAddress, _amountOfTokens);
 
@@ -212,7 +213,7 @@ contract XBOT is ERC20Burnable, Ownable {
         return _amountEthereumInput;
     }
 
-    function purchaseTokens(uint256 _incomingEthereum, address _referredBy) internal returns (uint256) {
+    function purchaseTokens(uint256 _incomingEthereum, address _referredBy, uint256 minAmountOut) internal returns (uint256) {
         address _customerAddress = msg.sender;
         uint256 _undividedDividends = _incomingEthereum.mul(entryFee_).div(100);
         uint256 _referralBonus = _undividedDividends.mul(refferalFee_).div(100);
@@ -222,7 +223,7 @@ contract XBOT is ERC20Burnable, Ownable {
         uint256 _fee = uint256(_dividends.mul(magnitude));
 
         require(_amountOfTokens > 0 && _amountOfTokens.add(totalSupply()) > totalSupply(), "error require");
-
+        require(minAmountOut <= _amountOfTokens, "min token out less amount token out");
         if (
             _referredBy != address(0) &&
             _referredBy != _customerAddress &&
