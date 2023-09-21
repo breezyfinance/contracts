@@ -17,7 +17,7 @@ contract XBOT is ERC20Burnable, Ownable {
     }
 
     modifier onlyStronghands {
-        require(myDividends(true) > 0);
+        require(myDividends(true, msg.sender) > 0);
         _;
     }
 
@@ -78,7 +78,7 @@ contract XBOT is ERC20Burnable, Ownable {
     }
 
     function reinvest() onlyStronghands public {
-        uint256 _dividends = myDividends(false);
+        uint256 _dividends = myDividends(false, msg.sender);
         address _customerAddress = msg.sender;
         payoutsTo_[_customerAddress] +=  int256(_dividends.mul(magnitude));
         _dividends = _dividends.add(referralBalance_[_customerAddress]);
@@ -96,7 +96,7 @@ contract XBOT is ERC20Burnable, Ownable {
 
     function withdraw() onlyStronghands public {
         address _customerAddress = msg.sender;
-        uint256 _dividends = myDividends(false);
+        uint256 _dividends = myDividends(false, _customerAddress);
         payoutsTo_[_customerAddress] += int256(_dividends.mul(magnitude));
         _dividends = _dividends.add(referralBalance_[_customerAddress]);
         referralBalance_[_customerAddress] = 0;
@@ -126,7 +126,7 @@ contract XBOT is ERC20Burnable, Ownable {
         address _customerAddress = msg.sender;
         require(_amountOfTokens <= balanceOf(_customerAddress));
 
-        if (myDividends(true) > 0) {
+        if (myDividends(true, _customerAddress) > 0) {
             withdraw();
         }
 
@@ -153,8 +153,7 @@ contract XBOT is ERC20Burnable, Ownable {
         return balanceOf(_customerAddress);
     }
 
-    function myDividends(bool _includeReferralBonus) public view returns (uint256) {
-        address _customerAddress = msg.sender;
+    function myDividends(bool _includeReferralBonus, address _customerAddress) public view returns (uint256) {
         return _includeReferralBonus ? dividendsOf(_customerAddress) + referralBalance_[_customerAddress] : dividendsOf(_customerAddress) ;
     }
 
