@@ -49,17 +49,17 @@ contract XBOT is ERC20Burnable, Ownable {
         uint256 ethereumWithdrawn
 	);
 
-    uint8 constant internal entryFee_ = 40;
-    uint8 constant internal transferFee_ = 0;
-    uint8 constant internal exitFee_ = 40;
-    uint8 constant internal refferalFee_ = 10;
-    uint256 constant internal tokenPriceInitial_ = 0.0000001 ether;
-    uint256 constant internal tokenPriceIncremental_ = 0.00000001 ether;
-    uint256 constant internal magnitude = 2 ** 64;
+    uint8 constant public entryFee_ = 10;
+    uint8 constant public transferFee_ = 0;
+    uint8 constant public exitFee_ = 4;
+    uint8 constant public refferalFee_ = 33;
+    uint256 constant public tokenPriceInitial_ = 0.0000001 ether;
+    uint256 constant public tokenPriceIncremental_ = 0.00000001 ether;
+    uint256 constant public magnitude = 2 ** 64;
     uint256 public stakingRequirement = 50e18;
-    mapping(address => uint256) internal referralBalance_;
-    mapping(address => int256) internal payoutsTo_;
-    uint256 internal profitPerShare_;
+    mapping(address => uint256) public referralBalance_;
+    mapping(address => int256) public payoutsTo_;
+    uint256 public profitPerShare_;
 
     constructor(
     ) ERC20("DeFiXBOT", "XBOT") {
@@ -186,20 +186,31 @@ contract XBOT is ERC20Burnable, Ownable {
         }
     }
 
-    function calculateTokensReceived(uint256 _ethereumToSpend) public view returns (uint256) {
+    function calculateTokenOut(uint256 _ethereumToSpend) public view returns (uint256) {
         uint256 _dividends = _ethereumToSpend.mul(entryFee_).div(100);
         uint256 _taxedEthereum = _ethereumToSpend.sub(_dividends);
         uint256 _amountOfTokens = ethereumToTokens_(_taxedEthereum);
-
         return _amountOfTokens;
     }
 
-    function calculateEthereumReceived(uint256 _tokensToSell) public view returns (uint256) {
+    function calculateEthereumOut(uint256 _tokensToSell) public view returns (uint256) {
         require(_tokensToSell <= totalSupply());
         uint256 _ethereum = tokensToEthereum_(_tokensToSell);
         uint256 _dividends = _ethereum.mul(exitFee_).div(100);
         uint256 _taxedEthereum = _ethereum.sub(_dividends);
         return _taxedEthereum;
+    }
+
+    function calculateTokenIn(uint256 _ethereumIn) public view returns (uint256) {
+        _ethereumIn = (_ethereumIn.mul(100)).div(uint256(100).sub(exitFee_));
+        uint256 _amountTokenInput = getTokenInputOfEthereumOutput(_ethereumIn);
+        return _amountTokenInput;
+    }
+   
+    function calculateEthereumIn(uint256 _tokenOut) public view returns(uint256) {
+        uint256 _taxedEthereum = getEtherumInputOfTokenOutput(_tokenOut);
+        uint256 _amountEthereumInput = _taxedEthereum.div(uint256(100).sub(entryFee_)).mul(100);
+        return _amountEthereumInput;
     }
 
     function purchaseTokens(uint256 _incomingEthereum, address _referredBy) internal returns (uint256) {
@@ -209,9 +220,9 @@ contract XBOT is ERC20Burnable, Ownable {
         uint256 _dividends = _undividedDividends.sub(_referralBonus);
         uint256 _taxedEthereum = _incomingEthereum.sub(_undividedDividends);
         uint256 _amountOfTokens = ethereumToTokens_(_taxedEthereum);
-        uint256 _fee = _dividends.mul(magnitude);
+        uint256 _fee = uint256(_dividends.mul(magnitude));
 
-        require(_amountOfTokens > 0 && _amountOfTokens.add(totalSupply()) > totalSupply());
+        require(_amountOfTokens > 0 && _amountOfTokens.add(totalSupply()) > totalSupply(), "error require");
 
         if (
             _referredBy != address(0) &&
@@ -221,16 +232,17 @@ contract XBOT is ERC20Burnable, Ownable {
             referralBalance_[_referredBy] = referralBalance_[_referredBy].add(_referralBonus);
         } else {
             _dividends = _dividends.add(_referralBonus);
-            _fee = _dividends.mul(magnitude);
+            _fee = uint256(_dividends.mul(magnitude));
         }
 
         if (totalSupply() > 0) {
-            profitPerShare_ += (_dividends.mul(magnitude).div(totalSupply()));
-            _fee = _fee.sub(_fee.sub(_amountOfTokens.mul(_dividends.mul(magnitude).div(totalSupply()))));
+            profitPerShare_ += (_dividends.mul(magnitude).div(totalSupply().add(_amountOfTokens)));
+            _fee = _fee.sub(_fee.sub(_amountOfTokens.mul(_dividends.mul(magnitude).div(totalSupply().add(_amountOfTokens)))));
         }
 
         _mint(_customerAddress, _amountOfTokens);
-        int256 _updatedPayouts = int256(profitPerShare_.mul(_amountOfTokens).sub(_fee));
+        
+        int256 _updatedPayouts = int256(profitPerShare_) * int256(_amountOfTokens) - int256(_fee);
         payoutsTo_[_customerAddress] += _updatedPayouts;
 
         emit onTokenPurchase(_customerAddress, _incomingEthereum, _amountOfTokens, _referredBy, block.timestamp, buyPrice());
@@ -260,24 +272,85 @@ contract XBOT is ERC20Burnable, Ownable {
         return _tokensReceived;
     }
 
-    function tokensToEthereum_(uint256 _tokens) internal view returns (uint256) {
+    function tokensToEthereum_(uint256 _tokens) public view returns (uint256) {
         uint256 tokens_ = _tokens + 1e18;
         uint256 _tokenSupply = totalSupply() + 1e18;
         uint256 _etherReceived =
             (
+                (
                     (
                         (
-                            (
-                                tokenPriceInitial_ + (tokenPriceIncremental_ * (_tokenSupply / 1e18))
-                            ) - tokenPriceIncremental_
-                        ) * (tokens_ - 1e18)
-                    ).sub(tokenPriceIncremental_ * ((tokens_ ** 2 - tokens_) / 1e18)) / 2
-                / 1e18);
-
+                            tokenPriceInitial_ + (tokenPriceIncremental_ * (_tokenSupply.div(1e18)))
+                        ) - tokenPriceIncremental_
+                    ) * (tokens_.sub(1e18))
+                ).sub(tokenPriceIncremental_ * ((tokens_ ** 2 - tokens_) / 1e18) / 2).div(1e18)
+            );
         return _etherReceived;
     }
 
-    function sqrt(uint256 x) internal pure returns (uint256 y) {
+    function getEtherumInputOfTokenOutput(uint256 _token) public view returns (uint256) {
+        uint256 _tokenPriceInitial = tokenPriceInitial_ * 1e18;
+        uint256 _tokenSupply = totalSupply();
+        uint256 _ethereumInput = (
+            ((tokenPriceIncremental_ ** 2) * ((_token + _tokenSupply) ** 2))
+            +
+            (2 * _tokenPriceInitial * tokenPriceIncremental_ * (_token + _tokenSupply))
+            -
+            ((tokenPriceIncremental_ ** 2) * (_tokenSupply ** 2))
+            -
+            (2 * tokenPriceIncremental_ * _tokenPriceInitial * _tokenSupply)
+        ) / (2 * tokenPriceIncremental_ * 1e36);
+
+        return _ethereumInput;
+    }
+    
+    function getTokenInputOfEthereumOutput(uint256 _ethereum) public view returns (uint256) {
+        uint256 _tokenSupply = totalSupply() + 1e18;
+        uint256 detal = 
+        (
+            (tokenPriceIncremental_ / (2 * 1e18)) 
+            + 
+            tokenPriceInitial_ 
+            + 
+            ((tokenPriceIncremental_ * _tokenSupply) / 1e18) 
+            - 
+            tokenPriceIncremental_
+        ) ** 2 
+        - 
+        (2 * tokenPriceIncremental_ * _ethereum);
+
+        uint256 _tokenInput = 
+        (
+            (
+                (tokenPriceIncremental_ / (2 * 1e18)) 
+                + 
+                tokenPriceInitial_ 
+                + 
+                ((tokenPriceIncremental_ * _tokenSupply) / 1e18) 
+                - 
+                tokenPriceIncremental_ 
+                - 
+                sqrt(detal)
+            ) * 1e18
+        ) / (tokenPriceIncremental_);
+        return _tokenInput;
+    }
+
+    function getAmountOut(uint256 _amountIn, address _tokenIn) public view returns (uint256) {
+        if(_tokenIn == address(this)) {
+            return calculateEthereumOut(_amountIn);
+        }
+        return calculateTokenOut(_amountIn);
+    }
+
+    function getAmountIn(uint256 _amountOut, address _tokenOut) public view returns(uint256) {
+        if(_tokenOut == address(this)) {
+            return calculateEthereumIn(_amountOut);
+        }
+        return calculateTokenIn(_amountOut);
+    }
+
+    function sqrt(uint256 x) public pure returns (uint256 y) {
         uint256 z = (x + 1) / 2;
         y = x;
 
@@ -286,6 +359,4 @@ contract XBOT is ERC20Burnable, Ownable {
             z = (x / z + z) / 2;
         }
     }
-
-
 }
