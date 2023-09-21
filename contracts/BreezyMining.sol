@@ -16,7 +16,7 @@ contract BreezyMining is Ownable{
 
     uint256 public totalBlockPerDay = 5760;// just use for dislay at UI
     // holdBRE each block.
-    uint256 public holdbrePerBlock = 16*1e16; //0.16 BRE/block
+    uint256 public holdbrePerBlock = 2*1e18; //2 BRE/block
     // The total point for all pools
     uint256 public totalAllocPoint = 1000;
     // The block when mining start
