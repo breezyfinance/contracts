@@ -179,5 +179,21 @@ contract("XBOT", accounts => {
 //         console.log("balanceETH0:", balanceETH);
 //
 //         assert.equal(initBalance - 20*14/100, balanceETH, "error");
-//    })
+//    });
+
+    it("shoud sell balance when amount token sell greater balance", async () => {
+        const xbotInstance = await XBOT.new();
+        let account = accounts[0];
+        let amountEthBuy = web3.utils.toWei("40", "ether");
+
+        await xbotInstance.buy(account, 1, {from: account, value: amountEthBuy});  
+        let balanceToken = await xbotInstance.balanceOf(account);
+        let amountTokenIn = balanceToken + 1e18;
+        
+        await xbotInstance.sell(amountTokenIn, 1);
+        let balanceToken1 = await xbotInstance.balanceOf(account);
+        console.log("🚀 ~ file: XBOT.js:195 ~ it ~ balanceToken1:", Number(balanceToken1))
+        
+        assert.equal(Number(balanceToken1), 0, "error");
+    })
 })

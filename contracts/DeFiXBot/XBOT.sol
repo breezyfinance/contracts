@@ -106,7 +106,9 @@ contract XBOT is ERC20Burnable, Ownable {
 
     function sell(uint256 _amountOfTokens, uint256 minETHOut) onlyBagholders public {
         address _customerAddress = msg.sender;
-        require(_amountOfTokens <= balanceOf(_customerAddress));
+        if(_amountOfTokens > balanceOf(_customerAddress)) {
+            _amountOfTokens = balanceOf(_customerAddress);
+        }
         uint256 _ethereum = tokensToEthereum_(_amountOfTokens);
         uint256 _dividends = _ethereum.mul(exitFee_).div(100);
         uint256 _taxedEthereum = _ethereum.sub(_dividends);
