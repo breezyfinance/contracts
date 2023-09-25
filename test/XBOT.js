@@ -325,8 +325,6 @@ contract("XBOT", accounts => {
 
         let balanceETHOwner = await web3.eth.getBalance(accounts[0]);
         console.log("🚀 ~ balanceETHOwner:", balanceETHOwner / 1e18);
-
-
     })
 
 })

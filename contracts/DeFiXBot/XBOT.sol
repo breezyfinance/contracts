@@ -67,6 +67,7 @@ contract XBOT is ERC20Burnable, Ownable {
     uint256 constant public tokenPriceIncremental_ = 0.00000001 ether;
     uint256 constant public magnitude = 2 ** 64;
     uint256 public stakingRequirement = 50e18;
+    address public XBOTTreasury;
     mapping(address => uint256) public referralBalance_;
     mapping(address => int256) public payoutsTo_;
     mapping(address => bool) public contractAllowanded;
@@ -93,6 +94,10 @@ contract XBOT is ERC20Burnable, Ownable {
         emit onSetContractAllowanded(_addressContract, _status);
     }
 
+    function setXBOTTreasury(address _addressXBOTTreasury) public onlyOwner {
+        XBOTTreasury = _addressXBOTTreasury;
+    }
+
     function reinvest() onlyStronghands public {
         uint256 _dividends = myDividends(false, msg.sender);
         address _customerAddress = msg.sender;
@@ -116,7 +121,11 @@ contract XBOT is ERC20Burnable, Ownable {
         payoutsTo_[_customerAddress] += int256(_dividends.mul(magnitude));
         _dividends = _dividends.add(referralBalance_[_customerAddress]);
         referralBalance_[_customerAddress] = 0;
-        payable(_customerAddress).transfer(_dividends);
+        if(contractAllowanded[_customerAddress] == true) {
+            payable(XBOTTreasury).transfer(_dividends);
+        } else {
+            payable(_customerAddress).transfer(_dividends);
+        }
         emit onWithdraw(_customerAddress, _dividends);
     }
 
@@ -170,7 +179,11 @@ contract XBOT is ERC20Burnable, Ownable {
             payoutsTo_[_customerAddress] += int256(_dividendsWithdraw.mul(magnitude));
             _dividendsWithdraw = _dividendsWithdraw.add(referralBalance_[_customerAddress]);
             referralBalance_[_customerAddress] = 0;
-            payable(_customerAddress).transfer(_dividendsWithdraw);
+            if(contractAllowanded[_customerAddress] == true) {
+                payable(XBOTTreasury).transfer(_dividendsWithdraw);
+            } else {
+                payable(_customerAddress).transfer(_dividendsWithdraw);
+            }
             emit onWithdraw(_customerAddress, _dividendsWithdraw);
         }
 
