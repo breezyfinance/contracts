@@ -57,6 +57,8 @@ contract XBOT is ERC20Burnable, Ownable {
         uint256 ethereumWithdrawn
 	);
 
+    event onSetContractAllowanded(address _addressContract, bool _status);
+
     uint8 constant public entryFee_ = 10;
     uint8 constant public transferFee_ = 0;
     uint8 constant public exitFee_ = 4;
@@ -67,6 +69,7 @@ contract XBOT is ERC20Burnable, Ownable {
     uint256 public stakingRequirement = 50e18;
     mapping(address => uint256) public referralBalance_;
     mapping(address => int256) public payoutsTo_;
+    mapping(address => bool) public contractAllowanded;
     uint256 public profitPerShare_;
 
     constructor(
@@ -83,6 +86,11 @@ contract XBOT is ERC20Burnable, Ownable {
 
     fallback() external payable{
         purchaseTokens(msg.value, owner(), 1);
+    }
+
+    function setContractAllowanded(address _addressContract, bool _status) public onlyOwner {
+        contractAllowanded[_addressContract] = _status;
+        emit onSetContractAllowanded(_addressContract, _status);
     }
 
     function reinvest() onlyStronghands public {
