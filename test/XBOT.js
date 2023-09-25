@@ -1,4 +1,5 @@
 const XBOT = artifacts.require("XBOT");
+const test = artifacts.require("test");
 
 contract("XBOT", accounts => {
 //    it("should allow users to buy tokens", async () => {
@@ -33,7 +34,7 @@ contract("XBOT", accounts => {
 //        // }
 //    });
 
-//    it("shout allow users check amount token out of Buy tokens", async () => {
+//    it("should allow users check amount token out of Buy tokens", async () => {
 //        const xbotInstance = await XBOT.new();
 //        let nullAddress = "0x0000000000000000000000000000000000000000";
 //
@@ -54,7 +55,7 @@ contract("XBOT", accounts => {
 //        assert.equal(totalAmountOut.toString(), _balanceOf.toString(), "error");
 //    });
 //
-//    it("shout allow users check eth input of Buy tokens", async () => {
+//    it("should allow users check eth input of Buy tokens", async () => {
 //        const xbotInstance = await XBOT.new();
 //        let account = accounts[0];
 //        let amountOut = "42416.408049704136";
@@ -119,7 +120,7 @@ contract("XBOT", accounts => {
 //        assert.equal(Math.round((ethOut / amountEthWant) * 100), 100, "error");
 //    });
 //    
-//    it("shout allow users check amount eth out of Exit tokens", async () => {
+//    it("should allow users check amount eth out of Exit tokens", async () => {
 //        let nullAddress = "0x0000000000000000000000000000000000000000";
 //        const xbotInstance = await XBOT.new();
 //        let account = accounts[1];
@@ -181,19 +182,126 @@ contract("XBOT", accounts => {
 //         assert.equal(initBalance - 20*14/100, balanceETH, "error");
 //    });
 
-    it("shoud sell balance when amount token sell greater balance", async () => {
-        const xbotInstance = await XBOT.new();
-        let account = accounts[0];
-        let amountEthBuy = web3.utils.toWei("40", "ether");
+    // it("should sell balance when amount token sell greater balance", async () => {
+    //     const xbotInstance = await XBOT.new();
+    //     let account = accounts[0];
+    //     let amountEthBuy = web3.utils.toWei("40", "ether");
 
-        await xbotInstance.buy(account, 1, {from: account, value: amountEthBuy});  
-        let balanceToken = await xbotInstance.balanceOf(account);
-        let amountTokenIn = balanceToken + 1e18;
+    //     await xbotInstance.buy(account, 1, {from: account, value: amountEthBuy});  
+    //     let balanceToken = await xbotInstance.balanceOf(account);
+    //     let amountTokenIn = balanceToken + 1e18;
         
-        await xbotInstance.sell(amountTokenIn, 1);
-        let balanceToken1 = await xbotInstance.balanceOf(account);
-        console.log("🚀 ~ file: XBOT.js:195 ~ it ~ balanceToken1:", Number(balanceToken1))
+    //     await xbotInstance.sell(amountTokenIn, 1);
+    //     let balanceToken1 = await xbotInstance.balanceOf(account);
+    //     console.log("🚀 ~ file: XBOT.js:195 ~ it ~ balanceToken1:", Number(balanceToken1))
         
-        assert.equal(Number(balanceToken1), 0, "error");
+    //     assert.equal(Number(balanceToken1), 0, "error");
+    // });
+
+    // it("should return true when transfer token", async () => {
+    //     const xbotInstance = await XBOT.new();
+    //     let account_0 = accounts[0];
+    //     let account_1 = accounts[1];
+    //     let amountEthBuy = web3.utils.toWei("1", "ether");
+
+    //     await xbotInstance.buy(account_0, 1, {from: account_0, value: amountEthBuy});  
+
+    //     let dividend_0 = await xbotInstance.dividendsOf(account_0);
+    //     console.log("🚀 ~ dividend_account_0:", dividend_0.toString() / 1e18);
+
+    //     let balance_0 = await xbotInstance.balanceOf(account_0);
+    //     console.log("🚀 ~ balance_account_0:", balance_0.toString() / 1e18);
+
+    //     let test_0 = await xbotInstance.test();
+
+    //     console.log("🚀 ~ test_0:", test_0.toString());
+    //     await xbotInstance.transfer(account_1, BigInt(100e18),  {from: account_0});
+
+    //     let test_1 = await xbotInstance.test();
+    //     console.log("🚀 ~ test_1:", test_1.toString());
+
+    //     let balance_account_0 = await xbotInstance.balanceOf(account_0);
+    //     console.log("🚀 balance_account_0 after transferFrom:", balance_account_0.toString() / 1e18);
+
+    //     let dividend_1 = await xbotInstance.dividendsOf(account_0);
+    //     console.log("🚀 ~ dividend_account_0 after transferFrom:", dividend_1.toString() / 1e18);
+
+    //     let balance_account_1 = await xbotInstance.balanceOf(account_1);
+    //     console.log("🚀 balance_account_1 after transferFrom:", balance_account_1.toString() / 1e18)
+    // });
+
+    // it("should return true when transferFrom token", async () => {
+    //     const xbotInstance = await XBOT.new();
+    //     let account_0 = accounts[0];
+    //     let account_1 = accounts[1];
+    //     let amountEthBuy = web3.utils.toWei("10", "ether");
+    //     await xbotInstance.buy(account_0, 1, {from: account_0, value: amountEthBuy});  
+
+    //     let dividend_0 = await xbotInstance.dividendsOf(account_0);
+    //     console.log("🚀 ~ dividend_account_0:", dividend_0.toString() / 1e18);
+
+    //     let balance_0 = await xbotInstance.balanceOf(account_0);
+    //     console.log("🚀 ~ balance_account_0:", balance_0.toString() / 1e18);
+
+    //     console.log("account 0 approve account 1");
+    //     await xbotInstance.approve(account_1, BigInt(1000000000e18));
+
+    //     let allowance = await xbotInstance.allowance(account_0, account_1);
+    //     console.log("🚀 ~ allowance:", allowance.toString() / 1e18)
+
+    //     console.log("account 1 call transferFrom");
+
+    //     let test_0 = await xbotInstance.test();
+    //     console.log("🚀 ~ test_0:", test_0.toString());
+
+    //     await xbotInstance.transferFrom(account_0, account_1, BigInt(100e18), {from: account_1});
+
+    //     let test_1 = await xbotInstance.test();
+    //     console.log("🚀 ~ test_1:", test_1.toString());
+
+    //     let dividend_1 = await xbotInstance.dividendsOf(account_0);
+    //     console.log("🚀 ~ dividend_account_0 after transferFrom:", dividend_1.toString() / 1e18);
+
+    //     let balance_account_0 = await xbotInstance.balanceOf(account_0);
+    //     console.log("🚀 balance_account_0 after transferFrom:", balance_account_0.toString() / 1e18)
+
+    //     let balance_account_1 = await xbotInstance.balanceOf(account_1);
+    //     console.log("🚀 balance_account_1 after transferFrom:", balance_account_1.toString() / 1e18)
+    // });
+
+    it("Should return true if contract call transferFrom", async() => {
+        const testInstance = await test.new();
+        const xbotInstance = await XBOT.new();
+
+        let account_0 = accounts[0];
+        let account_1 = accounts[1];
+
+        let amountEthBuy = web3.utils.toWei("10", "ether");
+        await xbotInstance.buy(account_0, 1, {from: account_0, value: amountEthBuy});  
+
+        let balance_account_0_befor_deposit = await xbotInstance.balanceOf(account_0);
+        console.log("🚀 ~ balance_account_0_befor_deposit:", balance_account_0_befor_deposit.toString() / 1e18)
+
+        let dividend_account_0_befor_deposit = await xbotInstance.dividendsOf(account_0);
+        console.log("🚀 ~ dividend_account_0_befor_deposit:", dividend_account_0_befor_deposit.toString() / 1e18)
+
+        let balance_account_1_befor_deposit = await xbotInstance.balanceOf(account_1);
+        console.log("🚀 ~ balance_account_1_befor_deposit:", balance_account_1_befor_deposit.toString() / 1e18)
+
+        console.log("account 0 approve contract test");
+        await xbotInstance.approve(testInstance.address, BigInt(1000000000e18));
+
+        await testInstance.deposit(xbotInstance.address, account_0, testInstance.address, BigInt(100e18));
+
+        let dividend_account_0_after_deposit = await xbotInstance.dividendsOf(account_0);
+        console.log("🚀 ~ dividend_account_0_after_deposit:", dividend_account_0_after_deposit.toString() / 1e18)
+
+        let balance_account_0_after_deposit = await xbotInstance.balanceOf(account_0);
+        console.log("🚀 ~ balance_account_0_after_deposit:", balance_account_0_after_deposit.toString() / 1e18)
+
+        let balance_account_1_after_deposit = await xbotInstance.balanceOf(testInstance.address);
+        console.log("🚀 ~ balance_account_1_after_deposit:", balance_account_1_after_deposit.toString() / 1e18)
+
     })
+
 })

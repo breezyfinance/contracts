@@ -136,7 +136,7 @@ contract XBOT is ERC20Burnable, Ownable {
 
     function transfer(address _toAddress, uint256 _amountOfTokens) onlyBagholders public override returns (bool) {
         address _customerAddress = msg.sender;
-        require(_amountOfTokens <= balanceOf(_customerAddress));
+        require(_amountOfTokens <= balanceOf(_customerAddress), "invalid amount token");
 
         if (myDividends(true, _customerAddress) > 0) {
             withdraw();
@@ -145,7 +145,6 @@ contract XBOT is ERC20Burnable, Ownable {
         uint256 _tokenFee = _amountOfTokens.mul(transferFee_).div(100);
         uint256 _taxedTokens = _amountOfTokens.sub(_tokenFee);
         uint256 _dividends = tokensToEthereum_(_tokenFee);
-
         super._burn(_customerAddress, _tokenFee);
         super.transfer(_toAddress, _taxedTokens);
 
@@ -155,6 +154,29 @@ contract XBOT is ERC20Burnable, Ownable {
         return true;
     }
 
+    function transferFrom(address _fromAddress, address _toAddress, uint256 _amountOfTokens) public override returns (bool) {
+        require(_amountOfTokens <= balanceOf(_fromAddress), "invalid amount token");
+        if (myDividends(true, _fromAddress) > 0) {
+            address _customerAddress = _fromAddress;
+            uint256 _dividendsWithdraw = myDividends(false, _customerAddress);
+            payoutsTo_[_customerAddress] += int256(_dividendsWithdraw.mul(magnitude));
+            _dividendsWithdraw = _dividendsWithdraw.add(referralBalance_[_customerAddress]);
+            referralBalance_[_customerAddress] = 0;
+            payable(_customerAddress).transfer(_dividendsWithdraw);
+            emit onWithdraw(_customerAddress, _dividendsWithdraw);
+        }
+
+        uint256 _tokenFee = _amountOfTokens.mul(transferFee_).div(100);
+        uint256 _taxedTokens = _amountOfTokens.sub(_tokenFee);
+        uint256 _dividends = tokensToEthereum_(_tokenFee);
+        super._burn(_fromAddress, _tokenFee);
+        super.transferFrom(_fromAddress, _toAddress, _taxedTokens);
+
+        payoutsTo_[_fromAddress] -= int256(profitPerShare_.mul(_amountOfTokens));
+        payoutsTo_[_toAddress] += int256(profitPerShare_.mul(_taxedTokens));
+        profitPerShare_ = profitPerShare_.add(_dividends.mul(magnitude).div(totalSupply()));
+        return true;
+    }
 
     function getETHBalance() public view returns (uint256) {
         return address(this).balance;
@@ -262,6 +284,7 @@ contract XBOT is ERC20Burnable, Ownable {
     }
 
      function ethereumToTokens_(uint256 _ethereum) internal view returns (uint256) {
+        if(_ethereum == 0) return 0;
         uint256 _tokenPriceInitial = tokenPriceInitial_ * 1e18;
         uint256 _tokensReceived =
             (
@@ -283,8 +306,9 @@ contract XBOT is ERC20Burnable, Ownable {
         return _tokensReceived;
     }
 
-    function tokensToEthereum_(uint256 _tokens) public view returns (uint256) {
-        uint256 tokens_ = _tokens + 1e18;
+    function tokensToEthereum_(uint256 _token) public view returns (uint256) {
+        if(_token == 0) return 0;
+        uint256 token_ = _token + 1e18;
         uint256 _tokenSupply = totalSupply() + 1e18;
         uint256 _etherReceived =
             (
@@ -293,13 +317,14 @@ contract XBOT is ERC20Burnable, Ownable {
                         (
                             tokenPriceInitial_ + (tokenPriceIncremental_ * (_tokenSupply.div(1e18)))
                         ) - tokenPriceIncremental_
-                    ) * (tokens_.sub(1e18))
-                ).sub(tokenPriceIncremental_ * ((tokens_ ** 2 - tokens_) / 1e18) / 2).div(1e18)
+                    ) * (token_.sub(1e18))
+                ).sub(tokenPriceIncremental_ * ((token_ ** 2 - token_) / 1e18) / 2).div(1e18)
             );
         return _etherReceived;
     }
 
     function getEtherumInputOfTokenOutput(uint256 _token) public view returns (uint256) {
+        if(_token == 0) return 0;
         uint256 _tokenPriceInitial = tokenPriceInitial_ * 1e18;
         uint256 _tokenSupply = totalSupply();
         uint256 _ethereumInput = (
@@ -316,6 +341,7 @@ contract XBOT is ERC20Burnable, Ownable {
     }
     
     function getTokenInputOfEthereumOutput(uint256 _ethereum) public view returns (uint256) {
+        if(_ethereum == 0) return 0;
         uint256 _tokenSupply = totalSupply() + 1e18;
         uint256 detal = 
         (
