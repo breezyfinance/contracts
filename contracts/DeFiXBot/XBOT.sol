@@ -21,22 +21,30 @@ contract XBOT is ERC20Burnable, Ownable {
         _;
     }
 
-    event onTokenPurchase(
-        address indexed customerAddress,
-        uint256 incomingEthereum,
-        uint256 tokensMinted,
-        address indexed referredBy,
-        uint timestamp,
-        uint256 price
-	);
+    event Swap (
+        address indexed sender,
+        uint256 amount0In, 
+        uint256 amount1In, 
+        uint256 amount0Out, 
+        uint256 amount1Out, 
+        address indexed to);
 
-    event onTokenSell(
-        address indexed customerAddress,
-        uint256 tokensBurned,
-        uint256 ethereumEarned,
-        uint timestamp,
-        uint256 price
-	);
+    // event onTokenPurchase(
+    //     address indexed customerAddress,
+    //     uint256 incomingEthereum,
+    //     uint256 tokensMinted,
+    //     address indexed referredBy,
+    //     uint timestamp,
+    //     uint256 price
+	// );
+
+    // event onTokenSell(
+    //     address indexed customerAddress,
+    //     uint256 tokensBurned,
+    //     uint256 ethereumEarned,
+    //     uint timestamp,
+    //     uint256 price
+	// );
 
     event onReinvestment(
         address indexed customerAddress,
@@ -122,7 +130,8 @@ contract XBOT is ERC20Burnable, Ownable {
         if (totalSupply() > 0) {
             profitPerShare_ = profitPerShare_.add(_dividends.mul(magnitude).div(totalSupply()));
         }
-        emit onTokenSell(_customerAddress, _amountOfTokens, _taxedEthereum, block.timestamp, buyPrice());
+        // emit onTokenSell(_customerAddress, _amountOfTokens, _taxedEthereum, block.timestamp, buyPrice());
+        emit Swap(_customerAddress, 0, _amountOfTokens, _taxedEthereum, 0, _customerAddress);
     }
 
     function transfer(address _toAddress, uint256 _amountOfTokens) onlyBagholders public override returns (bool) {
@@ -247,8 +256,8 @@ contract XBOT is ERC20Burnable, Ownable {
         int256 _updatedPayouts = int256(profitPerShare_) * int256(_amountOfTokens) - int256(_fee);
         payoutsTo_[_customerAddress] += _updatedPayouts;
 
-        emit onTokenPurchase(_customerAddress, _incomingEthereum, _amountOfTokens, _referredBy, block.timestamp, buyPrice());
-
+        // emit onTokenPurchase(_customerAddress, _incomingEthereum, _amountOfTokens, _referredBy, block.timestamp, buyPrice());
+        emit Swap(_customerAddress, _incomingEthereum, 0, 0, _amountOfTokens, _customerAddress);
         return _amountOfTokens;
     }
 
