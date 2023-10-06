@@ -363,4 +363,19 @@ contract("XBOT", accounts => {
     //     }
     // })
 
+     it("test, referral 0x0" , async() => {
+        let amountEth = web3.utils.toWei("50", "ether");
+
+        for (let index = 0; index < 4; index++) {
+            await xbotInstance.buy(nullAddress, 0,{ from: accounts[index], value: amountEth});
+        }
+        const balanceEthContract = await xbotInstance.getETHBalance();
+        console.log("🚀 ~ balanceEthContract:", balanceEthContract.toString() / 1e18, "ETH");
+        const price =  await xbotInstance.buyPrice();
+        console.log("🚀 ~ price:", price.toString() / 1e18, "ETH");
+        const totalSupply = await xbotInstance.totalSupply()
+        console.log("🚀 ~ file: XBOT.js:377 ~ it ~ totalSupply:", totalSupply.toString() / 1e18)
+        
+    })
+
 })
