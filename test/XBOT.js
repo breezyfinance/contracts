@@ -363,19 +363,56 @@ contract("XBOT", accounts => {
     //     }
     // })
 
-     it("test, referral 0x0" , async() => {
-        let amountEth = web3.utils.toWei("50", "ether");
+    // it("test, referral 0x0" , async() => {
+    //     let amountEth = web3.utils.toWei("50", "ether");
 
-        for (let index = 0; index < 4; index++) {
-            await xbotInstance.buy(nullAddress, 0,{ from: accounts[index], value: amountEth});
-        }
-        const balanceEthContract = await xbotInstance.getETHBalance();
-        console.log("🚀 ~ balanceEthContract:", balanceEthContract.toString() / 1e18, "ETH");
-        const price =  await xbotInstance.buyPrice();
-        console.log("🚀 ~ price:", price.toString() / 1e18, "ETH");
-        const totalSupply = await xbotInstance.totalSupply()
-        console.log("🚀 ~ file: XBOT.js:377 ~ it ~ totalSupply:", totalSupply.toString() / 1e18)
+    //     for (let index = 0; index < 4; index++) {
+    //         await xbotInstance.buy(nullAddress, 0,{ from: accounts[index], value: amountEth});
+    //     }
+    //     const balanceEthContract = await xbotInstance.getETHBalance();
+    //     console.log("🚀 ~ balanceEthContract:", balanceEthContract.toString() / 1e18, "ETH");
+    //     const price =  await xbotInstance.buyPrice();
+    //     console.log("🚀 ~ price:", price.toString() / 1e18, "ETH");
+    //     const totalSupply = await xbotInstance.totalSupply()
+    //     console.log("🚀 ~ file: XBOT.js:377 ~ it ~ totalSupply:", totalSupply.toString() / 1e18)
         
-    })
+    // })
+
+    // it("should return referral", async () => {
+    //     console.log("owner buy 1 ETH");
+    //     await xbotInstance.buy(nullAddress, 1, {from: accounts[0], value: web3.utils.toWei("1", "ether")});
+
+    //     let _51TokenToEth = await xbotInstance.getAmountIn(web3.utils.toWei("51", "ether"), xbotInstance.address);
+    //     console.log("🚀 ~  _50TokenToEth:", _51TokenToEth.toString() / 1e18);
+    //     console.log();
+
+    //     console.log("account 1 buy ", _51TokenToEth.toString() / 1e18, "ETH");
+    //     await xbotInstance.buy(nullAddress, 1, {from: accounts[1], value: _51TokenToEth});
+    //     let balanceAccount1 = await xbotInstance.balanceOf(accounts[1]);
+    //     console.log("🚀 ~ balanceAccount1:", balanceAccount1.toString() / 1e18);
+    //     let dividendAccount1 = await xbotInstance.myDividends(true, accounts[1]);
+    //     console.log("🚀 ~ dividendAccount1:", dividendAccount1.toString() / 1e18);
+    //     console.log();
+
+    //     const referralCodeByAccount1 = web3.utils.asciiToHex("account1");
+    //     console.log("🚀 ~ referralCodeByAccount1:", referralCodeByAccount1)
+    //     console.log("account 1 setReferralCode");
+    //     await ReferralInstance.setReferralCode(referralCodeByAccount1, {from: accounts[1]});
+    //     console.log();
+
+    //     console.log("account 2 buy 10 ETH, refarral code of account 1");
+    //     await xbotInstance.buy(referralCodeByAccount1, 1, {from: accounts[2], value: web3.utils.toWei("10", "ether")});
+    //     let dividendAccount1AfterAccount2Buy10Eth = await xbotInstance.myDividends(true, accounts[1]);
+    //     console.log("🚀 ~ dividendAccount1AfterAccount2Buy10Eth:", dividendAccount1AfterAccount2Buy10Eth.toString() / 1e18);
+
+    //     let bonusReferral = dividendAccount1AfterAccount2Buy10Eth - dividendAccount1;
+    //     console.log("🚀 ~ bonusReferral:", bonusReferral.toString() / 1e18);
+
+    //     console.log("account 1 exit");
+    //     await xbotInstance.exit({from: accounts[1]});
+        
+    //     let balanceEthAccount1 = await web3.eth.getBalance(accounts[1]);
+    //     console.log("🚀 ~ balanceEthAccount1:", balanceEthAccount1.toString() / 1e18)
+    // })
 
 })
