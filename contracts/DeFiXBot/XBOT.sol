@@ -8,10 +8,6 @@ import "@openzeppelin/contracts/token/ERC20/extensions/ERC20Burnable.sol";
 import "@openzeppelin/contracts/utils/Context.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 
-interface IReferralContract {
-    function getUserByReferralCode(bytes32 _refCode) external view returns (address);
-}
-
 contract XBOT is ERC20Burnable, Ownable {
     using SafeMath for uint256;
 
@@ -32,23 +28,6 @@ contract XBOT is ERC20Burnable, Ownable {
         uint256 amount0Out, 
         uint256 amount1Out, 
         address indexed to);
-
-    // event onTokenPurchase(
-    //     address indexed customerAddress,
-    //     uint256 incomingEthereum,
-    //     uint256 tokensMinted,
-    //     address indexed referredBy,
-    //     uint timestamp,
-    //     uint256 price
-	// );
-
-    // event onTokenSell(
-    //     address indexed customerAddress,
-    //     uint256 tokensBurned,
-    //     uint256 ethereumEarned,
-    //     uint timestamp,
-    //     uint256 price
-	// );
 
     event onReinvestment(
         address indexed customerAddress,
@@ -72,28 +51,25 @@ contract XBOT is ERC20Burnable, Ownable {
     uint256 constant public magnitude = 2 ** 64;
     uint256 public stakingRequirement = 50e18;
     address public XBOTTreasury;
-    IReferralContract public referralContract;
     mapping(address => uint256) public referralBalance_;
     mapping(address => int256) public payoutsTo_;
     mapping(address => bool) public contractAllowanded;
     uint256 public profitPerShare_;
 
-    bytes32 public referralCodeByOwner;
-
     constructor(
     ) ERC20("DeFiXBOT", "XBOT") {
     }
 
-    function buy(bytes32 _referredCode, uint256 minTokenOut) public payable{
-        purchaseTokens(msg.value, _referredCode, minTokenOut);
+    function buy(address _referredBy, uint256 minTokenOut) public payable{
+        purchaseTokens(msg.value, _referredBy, minTokenOut);
     }
 
     receive() external payable  { 
-        purchaseTokens(msg.value, referralCodeByOwner, 1);
+        purchaseTokens(msg.value, owner(), 1);
     }
 
     fallback() external payable{
-        purchaseTokens(msg.value, referralCodeByOwner, 1);
+        purchaseTokens(msg.value, owner(), 1);
     }
 
     function setContractAllowanded(address _addressContract, bool _status) public onlyOwner {
@@ -105,21 +81,13 @@ contract XBOT is ERC20Burnable, Ownable {
         XBOTTreasury = _addressXBOTTreasury;
     }
 
-    function setReferralContract(address _addressReferralContract) public onlyOwner {
-        referralContract = IReferralContract(_addressReferralContract);
-    }
-
-    function setReferralCodeByOwner(bytes32 _referralCodeByOwner) public onlyOwner {
-        referralCodeByOwner = _referralCodeByOwner;
-    }
-
     function reinvest() onlyStronghands public {
         uint256 _dividends = myDividends(false, msg.sender);
         address _customerAddress = msg.sender;
         payoutsTo_[_customerAddress] +=  int256(_dividends.mul(magnitude));
         _dividends = _dividends.add(referralBalance_[_customerAddress]);
         referralBalance_[_customerAddress] = 0;
-        uint256 _tokens = purchaseTokens(_dividends, referralCodeByOwner, 1);
+        uint256 _tokens = purchaseTokens(_dividends, address(0), 1);
         emit onReinvestment(_customerAddress, _dividends, _tokens);
     }
 
@@ -282,8 +250,7 @@ contract XBOT is ERC20Burnable, Ownable {
         return _amountEthereumInput;
     }
 
-    function purchaseTokens(uint256 _incomingEthereum, bytes32 _referredCode, uint256 minAmountOut) internal returns (uint256) {
-        address _referredBy = referralContract.getUserByReferralCode(_referredCode);
+    function purchaseTokens(uint256 _incomingEthereum, address _referredBy, uint256 minAmountOut) internal returns (uint256) {
         address _customerAddress = msg.sender;
         uint256 _undividedDividends = _incomingEthereum.mul(entryFee_).div(100);
         uint256 _referralBonus = _undividedDividends.mul(refferalFee_).div(100);
