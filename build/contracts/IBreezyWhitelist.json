@@ -30,7 +30,7 @@
   "sourceMap": "",
   "deployedSourceMap": "",
   "source": "// SPDX-License-Identifier: MIT\npragma solidity >=0.6.12;\n\ninterface IBreezyWhitelist {\n\tfunction whitelisted(address _address) external view returns (bool);\n}",
-  "sourcePath": "/Applications/projects/contracts/contracts/BreezySwap/interfaces/IBreezyWhitelist.sol",
+  "sourcePath": "/Applications/projects/breezy-contracts/contracts/BreezySwap/interfaces/IBreezyWhitelist.sol",
   "ast": {
     "absolutePath": "project:/contracts/BreezySwap/interfaces/IBreezyWhitelist.sol",
     "exportedSymbols": {
@@ -165,8 +165,8 @@
     "version": "0.8.17+commit.8df45f5f.Emscripten.clang"
   },
   "networks": {},
-  "schemaVersion": "3.4.11",
-  "updatedAt": "2023-09-21T06:37:05.954Z",
+  "schemaVersion": "3.4.13",
+  "updatedAt": "2023-10-09T13:51:17.484Z",
   "devdoc": {
     "kind": "dev",
     "methods": {},

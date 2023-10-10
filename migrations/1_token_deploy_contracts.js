@@ -16,5 +16,5 @@ module.exports = function(deployer) {
 //    deployer.deploy(BreezyFarmingFund);
 //    deployer.deploy(BreezyNFTLPLock);
     deployer.deploy(XBOT);
-    // deployer.deploy(XBOTTreasury);
+    deployer.deploy(XBOTTreasury);
 };

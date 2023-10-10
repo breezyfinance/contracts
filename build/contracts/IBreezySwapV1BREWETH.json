@@ -121,7 +121,7 @@
   "sourceMap": "",
   "deployedSourceMap": "",
   "source": "// SPDX-License-Identifier: MIT\npragma solidity >=0.6.12;\n\ninterface IBreezySwapV1BREWETH {\n    function base() external view returns(address);\n    function token() external view returns(address);\n    function swapBaseToTokenWithBaseInput(uint256 baseInputAmount, uint256 minTokenOutput, uint256 deadline) external;\n    function swapTokenToBaseWithTokenInput(uint256 tokenInputAmount, uint256 minBaseOutput, uint256 deadline) external;\n    function getBaseOutput(uint256 tokenInputAmount) external view returns (uint256);\n    function getTokenOutput(uint256 baseInputAmount) external view returns (uint256);\n}",
-  "sourcePath": "/Applications/projects/contracts/contracts/BreezySwap/interfaces/IBreezySwapV1BREWETH.sol",
+  "sourcePath": "/Applications/projects/breezy-contracts/contracts/BreezySwap/interfaces/IBreezySwapV1BREWETH.sol",
   "ast": {
     "absolutePath": "project:/contracts/BreezySwap/interfaces/IBreezySwapV1BREWETH.sol",
     "exportedSymbols": {
@@ -668,9 +668,8 @@
     "version": "0.8.17+commit.8df45f5f.Emscripten.clang"
   },
   "networks": {},
-  "schemaVersion": "3.4.11",
-  "updatedAt": "2023-10-03T04:24:41.769Z",
-  "networkType": "ethereum",
+  "schemaVersion": "3.4.13",
+  "updatedAt": "2023-10-09T13:51:17.482Z",
   "devdoc": {
     "kind": "dev",
     "methods": {},

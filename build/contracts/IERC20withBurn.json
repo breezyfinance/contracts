@@ -207,7 +207,7 @@
   "sourceMap": "",
   "deployedSourceMap": "",
   "source": "// SPDX-License-Identifier: MIT\npragma solidity >=0.6.12;\n\nimport \"@openzeppelin/contracts/token/ERC20/IERC20.sol\";\n\ninterface IERC20withBurn is IERC20 {\n   function burn(uint256 amount) external; \n}",
-  "sourcePath": "/Applications/projects/contracts/contracts/interfaces/IERC20withBurn.sol",
+  "sourcePath": "/Applications/projects/breezy-contracts/contracts/interfaces/IERC20withBurn.sol",
   "ast": {
     "absolutePath": "project:/contracts/interfaces/IERC20withBurn.sol",
     "exportedSymbols": {
@@ -215,15 +215,15 @@
         2326
       ],
       "IERC20withBurn": [
-        10805
+        11192
       ]
     },
-    "id": 10806,
+    "id": 11193,
     "license": "MIT",
     "nodeType": "SourceUnit",
     "nodes": [
       {
-        "id": 10796,
+        "id": 11183,
         "literals": [
           "solidity",
           ">=",
@@ -231,17 +231,17 @@
           ".12"
         ],
         "nodeType": "PragmaDirective",
-        "src": "32:25:37"
+        "src": "32:25:40"
       },
       {
         "absolutePath": "@openzeppelin/contracts/token/ERC20/IERC20.sol",
         "file": "@openzeppelin/contracts/token/ERC20/IERC20.sol",
-        "id": 10797,
+        "id": 11184,
         "nameLocation": "-1:-1:-1",
         "nodeType": "ImportDirective",
-        "scope": 10806,
+        "scope": 11193,
         "sourceUnit": 2327,
-        "src": "59:56:37",
+        "src": "59:56:40",
         "symbolAliases": [],
         "unitAlias": ""
       },
@@ -250,55 +250,55 @@
         "baseContracts": [
           {
             "baseName": {
-              "id": 10798,
+              "id": 11185,
               "name": "IERC20",
               "nameLocations": [
-                "145:6:37"
+                "145:6:40"
               ],
               "nodeType": "IdentifierPath",
               "referencedDeclaration": 2326,
-              "src": "145:6:37"
+              "src": "145:6:40"
             },
-            "id": 10799,
+            "id": 11186,
             "nodeType": "InheritanceSpecifier",
-            "src": "145:6:37"
+            "src": "145:6:40"
           }
         ],
         "canonicalName": "IERC20withBurn",
         "contractDependencies": [],
         "contractKind": "interface",
         "fullyImplemented": false,
-        "id": 10805,
+        "id": 11192,
         "linearizedBaseContracts": [
-          10805,
+          11192,
           2326
         ],
         "name": "IERC20withBurn",
-        "nameLocation": "127:14:37",
+        "nameLocation": "127:14:40",
         "nodeType": "ContractDefinition",
         "nodes": [
           {
             "functionSelector": "42966c68",
-            "id": 10804,
+            "id": 11191,
             "implemented": false,
             "kind": "function",
             "modifiers": [],
             "name": "burn",
-            "nameLocation": "166:4:37",
+            "nameLocation": "166:4:40",
             "nodeType": "FunctionDefinition",
             "parameters": {
-              "id": 10802,
+              "id": 11189,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 10801,
+                  "id": 11188,
                   "mutability": "mutable",
                   "name": "amount",
-                  "nameLocation": "179:6:37",
+                  "nameLocation": "179:6:40",
                   "nodeType": "VariableDeclaration",
-                  "scope": 10804,
-                  "src": "171:14:37",
+                  "scope": 11191,
+                  "src": "171:14:40",
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
@@ -306,10 +306,10 @@
                     "typeString": "uint256"
                   },
                   "typeName": {
-                    "id": 10800,
+                    "id": 11187,
                     "name": "uint256",
                     "nodeType": "ElementaryTypeName",
-                    "src": "171:7:37",
+                    "src": "171:7:40",
                     "typeDescriptions": {
                       "typeIdentifier": "t_uint256",
                       "typeString": "uint256"
@@ -318,35 +318,35 @@
                   "visibility": "internal"
                 }
               ],
-              "src": "170:16:37"
+              "src": "170:16:40"
             },
             "returnParameters": {
-              "id": 10803,
+              "id": 11190,
               "nodeType": "ParameterList",
               "parameters": [],
-              "src": "195:0:37"
+              "src": "195:0:40"
             },
-            "scope": 10805,
-            "src": "157:39:37",
+            "scope": 11192,
+            "src": "157:39:40",
             "stateMutability": "nonpayable",
             "virtual": false,
             "visibility": "external"
           }
         ],
-        "scope": 10806,
-        "src": "117:82:37",
+        "scope": 11193,
+        "src": "117:82:40",
         "usedErrors": []
       }
     ],
-    "src": "32:167:37"
+    "src": "32:167:40"
   },
   "compiler": {
     "name": "solc",
     "version": "0.8.17+commit.8df45f5f.Emscripten.clang"
   },
   "networks": {},
-  "schemaVersion": "3.4.11",
-  "updatedAt": "2023-09-21T06:37:05.971Z",
+  "schemaVersion": "3.4.13",
+  "updatedAt": "2023-10-09T13:51:17.527Z",
   "devdoc": {
     "kind": "dev",
     "methods": {
