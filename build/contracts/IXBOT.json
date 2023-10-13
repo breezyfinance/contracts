@@ -1,0 +1,1457 @@
+{
+  "contractName": "IXBOT",
+  "abi": [
+    {
+      "inputs": [],
+      "name": "buyPrice",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "sellPrice",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "totalSupply",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "getETHBalance",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "bool",
+          "name": "_includeReferralBonus",
+          "type": "bool"
+        },
+        {
+          "internalType": "address",
+          "name": "_customerAddress",
+          "type": "address"
+        }
+      ],
+      "name": "myDividends",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    }
+  ],
+  "metadata": "{\"compiler\":{\"version\":\"0.8.17+commit.8df45f5f\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"inputs\":[],\"name\":\"buyPrice\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"getETHBalance\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"bool\",\"name\":\"_includeReferralBonus\",\"type\":\"bool\"},{\"internalType\":\"address\",\"name\":\"_customerAddress\",\"type\":\"address\"}],\"name\":\"myDividends\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"sellPrice\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"totalSupply\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"stateMutability\":\"view\",\"type\":\"function\"}],\"devdoc\":{\"kind\":\"dev\",\"methods\":{},\"version\":1},\"userdoc\":{\"kind\":\"user\",\"methods\":{},\"version\":1}},\"settings\":{\"compilationTarget\":{\"project:/contracts/DeFiXBot/XBOTData.sol\":\"IXBOT\"},\"evmVersion\":\"london\",\"libraries\":{},\"metadata\":{\"bytecodeHash\":\"ipfs\"},\"optimizer\":{\"enabled\":true,\"runs\":200},\"remappings\":[]},\"sources\":{\"@openzeppelin/contracts/access/Ownable.sol\":{\"keccak256\":\"0xba43b97fba0d32eb4254f6a5a297b39a19a247082a02d6e69349e071e2946218\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://fc980984badf3984b6303b377711220e067722bbd6a135b24669ff5069ef9f32\",\"dweb:/ipfs/QmPHXMSXj99XjSVM21YsY6aNtLLjLVXDbyN76J5HQYvvrz\"]},\"@openzeppelin/contracts/utils/Context.sol\":{\"keccak256\":\"0xe2e337e6dde9ef6b680e07338c493ebea1b5fd09b43424112868e9cc1706bca7\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://6df0ddf21ce9f58271bdfaa85cde98b200ef242a05a3f85c2bc10a8294800a92\",\"dweb:/ipfs/QmRK2Y5Yc6BK7tGKkgsgn3aJEQGi5aakeSPZvS65PV8Xp3\"]},\"project:/contracts/DeFiXBot/XBOTData.sol\":{\"keccak256\":\"0xd269710d96bd209fac06fe9d10124731a8ccb47ddf9b41542519d3eb466c3aa5\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://215ae0522fd3cad4cddd2afe0d17bb830d1a845880a08bed7cd65e23d37fc7c8\",\"dweb:/ipfs/QmSv6wPvdYQPTbPDVQ1TzwhStpzcEau4zs3YCZ94bs13H4\"]}},\"version\":1}",
+  "bytecode": "0x",
+  "deployedBytecode": "0x",
+  "immutableReferences": {},
+  "generatedSources": [],
+  "deployedGeneratedSources": [],
+  "sourceMap": "",
+  "deployedSourceMap": "",
+  "source": "// SPDX-License-Identifier: MIT\r\npragma solidity >=0.6.12;\r\n\r\nimport \"@openzeppelin/contracts/access/Ownable.sol\";\r\n\r\ninterface IXBOT {\r\n    function buyPrice() external view returns (uint256);\r\n    function sellPrice() external view returns (uint256);\r\n    function totalSupply() external view returns (uint256);\r\n    function getETHBalance() external view returns (uint256);\r\n    function myDividends(bool _includeReferralBonus, address _customerAddress) external view returns (uint256);\r\n}\r\n\r\ncontract XBOTData is Ownable{\r\n\r\n    IXBOT public XBOTContract;\r\n\r\n    constructor(IXBOT xbotContractAddress) {\r\n        XBOTContract = xbotContractAddress;\r\n    }\r\n\r\n    function setXbotContract(IXBOT xbotContractAddress) public onlyOwner {\r\n        XBOTContract = xbotContractAddress;\r\n    }\r\n\r\n    function getData(bool includeReferralBonus, address user) public view returns (\r\n        uint256 buyPrice,\r\n        uint256 sellPrice,\r\n        uint256 totalSupply,\r\n        uint256 ethBalanceUser,\r\n        uint256 myDividends\r\n    ) {\r\n        buyPrice = XBOTContract.buyPrice();\r\n        sellPrice = XBOTContract.sellPrice();\r\n        totalSupply = XBOTContract.totalSupply();\r\n        ethBalanceUser = user.balance;\r\n        myDividends = XBOTContract.myDividends(includeReferralBonus, user);\r\n    }\r\n}",
+  "sourcePath": "E:\\Research\\contracts\\contracts\\DeFiXBot\\XBOTData.sol",
+  "ast": {
+    "absolutePath": "project:/contracts/DeFiXBot/XBOTData.sol",
+    "exportedSymbols": {
+      "Context": [
+        2551
+      ],
+      "IXBOT": [
+        10975
+      ],
+      "Ownable": [
+        501
+      ],
+      "XBOTData": [
+        11054
+      ]
+    },
+    "id": 11055,
+    "license": "MIT",
+    "nodeType": "SourceUnit",
+    "nodes": [
+      {
+        "id": 10944,
+        "literals": [
+          "solidity",
+          ">=",
+          "0.6",
+          ".12"
+        ],
+        "nodeType": "PragmaDirective",
+        "src": "33:25:35"
+      },
+      {
+        "absolutePath": "@openzeppelin/contracts/access/Ownable.sol",
+        "file": "@openzeppelin/contracts/access/Ownable.sol",
+        "id": 10945,
+        "nameLocation": "-1:-1:-1",
+        "nodeType": "ImportDirective",
+        "scope": 11055,
+        "sourceUnit": 502,
+        "src": "62:52:35",
+        "symbolAliases": [],
+        "unitAlias": ""
+      },
+      {
+        "abstract": false,
+        "baseContracts": [],
+        "canonicalName": "IXBOT",
+        "contractDependencies": [],
+        "contractKind": "interface",
+        "fullyImplemented": false,
+        "id": 10975,
+        "linearizedBaseContracts": [
+          10975
+        ],
+        "name": "IXBOT",
+        "nameLocation": "128:5:35",
+        "nodeType": "ContractDefinition",
+        "nodes": [
+          {
+            "functionSelector": "8620410b",
+            "id": 10950,
+            "implemented": false,
+            "kind": "function",
+            "modifiers": [],
+            "name": "buyPrice",
+            "nameLocation": "150:8:35",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 10946,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "158:2:35"
+            },
+            "returnParameters": {
+              "id": 10949,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 10948,
+                  "mutability": "mutable",
+                  "name": "",
+                  "nameLocation": "-1:-1:-1",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 10950,
+                  "src": "184:7:35",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 10947,
+                    "name": "uint256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "184:7:35",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "183:9:35"
+            },
+            "scope": 10975,
+            "src": "141:52:35",
+            "stateMutability": "view",
+            "virtual": false,
+            "visibility": "external"
+          },
+          {
+            "functionSelector": "4b750334",
+            "id": 10955,
+            "implemented": false,
+            "kind": "function",
+            "modifiers": [],
+            "name": "sellPrice",
+            "nameLocation": "208:9:35",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 10951,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "217:2:35"
+            },
+            "returnParameters": {
+              "id": 10954,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 10953,
+                  "mutability": "mutable",
+                  "name": "",
+                  "nameLocation": "-1:-1:-1",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 10955,
+                  "src": "243:7:35",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 10952,
+                    "name": "uint256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "243:7:35",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "242:9:35"
+            },
+            "scope": 10975,
+            "src": "199:53:35",
+            "stateMutability": "view",
+            "virtual": false,
+            "visibility": "external"
+          },
+          {
+            "functionSelector": "18160ddd",
+            "id": 10960,
+            "implemented": false,
+            "kind": "function",
+            "modifiers": [],
+            "name": "totalSupply",
+            "nameLocation": "267:11:35",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 10956,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "278:2:35"
+            },
+            "returnParameters": {
+              "id": 10959,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 10958,
+                  "mutability": "mutable",
+                  "name": "",
+                  "nameLocation": "-1:-1:-1",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 10960,
+                  "src": "304:7:35",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 10957,
+                    "name": "uint256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "304:7:35",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "303:9:35"
+            },
+            "scope": 10975,
+            "src": "258:55:35",
+            "stateMutability": "view",
+            "virtual": false,
+            "visibility": "external"
+          },
+          {
+            "functionSelector": "6e947298",
+            "id": 10965,
+            "implemented": false,
+            "kind": "function",
+            "modifiers": [],
+            "name": "getETHBalance",
+            "nameLocation": "328:13:35",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 10961,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "341:2:35"
+            },
+            "returnParameters": {
+              "id": 10964,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 10963,
+                  "mutability": "mutable",
+                  "name": "",
+                  "nameLocation": "-1:-1:-1",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 10965,
+                  "src": "367:7:35",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 10962,
+                    "name": "uint256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "367:7:35",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "366:9:35"
+            },
+            "scope": 10975,
+            "src": "319:57:35",
+            "stateMutability": "view",
+            "virtual": false,
+            "visibility": "external"
+          },
+          {
+            "functionSelector": "642ad54a",
+            "id": 10974,
+            "implemented": false,
+            "kind": "function",
+            "modifiers": [],
+            "name": "myDividends",
+            "nameLocation": "391:11:35",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 10970,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 10967,
+                  "mutability": "mutable",
+                  "name": "_includeReferralBonus",
+                  "nameLocation": "408:21:35",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 10974,
+                  "src": "403:26:35",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_bool",
+                    "typeString": "bool"
+                  },
+                  "typeName": {
+                    "id": 10966,
+                    "name": "bool",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "403:4:35",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_bool",
+                      "typeString": "bool"
+                    }
+                  },
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 10969,
+                  "mutability": "mutable",
+                  "name": "_customerAddress",
+                  "nameLocation": "439:16:35",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 10974,
+                  "src": "431:24:35",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  },
+                  "typeName": {
+                    "id": 10968,
+                    "name": "address",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "431:7:35",
+                    "stateMutability": "nonpayable",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "402:54:35"
+            },
+            "returnParameters": {
+              "id": 10973,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 10972,
+                  "mutability": "mutable",
+                  "name": "",
+                  "nameLocation": "-1:-1:-1",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 10974,
+                  "src": "480:7:35",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 10971,
+                    "name": "uint256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "480:7:35",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "479:9:35"
+            },
+            "scope": 10975,
+            "src": "382:107:35",
+            "stateMutability": "view",
+            "virtual": false,
+            "visibility": "external"
+          }
+        ],
+        "scope": 11055,
+        "src": "118:374:35",
+        "usedErrors": []
+      },
+      {
+        "abstract": false,
+        "baseContracts": [
+          {
+            "baseName": {
+              "id": 10976,
+              "name": "Ownable",
+              "nameLocations": [
+                "517:7:35"
+              ],
+              "nodeType": "IdentifierPath",
+              "referencedDeclaration": 501,
+              "src": "517:7:35"
+            },
+            "id": 10977,
+            "nodeType": "InheritanceSpecifier",
+            "src": "517:7:35"
+          }
+        ],
+        "canonicalName": "XBOTData",
+        "contractDependencies": [],
+        "contractKind": "contract",
+        "fullyImplemented": true,
+        "id": 11054,
+        "linearizedBaseContracts": [
+          11054,
+          501,
+          2551
+        ],
+        "name": "XBOTData",
+        "nameLocation": "505:8:35",
+        "nodeType": "ContractDefinition",
+        "nodes": [
+          {
+            "constant": false,
+            "functionSelector": "da472a37",
+            "id": 10980,
+            "mutability": "mutable",
+            "name": "XBOTContract",
+            "nameLocation": "546:12:35",
+            "nodeType": "VariableDeclaration",
+            "scope": 11054,
+            "src": "533:25:35",
+            "stateVariable": true,
+            "storageLocation": "default",
+            "typeDescriptions": {
+              "typeIdentifier": "t_contract$_IXBOT_$10975",
+              "typeString": "contract IXBOT"
+            },
+            "typeName": {
+              "id": 10979,
+              "nodeType": "UserDefinedTypeName",
+              "pathNode": {
+                "id": 10978,
+                "name": "IXBOT",
+                "nameLocations": [
+                  "533:5:35"
+                ],
+                "nodeType": "IdentifierPath",
+                "referencedDeclaration": 10975,
+                "src": "533:5:35"
+              },
+              "referencedDeclaration": 10975,
+              "src": "533:5:35",
+              "typeDescriptions": {
+                "typeIdentifier": "t_contract$_IXBOT_$10975",
+                "typeString": "contract IXBOT"
+              }
+            },
+            "visibility": "public"
+          },
+          {
+            "body": {
+              "id": 10990,
+              "nodeType": "Block",
+              "src": "606:53:35",
+              "statements": [
+                {
+                  "expression": {
+                    "id": 10988,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "lValueRequested": false,
+                    "leftHandSide": {
+                      "id": 10986,
+                      "name": "XBOTContract",
+                      "nodeType": "Identifier",
+                      "overloadedDeclarations": [],
+                      "referencedDeclaration": 10980,
+                      "src": "617:12:35",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_contract$_IXBOT_$10975",
+                        "typeString": "contract IXBOT"
+                      }
+                    },
+                    "nodeType": "Assignment",
+                    "operator": "=",
+                    "rightHandSide": {
+                      "id": 10987,
+                      "name": "xbotContractAddress",
+                      "nodeType": "Identifier",
+                      "overloadedDeclarations": [],
+                      "referencedDeclaration": 10983,
+                      "src": "632:19:35",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_contract$_IXBOT_$10975",
+                        "typeString": "contract IXBOT"
+                      }
+                    },
+                    "src": "617:34:35",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_contract$_IXBOT_$10975",
+                      "typeString": "contract IXBOT"
+                    }
+                  },
+                  "id": 10989,
+                  "nodeType": "ExpressionStatement",
+                  "src": "617:34:35"
+                }
+              ]
+            },
+            "id": 10991,
+            "implemented": true,
+            "kind": "constructor",
+            "modifiers": [],
+            "name": "",
+            "nameLocation": "-1:-1:-1",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 10984,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 10983,
+                  "mutability": "mutable",
+                  "name": "xbotContractAddress",
+                  "nameLocation": "585:19:35",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 10991,
+                  "src": "579:25:35",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_contract$_IXBOT_$10975",
+                    "typeString": "contract IXBOT"
+                  },
+                  "typeName": {
+                    "id": 10982,
+                    "nodeType": "UserDefinedTypeName",
+                    "pathNode": {
+                      "id": 10981,
+                      "name": "IXBOT",
+                      "nameLocations": [
+                        "579:5:35"
+                      ],
+                      "nodeType": "IdentifierPath",
+                      "referencedDeclaration": 10975,
+                      "src": "579:5:35"
+                    },
+                    "referencedDeclaration": 10975,
+                    "src": "579:5:35",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_contract$_IXBOT_$10975",
+                      "typeString": "contract IXBOT"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "578:27:35"
+            },
+            "returnParameters": {
+              "id": 10985,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "606:0:35"
+            },
+            "scope": 11054,
+            "src": "567:92:35",
+            "stateMutability": "nonpayable",
+            "virtual": false,
+            "visibility": "public"
+          },
+          {
+            "body": {
+              "id": 11003,
+              "nodeType": "Block",
+              "src": "736:53:35",
+              "statements": [
+                {
+                  "expression": {
+                    "id": 11001,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "lValueRequested": false,
+                    "leftHandSide": {
+                      "id": 10999,
+                      "name": "XBOTContract",
+                      "nodeType": "Identifier",
+                      "overloadedDeclarations": [],
+                      "referencedDeclaration": 10980,
+                      "src": "747:12:35",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_contract$_IXBOT_$10975",
+                        "typeString": "contract IXBOT"
+                      }
+                    },
+                    "nodeType": "Assignment",
+                    "operator": "=",
+                    "rightHandSide": {
+                      "id": 11000,
+                      "name": "xbotContractAddress",
+                      "nodeType": "Identifier",
+                      "overloadedDeclarations": [],
+                      "referencedDeclaration": 10994,
+                      "src": "762:19:35",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_contract$_IXBOT_$10975",
+                        "typeString": "contract IXBOT"
+                      }
+                    },
+                    "src": "747:34:35",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_contract$_IXBOT_$10975",
+                      "typeString": "contract IXBOT"
+                    }
+                  },
+                  "id": 11002,
+                  "nodeType": "ExpressionStatement",
+                  "src": "747:34:35"
+                }
+              ]
+            },
+            "functionSelector": "a20c4bed",
+            "id": 11004,
+            "implemented": true,
+            "kind": "function",
+            "modifiers": [
+              {
+                "id": 10997,
+                "kind": "modifierInvocation",
+                "modifierName": {
+                  "id": 10996,
+                  "name": "onlyOwner",
+                  "nameLocations": [
+                    "726:9:35"
+                  ],
+                  "nodeType": "IdentifierPath",
+                  "referencedDeclaration": 420,
+                  "src": "726:9:35"
+                },
+                "nodeType": "ModifierInvocation",
+                "src": "726:9:35"
+              }
+            ],
+            "name": "setXbotContract",
+            "nameLocation": "676:15:35",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 10995,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 10994,
+                  "mutability": "mutable",
+                  "name": "xbotContractAddress",
+                  "nameLocation": "698:19:35",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 11004,
+                  "src": "692:25:35",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_contract$_IXBOT_$10975",
+                    "typeString": "contract IXBOT"
+                  },
+                  "typeName": {
+                    "id": 10993,
+                    "nodeType": "UserDefinedTypeName",
+                    "pathNode": {
+                      "id": 10992,
+                      "name": "IXBOT",
+                      "nameLocations": [
+                        "692:5:35"
+                      ],
+                      "nodeType": "IdentifierPath",
+                      "referencedDeclaration": 10975,
+                      "src": "692:5:35"
+                    },
+                    "referencedDeclaration": 10975,
+                    "src": "692:5:35",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_contract$_IXBOT_$10975",
+                      "typeString": "contract IXBOT"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "691:27:35"
+            },
+            "returnParameters": {
+              "id": 10998,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "736:0:35"
+            },
+            "scope": 11054,
+            "src": "667:122:35",
+            "stateMutability": "nonpayable",
+            "virtual": false,
+            "visibility": "public"
+          },
+          {
+            "body": {
+              "id": 11052,
+              "nodeType": "Block",
+              "src": "1031:268:35",
+              "statements": [
+                {
+                  "expression": {
+                    "id": 11025,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "lValueRequested": false,
+                    "leftHandSide": {
+                      "id": 11021,
+                      "name": "buyPrice",
+                      "nodeType": "Identifier",
+                      "overloadedDeclarations": [],
+                      "referencedDeclaration": 11011,
+                      "src": "1042:8:35",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_uint256",
+                        "typeString": "uint256"
+                      }
+                    },
+                    "nodeType": "Assignment",
+                    "operator": "=",
+                    "rightHandSide": {
+                      "arguments": [],
+                      "expression": {
+                        "argumentTypes": [],
+                        "expression": {
+                          "id": 11022,
+                          "name": "XBOTContract",
+                          "nodeType": "Identifier",
+                          "overloadedDeclarations": [],
+                          "referencedDeclaration": 10980,
+                          "src": "1053:12:35",
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_contract$_IXBOT_$10975",
+                            "typeString": "contract IXBOT"
+                          }
+                        },
+                        "id": 11023,
+                        "isConstant": false,
+                        "isLValue": false,
+                        "isPure": false,
+                        "lValueRequested": false,
+                        "memberLocation": "1066:8:35",
+                        "memberName": "buyPrice",
+                        "nodeType": "MemberAccess",
+                        "referencedDeclaration": 10950,
+                        "src": "1053:21:35",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_function_external_view$__$returns$_t_uint256_$",
+                          "typeString": "function () view external returns (uint256)"
+                        }
+                      },
+                      "id": 11024,
+                      "isConstant": false,
+                      "isLValue": false,
+                      "isPure": false,
+                      "kind": "functionCall",
+                      "lValueRequested": false,
+                      "nameLocations": [],
+                      "names": [],
+                      "nodeType": "FunctionCall",
+                      "src": "1053:23:35",
+                      "tryCall": false,
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_uint256",
+                        "typeString": "uint256"
+                      }
+                    },
+                    "src": "1042:34:35",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "id": 11026,
+                  "nodeType": "ExpressionStatement",
+                  "src": "1042:34:35"
+                },
+                {
+                  "expression": {
+                    "id": 11031,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "lValueRequested": false,
+                    "leftHandSide": {
+                      "id": 11027,
+                      "name": "sellPrice",
+                      "nodeType": "Identifier",
+                      "overloadedDeclarations": [],
+                      "referencedDeclaration": 11013,
+                      "src": "1087:9:35",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_uint256",
+                        "typeString": "uint256"
+                      }
+                    },
+                    "nodeType": "Assignment",
+                    "operator": "=",
+                    "rightHandSide": {
+                      "arguments": [],
+                      "expression": {
+                        "argumentTypes": [],
+                        "expression": {
+                          "id": 11028,
+                          "name": "XBOTContract",
+                          "nodeType": "Identifier",
+                          "overloadedDeclarations": [],
+                          "referencedDeclaration": 10980,
+                          "src": "1099:12:35",
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_contract$_IXBOT_$10975",
+                            "typeString": "contract IXBOT"
+                          }
+                        },
+                        "id": 11029,
+                        "isConstant": false,
+                        "isLValue": false,
+                        "isPure": false,
+                        "lValueRequested": false,
+                        "memberLocation": "1112:9:35",
+                        "memberName": "sellPrice",
+                        "nodeType": "MemberAccess",
+                        "referencedDeclaration": 10955,
+                        "src": "1099:22:35",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_function_external_view$__$returns$_t_uint256_$",
+                          "typeString": "function () view external returns (uint256)"
+                        }
+                      },
+                      "id": 11030,
+                      "isConstant": false,
+                      "isLValue": false,
+                      "isPure": false,
+                      "kind": "functionCall",
+                      "lValueRequested": false,
+                      "nameLocations": [],
+                      "names": [],
+                      "nodeType": "FunctionCall",
+                      "src": "1099:24:35",
+                      "tryCall": false,
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_uint256",
+                        "typeString": "uint256"
+                      }
+                    },
+                    "src": "1087:36:35",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "id": 11032,
+                  "nodeType": "ExpressionStatement",
+                  "src": "1087:36:35"
+                },
+                {
+                  "expression": {
+                    "id": 11037,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "lValueRequested": false,
+                    "leftHandSide": {
+                      "id": 11033,
+                      "name": "totalSupply",
+                      "nodeType": "Identifier",
+                      "overloadedDeclarations": [],
+                      "referencedDeclaration": 11015,
+                      "src": "1134:11:35",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_uint256",
+                        "typeString": "uint256"
+                      }
+                    },
+                    "nodeType": "Assignment",
+                    "operator": "=",
+                    "rightHandSide": {
+                      "arguments": [],
+                      "expression": {
+                        "argumentTypes": [],
+                        "expression": {
+                          "id": 11034,
+                          "name": "XBOTContract",
+                          "nodeType": "Identifier",
+                          "overloadedDeclarations": [],
+                          "referencedDeclaration": 10980,
+                          "src": "1148:12:35",
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_contract$_IXBOT_$10975",
+                            "typeString": "contract IXBOT"
+                          }
+                        },
+                        "id": 11035,
+                        "isConstant": false,
+                        "isLValue": false,
+                        "isPure": false,
+                        "lValueRequested": false,
+                        "memberLocation": "1161:11:35",
+                        "memberName": "totalSupply",
+                        "nodeType": "MemberAccess",
+                        "referencedDeclaration": 10960,
+                        "src": "1148:24:35",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_function_external_view$__$returns$_t_uint256_$",
+                          "typeString": "function () view external returns (uint256)"
+                        }
+                      },
+                      "id": 11036,
+                      "isConstant": false,
+                      "isLValue": false,
+                      "isPure": false,
+                      "kind": "functionCall",
+                      "lValueRequested": false,
+                      "nameLocations": [],
+                      "names": [],
+                      "nodeType": "FunctionCall",
+                      "src": "1148:26:35",
+                      "tryCall": false,
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_uint256",
+                        "typeString": "uint256"
+                      }
+                    },
+                    "src": "1134:40:35",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "id": 11038,
+                  "nodeType": "ExpressionStatement",
+                  "src": "1134:40:35"
+                },
+                {
+                  "expression": {
+                    "id": 11042,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "lValueRequested": false,
+                    "leftHandSide": {
+                      "id": 11039,
+                      "name": "ethBalanceUser",
+                      "nodeType": "Identifier",
+                      "overloadedDeclarations": [],
+                      "referencedDeclaration": 11017,
+                      "src": "1185:14:35",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_uint256",
+                        "typeString": "uint256"
+                      }
+                    },
+                    "nodeType": "Assignment",
+                    "operator": "=",
+                    "rightHandSide": {
+                      "expression": {
+                        "id": 11040,
+                        "name": "user",
+                        "nodeType": "Identifier",
+                        "overloadedDeclarations": [],
+                        "referencedDeclaration": 11008,
+                        "src": "1202:4:35",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_address",
+                          "typeString": "address"
+                        }
+                      },
+                      "id": 11041,
+                      "isConstant": false,
+                      "isLValue": false,
+                      "isPure": false,
+                      "lValueRequested": false,
+                      "memberLocation": "1207:7:35",
+                      "memberName": "balance",
+                      "nodeType": "MemberAccess",
+                      "src": "1202:12:35",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_uint256",
+                        "typeString": "uint256"
+                      }
+                    },
+                    "src": "1185:29:35",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "id": 11043,
+                  "nodeType": "ExpressionStatement",
+                  "src": "1185:29:35"
+                },
+                {
+                  "expression": {
+                    "id": 11050,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "lValueRequested": false,
+                    "leftHandSide": {
+                      "id": 11044,
+                      "name": "myDividends",
+                      "nodeType": "Identifier",
+                      "overloadedDeclarations": [],
+                      "referencedDeclaration": 11019,
+                      "src": "1225:11:35",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_uint256",
+                        "typeString": "uint256"
+                      }
+                    },
+                    "nodeType": "Assignment",
+                    "operator": "=",
+                    "rightHandSide": {
+                      "arguments": [
+                        {
+                          "id": 11047,
+                          "name": "includeReferralBonus",
+                          "nodeType": "Identifier",
+                          "overloadedDeclarations": [],
+                          "referencedDeclaration": 11006,
+                          "src": "1264:20:35",
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_bool",
+                            "typeString": "bool"
+                          }
+                        },
+                        {
+                          "id": 11048,
+                          "name": "user",
+                          "nodeType": "Identifier",
+                          "overloadedDeclarations": [],
+                          "referencedDeclaration": 11008,
+                          "src": "1286:4:35",
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_address",
+                            "typeString": "address"
+                          }
+                        }
+                      ],
+                      "expression": {
+                        "argumentTypes": [
+                          {
+                            "typeIdentifier": "t_bool",
+                            "typeString": "bool"
+                          },
+                          {
+                            "typeIdentifier": "t_address",
+                            "typeString": "address"
+                          }
+                        ],
+                        "expression": {
+                          "id": 11045,
+                          "name": "XBOTContract",
+                          "nodeType": "Identifier",
+                          "overloadedDeclarations": [],
+                          "referencedDeclaration": 10980,
+                          "src": "1239:12:35",
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_contract$_IXBOT_$10975",
+                            "typeString": "contract IXBOT"
+                          }
+                        },
+                        "id": 11046,
+                        "isConstant": false,
+                        "isLValue": false,
+                        "isPure": false,
+                        "lValueRequested": false,
+                        "memberLocation": "1252:11:35",
+                        "memberName": "myDividends",
+                        "nodeType": "MemberAccess",
+                        "referencedDeclaration": 10974,
+                        "src": "1239:24:35",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_function_external_view$_t_bool_$_t_address_$returns$_t_uint256_$",
+                          "typeString": "function (bool,address) view external returns (uint256)"
+                        }
+                      },
+                      "id": 11049,
+                      "isConstant": false,
+                      "isLValue": false,
+                      "isPure": false,
+                      "kind": "functionCall",
+                      "lValueRequested": false,
+                      "nameLocations": [],
+                      "names": [],
+                      "nodeType": "FunctionCall",
+                      "src": "1239:52:35",
+                      "tryCall": false,
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_uint256",
+                        "typeString": "uint256"
+                      }
+                    },
+                    "src": "1225:66:35",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "id": 11051,
+                  "nodeType": "ExpressionStatement",
+                  "src": "1225:66:35"
+                }
+              ]
+            },
+            "functionSelector": "cf6b9759",
+            "id": 11053,
+            "implemented": true,
+            "kind": "function",
+            "modifiers": [],
+            "name": "getData",
+            "nameLocation": "806:7:35",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 11009,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 11006,
+                  "mutability": "mutable",
+                  "name": "includeReferralBonus",
+                  "nameLocation": "819:20:35",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 11053,
+                  "src": "814:25:35",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_bool",
+                    "typeString": "bool"
+                  },
+                  "typeName": {
+                    "id": 11005,
+                    "name": "bool",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "814:4:35",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_bool",
+                      "typeString": "bool"
+                    }
+                  },
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 11008,
+                  "mutability": "mutable",
+                  "name": "user",
+                  "nameLocation": "849:4:35",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 11053,
+                  "src": "841:12:35",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  },
+                  "typeName": {
+                    "id": 11007,
+                    "name": "address",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "841:7:35",
+                    "stateMutability": "nonpayable",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "813:41:35"
+            },
+            "returnParameters": {
+              "id": 11020,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 11011,
+                  "mutability": "mutable",
+                  "name": "buyPrice",
+                  "nameLocation": "894:8:35",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 11053,
+                  "src": "886:16:35",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 11010,
+                    "name": "uint256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "886:7:35",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 11013,
+                  "mutability": "mutable",
+                  "name": "sellPrice",
+                  "nameLocation": "921:9:35",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 11053,
+                  "src": "913:17:35",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 11012,
+                    "name": "uint256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "913:7:35",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 11015,
+                  "mutability": "mutable",
+                  "name": "totalSupply",
+                  "nameLocation": "949:11:35",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 11053,
+                  "src": "941:19:35",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 11014,
+                    "name": "uint256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "941:7:35",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 11017,
+                  "mutability": "mutable",
+                  "name": "ethBalanceUser",
+                  "nameLocation": "979:14:35",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 11053,
+                  "src": "971:22:35",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 11016,
+                    "name": "uint256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "971:7:35",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 11019,
+                  "mutability": "mutable",
+                  "name": "myDividends",
+                  "nameLocation": "1012:11:35",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 11053,
+                  "src": "1004:19:35",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 11018,
+                    "name": "uint256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "1004:7:35",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "875:155:35"
+            },
+            "scope": 11054,
+            "src": "797:502:35",
+            "stateMutability": "view",
+            "virtual": false,
+            "visibility": "public"
+          }
+        ],
+        "scope": 11055,
+        "src": "496:806:35",
+        "usedErrors": []
+      }
+    ],
+    "src": "33:1269:35"
+  },
+  "compiler": {
+    "name": "solc",
+    "version": "0.8.17+commit.8df45f5f.Emscripten.clang"
+  },
+  "networks": {},
+  "schemaVersion": "3.4.11",
+  "updatedAt": "2023-10-13T04:46:55.042Z",
+  "devdoc": {
+    "kind": "dev",
+    "methods": {},
+    "version": 1
+  },
+  "userdoc": {
+    "kind": "user",
+    "methods": {},
+    "version": 1
+  }
+}
