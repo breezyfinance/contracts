@@ -21,7 +21,7 @@
       "type": "function"
     }
   ],
-  "metadata": "{\"compiler\":{\"version\":\"0.8.17+commit.8df45f5f\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"inputs\":[{\"internalType\":\"address\",\"name\":\"_address\",\"type\":\"address\"}],\"name\":\"whitelisted\",\"outputs\":[{\"internalType\":\"bool\",\"name\":\"\",\"type\":\"bool\"}],\"stateMutability\":\"view\",\"type\":\"function\"}],\"devdoc\":{\"kind\":\"dev\",\"methods\":{},\"version\":1},\"userdoc\":{\"kind\":\"user\",\"methods\":{},\"version\":1}},\"settings\":{\"compilationTarget\":{\"project:/contracts/BreezySwap/interfaces/IBreezyWhitelist.sol\":\"IBreezyWhitelist\"},\"evmVersion\":\"london\",\"libraries\":{},\"metadata\":{\"bytecodeHash\":\"ipfs\"},\"optimizer\":{\"enabled\":true,\"runs\":200},\"remappings\":[]},\"sources\":{\"project:/contracts/BreezySwap/interfaces/IBreezyWhitelist.sol\":{\"keccak256\":\"0xaef4863c438f22543bf9975a03f82c30de23ab7c0c3c5a7e2a927f8a6b998f8a\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://f9e8279c4b62bbcc4e5d5edd9082dc290130eebc6cf0bdd1f3359eaca97d917a\",\"dweb:/ipfs/QmRjophW7MJrNFHsi1g8UssFhkTXnQKWu7jXyhf5cdf3m9\"]}},\"version\":1}",
+  "metadata": "{\"compiler\":{\"version\":\"0.8.17+commit.8df45f5f\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"inputs\":[{\"internalType\":\"address\",\"name\":\"_address\",\"type\":\"address\"}],\"name\":\"whitelisted\",\"outputs\":[{\"internalType\":\"bool\",\"name\":\"\",\"type\":\"bool\"}],\"stateMutability\":\"view\",\"type\":\"function\"}],\"devdoc\":{\"kind\":\"dev\",\"methods\":{},\"version\":1},\"userdoc\":{\"kind\":\"user\",\"methods\":{},\"version\":1}},\"settings\":{\"compilationTarget\":{\"project:/contracts/BreezySwap/interfaces/IBreezyWhitelist.sol\":\"IBreezyWhitelist\"},\"evmVersion\":\"london\",\"libraries\":{},\"metadata\":{\"bytecodeHash\":\"ipfs\"},\"optimizer\":{\"enabled\":true,\"runs\":200},\"remappings\":[]},\"sources\":{\"project:/contracts/BreezySwap/interfaces/IBreezyWhitelist.sol\":{\"keccak256\":\"0xe0d0057038871fb031a295a60b0f44205cffb058723760c0007badc887ea52bf\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://28e461287b011dcd37f2d8d7acf2b263fb4e74287746ef7b3c3e00ab2970b396\",\"dweb:/ipfs/QmXMp8LfHGEGQqGDLXe9zYCpeYCBFaMrtAK15Xv36FvvxL\"]}},\"version\":1}",
   "bytecode": "0x",
   "deployedBytecode": "0x",
   "immutableReferences": {},
@@ -29,8 +29,8 @@
   "deployedGeneratedSources": [],
   "sourceMap": "",
   "deployedSourceMap": "",
-  "source": "// SPDX-License-Identifier: MIT\r\npragma solidity >=0.6.12;\r\n\r\ninterface IBreezyWhitelist {\r\n\tfunction whitelisted(address _address) external view returns (bool);\r\n}",
-  "sourcePath": "E:\\Research\\contracts\\contracts\\BreezySwap\\interfaces\\IBreezyWhitelist.sol",
+  "source": "// SPDX-License-Identifier: MIT\npragma solidity >=0.6.12;\n\ninterface IBreezyWhitelist {\n\tfunction whitelisted(address _address) external view returns (bool);\n}",
+  "sourcePath": "/Applications/projects/contracts/contracts/BreezySwap/interfaces/IBreezyWhitelist.sol",
   "ast": {
     "absolutePath": "project:/contracts/BreezySwap/interfaces/IBreezyWhitelist.sol",
     "exportedSymbols": {
@@ -51,7 +51,7 @@
           ".12"
         ],
         "nodeType": "PragmaDirective",
-        "src": "33:25:31"
+        "src": "32:25:31"
       },
       {
         "abstract": false,
@@ -65,7 +65,7 @@
           9112
         ],
         "name": "IBreezyWhitelist",
-        "nameLocation": "72:16:31",
+        "nameLocation": "69:16:31",
         "nodeType": "ContractDefinition",
         "nodes": [
           {
@@ -75,7 +75,7 @@
             "kind": "function",
             "modifiers": [],
             "name": "whitelisted",
-            "nameLocation": "102:11:31",
+            "nameLocation": "98:11:31",
             "nodeType": "FunctionDefinition",
             "parameters": {
               "id": 9107,
@@ -86,10 +86,10 @@
                   "id": 9106,
                   "mutability": "mutable",
                   "name": "_address",
-                  "nameLocation": "122:8:31",
+                  "nameLocation": "118:8:31",
                   "nodeType": "VariableDeclaration",
                   "scope": 9111,
-                  "src": "114:16:31",
+                  "src": "110:16:31",
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
@@ -100,7 +100,7 @@
                     "id": 9105,
                     "name": "address",
                     "nodeType": "ElementaryTypeName",
-                    "src": "114:7:31",
+                    "src": "110:7:31",
                     "stateMutability": "nonpayable",
                     "typeDescriptions": {
                       "typeIdentifier": "t_address",
@@ -110,7 +110,7 @@
                   "visibility": "internal"
                 }
               ],
-              "src": "113:18:31"
+              "src": "109:18:31"
             },
             "returnParameters": {
               "id": 9110,
@@ -124,7 +124,7 @@
                   "nameLocation": "-1:-1:-1",
                   "nodeType": "VariableDeclaration",
                   "scope": 9111,
-                  "src": "155:4:31",
+                  "src": "151:4:31",
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
@@ -135,7 +135,7 @@
                     "id": 9108,
                     "name": "bool",
                     "nodeType": "ElementaryTypeName",
-                    "src": "155:4:31",
+                    "src": "151:4:31",
                     "typeDescriptions": {
                       "typeIdentifier": "t_bool",
                       "typeString": "bool"
@@ -144,21 +144,21 @@
                   "visibility": "internal"
                 }
               ],
-              "src": "154:6:31"
+              "src": "150:6:31"
             },
             "scope": 9112,
-            "src": "93:68:31",
+            "src": "89:68:31",
             "stateMutability": "view",
             "virtual": false,
             "visibility": "external"
           }
         ],
         "scope": 9113,
-        "src": "62:102:31",
+        "src": "59:100:31",
         "usedErrors": []
       }
     ],
-    "src": "33:131:31"
+    "src": "32:127:31"
   },
   "compiler": {
     "name": "solc",
@@ -166,7 +166,7 @@
   },
   "networks": {},
   "schemaVersion": "3.4.11",
-  "updatedAt": "2023-10-13T04:46:55.023Z",
+  "updatedAt": "2023-10-14T03:23:20.953Z",
   "devdoc": {
     "kind": "dev",
     "methods": {},

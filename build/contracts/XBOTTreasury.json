@@ -69,9 +69,9 @@
       "type": "function"
     }
   ],
-  "metadata": "{\"compiler\":{\"version\":\"0.8.17+commit.8df45f5f\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"internalType\":\"address\",\"name\":\"previousOwner\",\"type\":\"address\"},{\"indexed\":true,\"internalType\":\"address\",\"name\":\"newOwner\",\"type\":\"address\"}],\"name\":\"OwnershipTransferred\",\"type\":\"event\"},{\"stateMutability\":\"payable\",\"type\":\"fallback\"},{\"inputs\":[],\"name\":\"owner\",\"outputs\":[{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"renounceOwnership\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"newOwner\",\"type\":\"address\"}],\"name\":\"transferOwnership\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"withdraw\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"stateMutability\":\"payable\",\"type\":\"receive\"}],\"devdoc\":{\"kind\":\"dev\",\"methods\":{\"owner()\":{\"details\":\"Returns the address of the current owner.\"},\"renounceOwnership()\":{\"details\":\"Leaves the contract without owner. It will not be possible to call `onlyOwner` functions. Can only be called by the current owner. NOTE: Renouncing ownership will leave the contract without an owner, thereby disabling any functionality that is only available to the owner.\"},\"transferOwnership(address)\":{\"details\":\"Transfers ownership of the contract to a new account (`newOwner`). Can only be called by the current owner.\"}},\"version\":1},\"userdoc\":{\"kind\":\"user\",\"methods\":{},\"version\":1}},\"settings\":{\"compilationTarget\":{\"project:/contracts/DeFiXBot/XBOTTreasury.sol\":\"XBOTTreasury\"},\"evmVersion\":\"london\",\"libraries\":{},\"metadata\":{\"bytecodeHash\":\"ipfs\"},\"optimizer\":{\"enabled\":true,\"runs\":200},\"remappings\":[]},\"sources\":{\"@openzeppelin/contracts/access/Ownable.sol\":{\"keccak256\":\"0xba43b97fba0d32eb4254f6a5a297b39a19a247082a02d6e69349e071e2946218\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://fc980984badf3984b6303b377711220e067722bbd6a135b24669ff5069ef9f32\",\"dweb:/ipfs/QmPHXMSXj99XjSVM21YsY6aNtLLjLVXDbyN76J5HQYvvrz\"]},\"@openzeppelin/contracts/utils/Context.sol\":{\"keccak256\":\"0xe2e337e6dde9ef6b680e07338c493ebea1b5fd09b43424112868e9cc1706bca7\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://6df0ddf21ce9f58271bdfaa85cde98b200ef242a05a3f85c2bc10a8294800a92\",\"dweb:/ipfs/QmRK2Y5Yc6BK7tGKkgsgn3aJEQGi5aakeSPZvS65PV8Xp3\"]},\"project:/contracts/DeFiXBot/XBOTTreasury.sol\":{\"keccak256\":\"0xb20cea6ee5d2f30aff6defb95aa802da7000a3f889133e5608ced49badc9bc9c\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://a0d00b7ca6d31ac577feaf0d6b90bf668633bec124eef5ced163b633b41d0d32\",\"dweb:/ipfs/QmePorgiegEJQCTzyCAt2Ei5DDNHA6DPeJ7Kt2oXAgTYi4\"]}},\"version\":1}",
-  "bytecode": "0x608060405234801561001057600080fd5b5061001a3361001f565b61006f565b600080546001600160a01b038381166001600160a01b0319831681178455604051919092169283917f8be0079c531659141344cd1fd0a4f28419497f9722a3daafe3b4186f6b6457e09190a35050565b6102a38061007e6000396000f3fe6080604052600436106100405760003560e01c80633ccfd60b14610049578063715018a61461005e5780638da5cb5b14610073578063f2fde38b1461009f57005b3661004757005b005b34801561005557600080fd5b506100476100bf565b34801561006a57600080fd5b50610047610104565b34801561007f57600080fd5b50600054604080516001600160a01b039092168252519081900360200190f35b3480156100ab57600080fd5b506100476100ba36600461023d565b610118565b6100c7610193565b600080546040516001600160a01b03909116914780156108fc02929091818181858888f19350505050158015610101573d6000803e3d6000fd5b50565b61010c610193565b61011660006101ed565b565b610120610193565b6001600160a01b03811661018a5760405162461bcd60e51b815260206004820152602660248201527f4f776e61626c653a206e6577206f776e657220697320746865207a65726f206160448201526564647265737360d01b60648201526084015b60405180910390fd5b610101816101ed565b6000546001600160a01b031633146101165760405162461bcd60e51b815260206004820181905260248201527f4f776e61626c653a2063616c6c6572206973206e6f7420746865206f776e65726044820152606401610181565b600080546001600160a01b038381166001600160a01b0319831681178455604051919092169283917f8be0079c531659141344cd1fd0a4f28419497f9722a3daafe3b4186f6b6457e09190a35050565b60006020828403121561024f57600080fd5b81356001600160a01b038116811461026657600080fd5b939250505056fea2646970667358221220a534d5a1dbfe89377ab7b5a2aa654c5771b3db4da92801bbb27d3ba058fd14fe64736f6c63430008110033",
-  "deployedBytecode": "0x6080604052600436106100405760003560e01c80633ccfd60b14610049578063715018a61461005e5780638da5cb5b14610073578063f2fde38b1461009f57005b3661004757005b005b34801561005557600080fd5b506100476100bf565b34801561006a57600080fd5b50610047610104565b34801561007f57600080fd5b50600054604080516001600160a01b039092168252519081900360200190f35b3480156100ab57600080fd5b506100476100ba36600461023d565b610118565b6100c7610193565b600080546040516001600160a01b03909116914780156108fc02929091818181858888f19350505050158015610101573d6000803e3d6000fd5b50565b61010c610193565b61011660006101ed565b565b610120610193565b6001600160a01b03811661018a5760405162461bcd60e51b815260206004820152602660248201527f4f776e61626c653a206e6577206f776e657220697320746865207a65726f206160448201526564647265737360d01b60648201526084015b60405180910390fd5b610101816101ed565b6000546001600160a01b031633146101165760405162461bcd60e51b815260206004820181905260248201527f4f776e61626c653a2063616c6c6572206973206e6f7420746865206f776e65726044820152606401610181565b600080546001600160a01b038381166001600160a01b0319831681178455604051919092169283917f8be0079c531659141344cd1fd0a4f28419497f9722a3daafe3b4186f6b6457e09190a35050565b60006020828403121561024f57600080fd5b81356001600160a01b038116811461026657600080fd5b939250505056fea2646970667358221220a534d5a1dbfe89377ab7b5a2aa654c5771b3db4da92801bbb27d3ba058fd14fe64736f6c63430008110033",
+  "metadata": "{\"compiler\":{\"version\":\"0.8.17+commit.8df45f5f\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"internalType\":\"address\",\"name\":\"previousOwner\",\"type\":\"address\"},{\"indexed\":true,\"internalType\":\"address\",\"name\":\"newOwner\",\"type\":\"address\"}],\"name\":\"OwnershipTransferred\",\"type\":\"event\"},{\"stateMutability\":\"payable\",\"type\":\"fallback\"},{\"inputs\":[],\"name\":\"owner\",\"outputs\":[{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"renounceOwnership\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"newOwner\",\"type\":\"address\"}],\"name\":\"transferOwnership\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"withdraw\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"stateMutability\":\"payable\",\"type\":\"receive\"}],\"devdoc\":{\"kind\":\"dev\",\"methods\":{\"owner()\":{\"details\":\"Returns the address of the current owner.\"},\"renounceOwnership()\":{\"details\":\"Leaves the contract without owner. It will not be possible to call `onlyOwner` functions. Can only be called by the current owner. NOTE: Renouncing ownership will leave the contract without an owner, thereby disabling any functionality that is only available to the owner.\"},\"transferOwnership(address)\":{\"details\":\"Transfers ownership of the contract to a new account (`newOwner`). Can only be called by the current owner.\"}},\"version\":1},\"userdoc\":{\"kind\":\"user\",\"methods\":{},\"version\":1}},\"settings\":{\"compilationTarget\":{\"project:/contracts/DeFiXBot/XBOTTreasury.sol\":\"XBOTTreasury\"},\"evmVersion\":\"london\",\"libraries\":{},\"metadata\":{\"bytecodeHash\":\"ipfs\"},\"optimizer\":{\"enabled\":true,\"runs\":200},\"remappings\":[]},\"sources\":{\"@openzeppelin/contracts/access/Ownable.sol\":{\"keccak256\":\"0xba43b97fba0d32eb4254f6a5a297b39a19a247082a02d6e69349e071e2946218\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://fc980984badf3984b6303b377711220e067722bbd6a135b24669ff5069ef9f32\",\"dweb:/ipfs/QmPHXMSXj99XjSVM21YsY6aNtLLjLVXDbyN76J5HQYvvrz\"]},\"@openzeppelin/contracts/utils/Context.sol\":{\"keccak256\":\"0xe2e337e6dde9ef6b680e07338c493ebea1b5fd09b43424112868e9cc1706bca7\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://6df0ddf21ce9f58271bdfaa85cde98b200ef242a05a3f85c2bc10a8294800a92\",\"dweb:/ipfs/QmRK2Y5Yc6BK7tGKkgsgn3aJEQGi5aakeSPZvS65PV8Xp3\"]},\"project:/contracts/DeFiXBot/XBOTTreasury.sol\":{\"keccak256\":\"0x141e80c4ae3076e16d894eaed4c55a7b3bb4c01555bd2debda31a231e135639a\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://880d00a2cb9c3e733742be61990f6fd961572ae6336c42a78098f9db9fb86ef5\",\"dweb:/ipfs/QmQ2FtoGGfxNKThXnTdbiZeDSEiFaormhzs6aficAaVrGc\"]}},\"version\":1}",
+  "bytecode": "0x608060405234801561001057600080fd5b5061001a3361001f565b61006f565b600080546001600160a01b038381166001600160a01b0319831681178455604051919092169283917f8be0079c531659141344cd1fd0a4f28419497f9722a3daafe3b4186f6b6457e09190a35050565b6102a38061007e6000396000f3fe6080604052600436106100405760003560e01c80633ccfd60b14610049578063715018a61461005e5780638da5cb5b14610073578063f2fde38b1461009f57005b3661004757005b005b34801561005557600080fd5b506100476100bf565b34801561006a57600080fd5b50610047610104565b34801561007f57600080fd5b50600054604080516001600160a01b039092168252519081900360200190f35b3480156100ab57600080fd5b506100476100ba36600461023d565b610118565b6100c7610193565b600080546040516001600160a01b03909116914780156108fc02929091818181858888f19350505050158015610101573d6000803e3d6000fd5b50565b61010c610193565b61011660006101ed565b565b610120610193565b6001600160a01b03811661018a5760405162461bcd60e51b815260206004820152602660248201527f4f776e61626c653a206e6577206f776e657220697320746865207a65726f206160448201526564647265737360d01b60648201526084015b60405180910390fd5b610101816101ed565b6000546001600160a01b031633146101165760405162461bcd60e51b815260206004820181905260248201527f4f776e61626c653a2063616c6c6572206973206e6f7420746865206f776e65726044820152606401610181565b600080546001600160a01b038381166001600160a01b0319831681178455604051919092169283917f8be0079c531659141344cd1fd0a4f28419497f9722a3daafe3b4186f6b6457e09190a35050565b60006020828403121561024f57600080fd5b81356001600160a01b038116811461026657600080fd5b939250505056fea26469706673582212200b5bbc49c573e351d9215f20e78bdc4f4236857f915550c7ae141aa3270e649d64736f6c63430008110033",
+  "deployedBytecode": "0x6080604052600436106100405760003560e01c80633ccfd60b14610049578063715018a61461005e5780638da5cb5b14610073578063f2fde38b1461009f57005b3661004757005b005b34801561005557600080fd5b506100476100bf565b34801561006a57600080fd5b50610047610104565b34801561007f57600080fd5b50600054604080516001600160a01b039092168252519081900360200190f35b3480156100ab57600080fd5b506100476100ba36600461023d565b610118565b6100c7610193565b600080546040516001600160a01b03909116914780156108fc02929091818181858888f19350505050158015610101573d6000803e3d6000fd5b50565b61010c610193565b61011660006101ed565b565b610120610193565b6001600160a01b03811661018a5760405162461bcd60e51b815260206004820152602660248201527f4f776e61626c653a206e6577206f776e657220697320746865207a65726f206160448201526564647265737360d01b60648201526084015b60405180910390fd5b610101816101ed565b6000546001600160a01b031633146101165760405162461bcd60e51b815260206004820181905260248201527f4f776e61626c653a2063616c6c6572206973206e6f7420746865206f776e65726044820152606401610181565b600080546001600160a01b038381166001600160a01b0319831681178455604051919092169283917f8be0079c531659141344cd1fd0a4f28419497f9722a3daafe3b4186f6b6457e09190a35050565b60006020828403121561024f57600080fd5b81356001600160a01b038116811461026657600080fd5b939250505056fea26469706673582212200b5bbc49c573e351d9215f20e78bdc4f4236857f915550c7ae141aa3270e649d64736f6c63430008110033",
   "immutableReferences": {},
   "generatedSources": [],
   "deployedGeneratedSources": [
@@ -923,10 +923,10 @@
       "name": "#utility.yul"
     }
   ],
-  "sourceMap": "118:239:36:-:0;;;;;;;;;;;;-1:-1:-1;936:32:2;719:10:13;936:18:2;:32::i;:::-;118:239:36;;2426:187:2;2499:16;2518:6;;-1:-1:-1;;;;;2534:17:2;;;-1:-1:-1;;;;;;2534:17:2;;;;;;2566:40;;2518:6;;;;;;;2566:40;;2499:16;2566:40;2489:124;2426:187;:::o;118:239:36:-;;;;;;;",
-  "deployedSourceMap": "118:239:36:-:0;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;250:104;;;;;;;;;;;;;:::i;1824:101:2:-;;;;;;;;;;;;;:::i;1201:85::-;;;;;;;;;;-1:-1:-1;1247:7:2;1273:6;1201:85;;;-1:-1:-1;;;;;1273:6:2;;;160:51:44;;1201:85:2;;;;;148:2:44;1201:85:2;;;2074:198;;;;;;;;;;-1:-1:-1;2074:198:2;;;;;:::i;:::-;;:::i;250:104:36:-;1094:13:2;:11;:13::i;:::-;1247:7;1273:6;;298:48:36::1;::::0;-1:-1:-1;;;;;1273:6:2;;;;324:21:36::1;298:48:::0;::::1;;;::::0;324:21;;298:48;1247:7:2;298:48:36;324:21;1273:6:2;298:48:36;::::1;;;;;;;;;;;;;::::0;::::1;;;;;;250:104::o:0;1824:101:2:-;1094:13;:11;:13::i;:::-;1888:30:::1;1915:1;1888:18;:30::i;:::-;1824:101::o:0;2074:198::-;1094:13;:11;:13::i;:::-;-1:-1:-1;;;;;2162:22:2;::::1;2154:73;;;::::0;-1:-1:-1;;;2154:73:2;;715:2:44;2154:73:2::1;::::0;::::1;697:21:44::0;754:2;734:18;;;727:30;793:34;773:18;;;766:62;-1:-1:-1;;;844:18:44;;;837:36;890:19;;2154:73:2::1;;;;;;;;;2237:28;2256:8;2237:18;:28::i;1359:130::-:0;1247:7;1273:6;-1:-1:-1;;;;;1273:6:2;719:10:13;1422:23:2;1414:68;;;;-1:-1:-1;;;1414:68:2;;1122:2:44;1414:68:2;;;1104:21:44;;;1141:18;;;1134:30;1200:34;1180:18;;;1173:62;1252:18;;1414:68:2;920:356:44;2426:187:2;2499:16;2518:6;;-1:-1:-1;;;;;2534:17:2;;;-1:-1:-1;;;;;;2534:17:2;;;;;;2566:40;;2518:6;;;;;;;2566:40;;2499:16;2566:40;2489:124;2426:187;:::o;222:286:44:-;281:6;334:2;322:9;313:7;309:23;305:32;302:52;;;350:1;347;340:12;302:52;376:23;;-1:-1:-1;;;;;428:31:44;;418:42;;408:70;;474:1;471;464:12;408:70;497:5;222:286;-1:-1:-1;;;222:286:44:o",
-  "source": "// SPDX-License-Identifier: MIT\r\npragma solidity >=0.6.12;\r\n\r\nimport \"@openzeppelin/contracts/access/Ownable.sol\";\r\n\r\ncontract XBOTTreasury is Ownable {\r\n    receive() external payable  {    \r\n    }\r\n\r\n    fallback() external payable {\r\n    }\r\n\r\n    function withdraw() public onlyOwner {\r\n        payable(owner()).transfer(address(this).balance);\r\n    }\r\n}\r\n",
-  "sourcePath": "E:\\Research\\contracts\\contracts\\DeFiXBot\\XBOTTreasury.sol",
+  "sourceMap": "113:229:36:-:0;;;;;;;;;;;;-1:-1:-1;936:32:2;719:10:13;936:18:2;:32::i;:::-;113:229:36;;2426:187:2;2499:16;2518:6;;-1:-1:-1;;;;;2534:17:2;;;-1:-1:-1;;;;;;2534:17:2;;;;;;2566:40;;2518:6;;;;;;;2566:40;;2499:16;2566:40;2489:124;2426:187;:::o;113:229:36:-;;;;;;;",
+  "deployedSourceMap": "113:229:36:-:0;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;238:102;;;;;;;;;;;;;:::i;1824:101:2:-;;;;;;;;;;;;;:::i;1201:85::-;;;;;;;;;;-1:-1:-1;1247:7:2;1273:6;1201:85;;;-1:-1:-1;;;;;1273:6:2;;;160:51:44;;1201:85:2;;;;;148:2:44;1201:85:2;;;2074:198;;;;;;;;;;-1:-1:-1;2074:198:2;;;;;:::i;:::-;;:::i;238:102:36:-;1094:13:2;:11;:13::i;:::-;1247:7;1273:6;;285:48:36::1;::::0;-1:-1:-1;;;;;1273:6:2;;;;311:21:36::1;285:48:::0;::::1;;;::::0;311:21;;285:48;1247:7:2;285:48:36;311:21;1273:6:2;285:48:36;::::1;;;;;;;;;;;;;::::0;::::1;;;;;;238:102::o:0;1824:101:2:-;1094:13;:11;:13::i;:::-;1888:30:::1;1915:1;1888:18;:30::i;:::-;1824:101::o:0;2074:198::-;1094:13;:11;:13::i;:::-;-1:-1:-1;;;;;2162:22:2;::::1;2154:73;;;::::0;-1:-1:-1;;;2154:73:2;;715:2:44;2154:73:2::1;::::0;::::1;697:21:44::0;754:2;734:18;;;727:30;793:34;773:18;;;766:62;-1:-1:-1;;;844:18:44;;;837:36;890:19;;2154:73:2::1;;;;;;;;;2237:28;2256:8;2237:18;:28::i;1359:130::-:0;1247:7;1273:6;-1:-1:-1;;;;;1273:6:2;719:10:13;1422:23:2;1414:68;;;;-1:-1:-1;;;1414:68:2;;1122:2:44;1414:68:2;;;1104:21:44;;;1141:18;;;1134:30;1200:34;1180:18;;;1173:62;1252:18;;1414:68:2;920:356:44;2426:187:2;2499:16;2518:6;;-1:-1:-1;;;;;2534:17:2;;;-1:-1:-1;;;;;;2534:17:2;;;;;;2566:40;;2518:6;;;;;;;2566:40;;2499:16;2566:40;2489:124;2426:187;:::o;222:286:44:-;281:6;334:2;322:9;313:7;309:23;305:32;302:52;;;350:1;347;340:12;302:52;376:23;;-1:-1:-1;;;;;428:31:44;;418:42;;408:70;;474:1;471;464:12;408:70;497:5;222:286;-1:-1:-1;;;222:286:44:o",
+  "source": "// SPDX-License-Identifier: MIT\npragma solidity >=0.6.12;\n\nimport \"@openzeppelin/contracts/access/Ownable.sol\";\n\ncontract XBOTTreasury is Ownable {\n    receive() external payable  {    \n    }\n\n    fallback() external payable {\n    }\n\n    function withdraw() public onlyOwner {\n        payable(owner()).transfer(address(this).balance);\n    }\n}\n",
+  "sourcePath": "/Applications/projects/contracts/contracts/DeFiXBot/XBOTTreasury.sol",
   "ast": {
     "absolutePath": "project:/contracts/DeFiXBot/XBOTTreasury.sol",
     "exportedSymbols": {
@@ -937,15 +937,15 @@
         501
       ],
       "XBOTTreasury": [
-        11087
+        11103
       ]
     },
-    "id": 11088,
+    "id": 11104,
     "license": "MIT",
     "nodeType": "SourceUnit",
     "nodes": [
       {
-        "id": 11056,
+        "id": 11072,
         "literals": [
           "solidity",
           ">=",
@@ -953,17 +953,17 @@
           ".12"
         ],
         "nodeType": "PragmaDirective",
-        "src": "33:25:36"
+        "src": "32:25:36"
       },
       {
         "absolutePath": "@openzeppelin/contracts/access/Ownable.sol",
         "file": "@openzeppelin/contracts/access/Ownable.sol",
-        "id": 11057,
+        "id": 11073,
         "nameLocation": "-1:-1:-1",
         "nodeType": "ImportDirective",
-        "scope": 11088,
+        "scope": 11104,
         "sourceUnit": 502,
-        "src": "62:52:36",
+        "src": "59:52:36",
         "symbolAliases": [],
         "unitAlias": ""
       },
@@ -972,42 +972,42 @@
         "baseContracts": [
           {
             "baseName": {
-              "id": 11058,
+              "id": 11074,
               "name": "Ownable",
               "nameLocations": [
-                "143:7:36"
+                "138:7:36"
               ],
               "nodeType": "IdentifierPath",
               "referencedDeclaration": 501,
-              "src": "143:7:36"
+              "src": "138:7:36"
             },
-            "id": 11059,
+            "id": 11075,
             "nodeType": "InheritanceSpecifier",
-            "src": "143:7:36"
+            "src": "138:7:36"
           }
         ],
         "canonicalName": "XBOTTreasury",
         "contractDependencies": [],
         "contractKind": "contract",
         "fullyImplemented": true,
-        "id": 11087,
+        "id": 11103,
         "linearizedBaseContracts": [
-          11087,
+          11103,
           501,
           2551
         ],
         "name": "XBOTTreasury",
-        "nameLocation": "127:12:36",
+        "nameLocation": "122:12:36",
         "nodeType": "ContractDefinition",
         "nodes": [
           {
             "body": {
-              "id": 11062,
+              "id": 11078,
               "nodeType": "Block",
-              "src": "186:12:36",
+              "src": "180:11:36",
               "statements": []
             },
-            "id": 11063,
+            "id": 11079,
             "implemented": true,
             "kind": "receive",
             "modifiers": [],
@@ -1015,31 +1015,31 @@
             "nameLocation": "-1:-1:-1",
             "nodeType": "FunctionDefinition",
             "parameters": {
-              "id": 11060,
+              "id": 11076,
               "nodeType": "ParameterList",
               "parameters": [],
-              "src": "165:2:36"
+              "src": "159:2:36"
             },
             "returnParameters": {
-              "id": 11061,
+              "id": 11077,
               "nodeType": "ParameterList",
               "parameters": [],
-              "src": "186:0:36"
+              "src": "180:0:36"
             },
-            "scope": 11087,
-            "src": "158:40:36",
+            "scope": 11103,
+            "src": "152:39:36",
             "stateMutability": "payable",
             "virtual": false,
             "visibility": "external"
           },
           {
             "body": {
-              "id": 11066,
+              "id": 11082,
               "nodeType": "Block",
-              "src": "234:8:36",
+              "src": "225:7:36",
               "statements": []
             },
-            "id": 11067,
+            "id": 11083,
             "implemented": true,
             "kind": "fallback",
             "modifiers": [],
@@ -1047,28 +1047,28 @@
             "nameLocation": "-1:-1:-1",
             "nodeType": "FunctionDefinition",
             "parameters": {
-              "id": 11064,
+              "id": 11080,
               "nodeType": "ParameterList",
               "parameters": [],
-              "src": "214:2:36"
+              "src": "205:2:36"
             },
             "returnParameters": {
-              "id": 11065,
+              "id": 11081,
               "nodeType": "ParameterList",
               "parameters": [],
-              "src": "234:0:36"
+              "src": "225:0:36"
             },
-            "scope": 11087,
-            "src": "206:36:36",
+            "scope": 11103,
+            "src": "197:35:36",
             "stateMutability": "payable",
             "virtual": false,
             "visibility": "external"
           },
           {
             "body": {
-              "id": 11085,
+              "id": 11101,
               "nodeType": "Block",
-              "src": "287:67:36",
+              "src": "275:65:36",
               "statements": [
                 {
                   "expression": {
@@ -1077,14 +1077,14 @@
                         "expression": {
                           "arguments": [
                             {
-                              "id": 11080,
+                              "id": 11096,
                               "name": "this",
                               "nodeType": "Identifier",
                               "overloadedDeclarations": [],
                               "referencedDeclaration": 4294967268,
-                              "src": "332:4:36",
+                              "src": "319:4:36",
                               "typeDescriptions": {
-                                "typeIdentifier": "t_contract$_XBOTTreasury_$11087",
+                                "typeIdentifier": "t_contract$_XBOTTreasury_$11103",
                                 "typeString": "contract XBOTTreasury"
                               }
                             }
@@ -1092,30 +1092,30 @@
                           "expression": {
                             "argumentTypes": [
                               {
-                                "typeIdentifier": "t_contract$_XBOTTreasury_$11087",
+                                "typeIdentifier": "t_contract$_XBOTTreasury_$11103",
                                 "typeString": "contract XBOTTreasury"
                               }
                             ],
-                            "id": 11079,
+                            "id": 11095,
                             "isConstant": false,
                             "isLValue": false,
                             "isPure": true,
                             "lValueRequested": false,
                             "nodeType": "ElementaryTypeNameExpression",
-                            "src": "324:7:36",
+                            "src": "311:7:36",
                             "typeDescriptions": {
                               "typeIdentifier": "t_type$_t_address_$",
                               "typeString": "type(address)"
                             },
                             "typeName": {
-                              "id": 11078,
+                              "id": 11094,
                               "name": "address",
                               "nodeType": "ElementaryTypeName",
-                              "src": "324:7:36",
+                              "src": "311:7:36",
                               "typeDescriptions": {}
                             }
                           },
-                          "id": 11081,
+                          "id": 11097,
                           "isConstant": false,
                           "isLValue": false,
                           "isPure": false,
@@ -1124,22 +1124,22 @@
                           "nameLocations": [],
                           "names": [],
                           "nodeType": "FunctionCall",
-                          "src": "324:13:36",
+                          "src": "311:13:36",
                           "tryCall": false,
                           "typeDescriptions": {
                             "typeIdentifier": "t_address",
                             "typeString": "address"
                           }
                         },
-                        "id": 11082,
+                        "id": 11098,
                         "isConstant": false,
                         "isLValue": false,
                         "isPure": false,
                         "lValueRequested": false,
-                        "memberLocation": "338:7:36",
+                        "memberLocation": "325:7:36",
                         "memberName": "balance",
                         "nodeType": "MemberAccess",
-                        "src": "324:21:36",
+                        "src": "311:21:36",
                         "typeDescriptions": {
                           "typeIdentifier": "t_uint256",
                           "typeString": "uint256"
@@ -1159,18 +1159,18 @@
                             "arguments": [],
                             "expression": {
                               "argumentTypes": [],
-                              "id": 11074,
+                              "id": 11090,
                               "name": "owner",
                               "nodeType": "Identifier",
                               "overloadedDeclarations": [],
                               "referencedDeclaration": 429,
-                              "src": "306:5:36",
+                              "src": "293:5:36",
                               "typeDescriptions": {
                                 "typeIdentifier": "t_function_internal_view$__$returns$_t_address_$",
                                 "typeString": "function () view returns (address)"
                               }
                             },
-                            "id": 11075,
+                            "id": 11091,
                             "isConstant": false,
                             "isLValue": false,
                             "isPure": false,
@@ -1179,7 +1179,7 @@
                             "nameLocations": [],
                             "names": [],
                             "nodeType": "FunctionCall",
-                            "src": "306:7:36",
+                            "src": "293:7:36",
                             "tryCall": false,
                             "typeDescriptions": {
                               "typeIdentifier": "t_address",
@@ -1194,27 +1194,27 @@
                               "typeString": "address"
                             }
                           ],
-                          "id": 11073,
+                          "id": 11089,
                           "isConstant": false,
                           "isLValue": false,
                           "isPure": true,
                           "lValueRequested": false,
                           "nodeType": "ElementaryTypeNameExpression",
-                          "src": "298:8:36",
+                          "src": "285:8:36",
                           "typeDescriptions": {
                             "typeIdentifier": "t_type$_t_address_payable_$",
                             "typeString": "type(address payable)"
                           },
                           "typeName": {
-                            "id": 11072,
+                            "id": 11088,
                             "name": "address",
                             "nodeType": "ElementaryTypeName",
-                            "src": "298:8:36",
+                            "src": "285:8:36",
                             "stateMutability": "payable",
                             "typeDescriptions": {}
                           }
                         },
-                        "id": 11076,
+                        "id": 11092,
                         "isConstant": false,
                         "isLValue": false,
                         "isPure": false,
@@ -1223,28 +1223,28 @@
                         "nameLocations": [],
                         "names": [],
                         "nodeType": "FunctionCall",
-                        "src": "298:16:36",
+                        "src": "285:16:36",
                         "tryCall": false,
                         "typeDescriptions": {
                           "typeIdentifier": "t_address_payable",
                           "typeString": "address payable"
                         }
                       },
-                      "id": 11077,
+                      "id": 11093,
                       "isConstant": false,
                       "isLValue": false,
                       "isPure": false,
                       "lValueRequested": false,
-                      "memberLocation": "315:8:36",
+                      "memberLocation": "302:8:36",
                       "memberName": "transfer",
                       "nodeType": "MemberAccess",
-                      "src": "298:25:36",
+                      "src": "285:25:36",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_transfer_nonpayable$_t_uint256_$returns$__$",
                         "typeString": "function (uint256)"
                       }
                     },
-                    "id": 11083,
+                    "id": 11099,
                     "isConstant": false,
                     "isLValue": false,
                     "isPure": false,
@@ -1253,69 +1253,69 @@
                     "nameLocations": [],
                     "names": [],
                     "nodeType": "FunctionCall",
-                    "src": "298:48:36",
+                    "src": "285:48:36",
                     "tryCall": false,
                     "typeDescriptions": {
                       "typeIdentifier": "t_tuple$__$",
                       "typeString": "tuple()"
                     }
                   },
-                  "id": 11084,
+                  "id": 11100,
                   "nodeType": "ExpressionStatement",
-                  "src": "298:48:36"
+                  "src": "285:48:36"
                 }
               ]
             },
             "functionSelector": "3ccfd60b",
-            "id": 11086,
+            "id": 11102,
             "implemented": true,
             "kind": "function",
             "modifiers": [
               {
-                "id": 11070,
+                "id": 11086,
                 "kind": "modifierInvocation",
                 "modifierName": {
-                  "id": 11069,
+                  "id": 11085,
                   "name": "onlyOwner",
                   "nameLocations": [
-                    "277:9:36"
+                    "265:9:36"
                   ],
                   "nodeType": "IdentifierPath",
                   "referencedDeclaration": 420,
-                  "src": "277:9:36"
+                  "src": "265:9:36"
                 },
                 "nodeType": "ModifierInvocation",
-                "src": "277:9:36"
+                "src": "265:9:36"
               }
             ],
             "name": "withdraw",
-            "nameLocation": "259:8:36",
+            "nameLocation": "247:8:36",
             "nodeType": "FunctionDefinition",
             "parameters": {
-              "id": 11068,
+              "id": 11084,
               "nodeType": "ParameterList",
               "parameters": [],
-              "src": "267:2:36"
+              "src": "255:2:36"
             },
             "returnParameters": {
-              "id": 11071,
+              "id": 11087,
               "nodeType": "ParameterList",
               "parameters": [],
-              "src": "287:0:36"
+              "src": "275:0:36"
             },
-            "scope": 11087,
-            "src": "250:104:36",
+            "scope": 11103,
+            "src": "238:102:36",
             "stateMutability": "nonpayable",
             "virtual": false,
             "visibility": "public"
           }
         ],
-        "scope": 11088,
-        "src": "118:239:36",
+        "scope": 11104,
+        "src": "113:229:36",
         "usedErrors": []
       }
     ],
-    "src": "33:326:36"
+    "src": "32:311:36"
   },
   "compiler": {
     "name": "solc",
@@ -1336,7 +1336,7 @@
     }
   },
   "schemaVersion": "3.4.11",
-  "updatedAt": "2023-10-13T04:47:26.918Z",
+  "updatedAt": "2023-10-14T03:24:15.326Z",
   "networkType": "ethereum",
   "devdoc": {
     "kind": "dev",
